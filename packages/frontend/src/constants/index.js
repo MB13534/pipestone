@@ -6,6 +6,7 @@ export const CRUD_MODELS = [
   { name: "Regions", icon: <Map />, header: "Data Management" },
   { name: "Wells", icon: <Droplet /> },
   { name: "Measurements", icon: <Activity /> },
+  { name: "FlowFromStages", icon: <Activity /> },
   { name: "WellTypes", icon: <Box />, header: "Lookup Tables" },
 ];
 

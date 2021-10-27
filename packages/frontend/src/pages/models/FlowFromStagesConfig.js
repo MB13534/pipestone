@@ -1,8 +1,6 @@
 import { Renderers } from "../../components/crud/ResultsRenderers";
-import React from "react";
 
 import { CRUD_FIELD_TYPES } from "../../constants";
-import { Grid, Typography } from "@material-ui/core";
 
 export const displayName = (row) => {
   return `${row.ffs_desc}`;

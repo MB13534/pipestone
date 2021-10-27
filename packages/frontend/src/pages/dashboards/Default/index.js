@@ -4,22 +4,23 @@ import styled from "styled-components/macro";
 import { Helmet } from "react-helmet-async";
 
 import {
-  Grid,
   Divider as MuiDivider,
+  Grid,
+  IconButton,
   Typography as MuiTypography,
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
 
-import { green, red } from "@material-ui/core/colors";
-
 import Actions from "./Actions";
-import BarChart from "./BarChart";
-import LineChart from "./LineChart";
-import DoughnutChart from "./DoughnutChart";
-import Stats from "./Stats";
-import Table from "./Table";
 import { useAuth0 } from "@auth0/auth0-react";
+import Map from "./Map";
+import Panel from "../../../components/Panels/Panel";
+import { MoreVertical } from "react-feather";
+import GraphTabs from "./GraphTabs";
+import AdminLastReport from "./AdminLastReport";
+import DailyBarWidgets from "./DailyBarWidgets";
+import SystemWatcherTable from "./SystemWatcherTable";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -49,58 +50,67 @@ function Default() {
       <Divider my={6} />
 
       <Grid container spacing={6}>
-        <Grid item xs={12} sm={12} md={6} lg={3} xl>
-          <Stats
-            title="Readings Today"
-            amount="2.532"
-            chip="Today"
-            percentageText="+26%"
-            percentagecolor={green[500]}
-          />
+        <Grid item xs={12} lg={5}>
+          <Panel
+            title="Map"
+            height="571px"
+            rightHeader={
+              <IconButton aria-label="settings">
+                <MoreVertical />
+              </IconButton>
+            }
+          >
+            <Map />
+          </Panel>
         </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={3} xl>
-          <Stats
-            title="Water Pressure"
-            amount="170.212"
-            chip="Annual"
-            percentageText="-14%"
-            percentagecolor={red[500]}
-          />
+        <Grid item xs={12} lg={7}>
+          <Grid container spacing={6}>
+            <Grid item xs={12} lg={12}>
+              <Panel
+                title="System Watcher Table"
+                rightHeader={
+                  <IconButton aria-label="settings">
+                    <MoreVertical />
+                  </IconButton>
+                }
+              >
+                <SystemWatcherTable tableHeight="393px" />
+              </Panel>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={3} xl>
-          <Stats
-            title="Total Costs"
-            amount="$ 24.300"
-            chip="Monthly"
-            percentageText="+18%"
-            percentagecolor={green[500]}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={3} xl>
-          <Stats
-            title="Compliant Wells"
-            amount="45"
-            chip="Yearly"
-            percentageText="-9%"
-            percentagecolor={red[500]}
-          />
+      </Grid>
+
+      <DailyBarWidgets chartHeight={"200px"} />
+
+      <Grid container spacing={6}>
+        <Grid item xs={12} lg={12}>
+          <Panel
+            title="Admin Last Report and Period of Record Review Table"
+            rightHeader={
+              <IconButton aria-label="settings">
+                <MoreVertical />
+              </IconButton>
+            }
+          >
+            <AdminLastReport tableHeight="600px" />
+          </Panel>
         </Grid>
       </Grid>
 
       <Grid container spacing={6}>
-        <Grid item xs={12} lg={8}>
-          <LineChart />
-        </Grid>
-        <Grid item xs={12} lg={4}>
-          <DoughnutChart />
-        </Grid>
-      </Grid>
-      <Grid container spacing={6}>
-        <Grid item xs={12} lg={4}>
-          <BarChart />
-        </Grid>
-        <Grid item xs={12} lg={8}>
-          <Table />
+        <Grid item xs={12} lg={12}>
+          <Panel
+            title="Timeseries Graphs"
+            height="600px"
+            rightHeader={
+              <IconButton aria-label="settings">
+                <MoreVertical />
+              </IconButton>
+            }
+          >
+            <GraphTabs />
+          </Panel>
         </Grid>
       </Grid>
     </React.Fragment>

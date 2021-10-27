@@ -1,26 +1,8 @@
 import React from "react";
-import styled, { withTheme } from "styled-components/macro";
+import { withTheme } from "styled-components/macro";
 
-import {
-  Card as MuiCard,
-  CardContent,
-  CardHeader,
-  IconButton,
-} from "@material-ui/core";
-
-import { spacing } from "@material-ui/system";
-
-import "../../../vendor/roundedBarCharts";
+// import "../../../vendor/roundedBarCharts";
 import { Bar } from "react-chartjs-2";
-
-import { MoreVertical } from "react-feather";
-
-const Card = styled(MuiCard)(spacing);
-
-const ChartWrapper = styled.div`
-  height: 340px;
-  width: 100%;
-`;
 
 const BarChart = ({ theme }) => {
   const firstDatasetColor = theme.palette.secondary.main;
@@ -101,24 +83,7 @@ const BarChart = ({ theme }) => {
     },
   };
 
-  return (
-    <Card mb={1}>
-      <CardHeader
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertical />
-          </IconButton>
-        }
-        title="Actual / Expected Rainfall"
-      />
-
-      <CardContent>
-        <ChartWrapper>
-          <Bar data={data} options={options} />
-        </ChartWrapper>
-      </CardContent>
-    </Card>
-  );
+  return <Bar data={data} options={options} />;
 };
 
 export default withTheme(BarChart);

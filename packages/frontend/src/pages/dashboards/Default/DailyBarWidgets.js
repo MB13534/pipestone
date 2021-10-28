@@ -37,17 +37,16 @@ const DailyBarWidgets = () => {
 
   const [selectedClients, setSelectedClients] = useState([]);
   const [clientsOptions, setClientsOptions] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+
   useEffect(() => {
     if (!isLoading) {
       const distinctOptions = [...new Set(data.map((item) => item.client))];
       setClientsOptions(distinctOptions);
       setSelectedClients(distinctOptions);
-
-      setFilteredData(data);
     }
-  }, [isLoading, data]);
+  }, [isLoading]); // eslint-disable-line
 
+  const [filteredData, setFilteredData] = useState([]);
   const [distinctMeasurementTypes, setDistinctMeasurementTypes] = useState([]);
   useEffect(() => {
     if (clientsOptions?.length > 0) {
@@ -60,7 +59,7 @@ const DailyBarWidgets = () => {
         ...new Set(filterData.map((item) => item.measurement_type_desc)),
       ]);
     }
-  }, [selectedClients, clientsOptions, data]);
+  }, [selectedClients]); // eslint-disable-line
 
   if (error) return "An error has occurred: " + error.message;
 

@@ -165,7 +165,7 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
                 <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
               ))}
             </Tabs>
-            <Grid item style={{ flexGrow: 1 }} sm={12} md={12} lg="auto" mt={2}>
+            <Grid item style={{ flexGrow: 1 }} xs={12} lg="auto" mt={2}>
               {clientsOptions.length > 0 && (
                 <MultiOptionsPicker
                   selectedOptions={selectedClients}

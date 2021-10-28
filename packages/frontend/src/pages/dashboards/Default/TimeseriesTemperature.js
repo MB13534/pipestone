@@ -145,7 +145,7 @@ const TimeseriesTemperature = () => {
               locationsOptions?.length && (
                 <>
                   <Grid container>
-                    <Grid item style={{ flexGrow: 1 }} lg="auto">
+                    <Grid item xs={12} style={{ flexGrow: 1 }} lg="auto">
                       <OptionsPicker
                         selectedOption={selectedLocation}
                         setSelectedOption={setSelectedLocation}

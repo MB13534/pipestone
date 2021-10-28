@@ -67,7 +67,7 @@ const DailyBarWidgets = () => {
     <>
       {!isLoading && data.length > 0 && (
         <Grid container spacing={6}>
-          <Grid item sm={12}>
+          <Grid item xs={12}>
             {clientsOptions.length > 0 && (
               <MultiOptionsPicker
                 selectedOptions={selectedClients}

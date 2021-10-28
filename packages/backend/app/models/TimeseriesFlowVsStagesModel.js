@@ -27,6 +27,9 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
+      defaultScope: {
+        order: [['collect_timestamp', 'asc']],
+      },
       schema: 'web',
       timestamps: false,
       paranoid: true,

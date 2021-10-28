@@ -92,7 +92,7 @@ const TimeseriesPumpingDaily = () => {
               locationsOptions?.length && (
                 <>
                   <Grid container>
-                    <Grid xs={12} item style={{ flexGrow: 1 }} lg="auto">
+                    <Grid item style={{ flexGrow: 1 }} xs="auto">
                       <MultiOptionsPicker
                         selectedOptions={selectedLocations}
                         setSelectedOptions={setSelectedLocations}

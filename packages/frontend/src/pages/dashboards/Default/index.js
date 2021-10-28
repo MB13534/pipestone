@@ -53,7 +53,7 @@ function Default() {
         <Grid item xs={12} lg={5}>
           <Panel
             title="Map"
-            height="571px"
+            minHeight="551px"
             rightHeader={
               <IconButton aria-label="settings">
                 <MoreVertical />
@@ -64,20 +64,16 @@ function Default() {
           </Panel>
         </Grid>
         <Grid item xs={12} lg={7}>
-          <Grid container spacing={6}>
-            <Grid item xs={12} lg={12}>
-              <Panel
-                title="System Watcher Table"
-                rightHeader={
-                  <IconButton aria-label="settings">
-                    <MoreVertical />
-                  </IconButton>
-                }
-              >
-                <SystemWatcherTable tableHeight="393px" />
-              </Panel>
-            </Grid>
-          </Grid>
+          <Panel
+            title="System Watcher Table"
+            rightHeader={
+              <IconButton aria-label="settings">
+                <MoreVertical />
+              </IconButton>
+            }
+          >
+            <SystemWatcherTable tableHeight="373px" />
+          </Panel>
         </Grid>
       </Grid>
 
@@ -93,13 +89,13 @@ function Default() {
               </IconButton>
             }
           >
-            <AdminLastReport tableHeight="600px" />
+            <AdminLastReport tableHeight="373px" />
           </Panel>
         </Grid>
       </Grid>
 
       <Grid container spacing={6}>
-        <Grid item xs={12} lg={12}>
+        <Grid item xs={12}>
           <Panel
             title="Timeseries Graphs"
             height="600px"

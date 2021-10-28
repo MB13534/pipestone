@@ -80,8 +80,12 @@ const Map = () => {
       })
     );
 
+    map.on("render", () => {
+      map.resize();
+    });
     map.on("load", () => {
       setMapIsLoaded(true);
+      map.resize();
       setMap(map);
     });
   }, []);

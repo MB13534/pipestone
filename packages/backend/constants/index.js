@@ -1,4 +1,6 @@
 const SELECTED_USERS = [2];
+const SELECTED_LOCATIONS = [15, 12, 20];
 module.exports = {
   SELECTED_USERS,
+  SELECTED_LOCATIONS,
 };

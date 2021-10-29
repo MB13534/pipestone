@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useService from "../../../hooks/useService";
 import { useQuery } from "react-query";
 
@@ -8,7 +8,6 @@ import styled from "styled-components/macro";
 
 import { findRawRecords } from "../../../services/crudService";
 import { dateFormatter, renderStatusChip } from "../../../utils";
-import MultiOptionsPicker from "../../../components/Pickers/MultiOptionsPicker";
 import Table from "./Table";
 import { spacing } from "@material-ui/system";
 import Loader from "../../../components/Loader";
@@ -45,16 +44,6 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
     },
     { keepPreviousData: true }
   );
-
-  const [selectedClients, setSelectedClients] = useState([]);
-  const [clientsOptions, setClientsOptions] = useState([]);
-  useEffect(() => {
-    if (!isLoading) {
-      const distinctOptions = [...new Set(data.map((item) => item.client))];
-      setClientsOptions(distinctOptions);
-      setSelectedClients(distinctOptions);
-    }
-  }, [isLoading, data]);
 
   if (error) return "An error has occurred: " + error.message;
 
@@ -165,16 +154,6 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
                 <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
               ))}
             </Tabs>
-            <Grid item style={{ flexGrow: 1 }} xs={12} lg="auto" mt={2}>
-              {clientsOptions.length > 0 && (
-                <MultiOptionsPicker
-                  selectedOptions={selectedClients}
-                  setSelectedOptions={setSelectedClients}
-                  options={clientsOptions}
-                  label="Clients"
-                />
-              )}
-            </Grid>
           </Grid>
           <TableWrapper>
             {tabColumns.map((tab, i) => (
@@ -184,13 +163,7 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
                     isLoading={isLoading}
                     label={tabInfo[i].label}
                     columns={tabColumns[i]}
-                    data={
-                      clientsOptions.length > 0
-                        ? tabInfo[i].data.filter((row) =>
-                            selectedClients.includes(row.client)
-                          )
-                        : data
-                    }
+                    data={data}
                     height={tableHeight}
                   />
                 )}

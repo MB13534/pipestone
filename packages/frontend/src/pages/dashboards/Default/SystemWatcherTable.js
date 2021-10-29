@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useService from "../../../hooks/useService";
 import { useQuery } from "react-query";
 
@@ -8,7 +8,6 @@ import styled from "styled-components/macro";
 
 import { findRawRecords } from "../../../services/crudService";
 import { dateFormatter, renderStatusChip } from "../../../utils";
-import MultiOptionsPicker from "../../../components/Pickers/MultiOptionsPicker";
 import Table from "./Table";
 import { spacing } from "@material-ui/system";
 import Loader from "../../../components/Loader";
@@ -113,7 +112,6 @@ const SystemWatcherTable = ({ tableHeight = "100%" }) => {
                 <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
               ))}
             </Tabs>
-            <Grid item style={{ flexGrow: 1 }} xs={12} lg="auto" mt={2}></Grid>
           </Grid>
           <TableWrapper>
             {tabColumns.map((tab, i) => (

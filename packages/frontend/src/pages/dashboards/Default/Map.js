@@ -4,6 +4,8 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import styled from "styled-components/macro";
 import { useQuery } from "react-query";
 import { findRawRecords } from "../../../services/crudService";
+import ResetZoomControl from "./ResetZoomControl";
+import { STARTING_LOCATION } from "../../../constants";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
@@ -60,14 +62,14 @@ const Map = () => {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [-106.64425246096249, 39.62037385121381],
-
-      zoom: 9,
+      center: STARTING_LOCATION,
+      zoom: 11,
     });
 
     map.addControl(new mapboxgl.NavigationControl(), "top-left");
     map.addControl(new mapboxgl.FullscreenControl());
     // Add geolocate control to the map.
+    map.addControl(new ResetZoomControl(), "top-left");
     map.addControl(
       new mapboxgl.GeolocateControl({
         positionOptions: {

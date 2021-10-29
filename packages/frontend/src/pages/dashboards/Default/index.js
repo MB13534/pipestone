@@ -72,12 +72,16 @@ function Default() {
               </IconButton>
             }
           >
-            <SystemWatcherTable tableHeight="373px" />
+            <SystemWatcherTable tableHeight="388px" />
           </Panel>
         </Grid>
       </Grid>
 
-      <DailyBarWidgets chartHeight={"200px"} />
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
+          <DailyBarWidgets chartHeight={"200px"} />
+        </Grid>
+      </Grid>
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={12}>
@@ -89,7 +93,7 @@ function Default() {
               </IconButton>
             }
           >
-            <AdminLastReport tableHeight="373px" />
+            <AdminLastReport tableHeight="388px" />
           </Panel>
         </Grid>
       </Grid>

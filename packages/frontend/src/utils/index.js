@@ -77,6 +77,8 @@ export const renderStatusChip = (status) => {
     height: 20px;
     padding: 4px 0;
     font-size: 90%;
+    margin-top: 1px;
+    margin-bottom: 1px;
     background-color: ${(props) => props.rgbcolor};
     color: ${(props) => props.theme.palette.common.white};
   `;

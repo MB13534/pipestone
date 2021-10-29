@@ -29,16 +29,6 @@ function a11yProps(index) {
   };
 }
 
-// return status === "GOOD" ? (
-//   <Chip label="OK" rgbcolor={green[500]} />
-// ) : typeof status == "string" ? (
-//   status.split(",").map((word) => {
-//     return <Chip label={word} rgbcolor={red[500]} key={word} mr={1} />;
-//   })
-// ) : (
-//   <Chip label="Unavailable" rgbcolor={orange[500]} />
-// );
-
 const SystemWatcherTable = ({ tableHeight = "100%" }) => {
   const service = useService({ toast: false });
 
@@ -58,16 +48,6 @@ const SystemWatcherTable = ({ tableHeight = "100%" }) => {
     },
     { keepPreviousData: true }
   );
-
-  const [selectedClients, setSelectedClients] = useState([]);
-  const [clientsOptions, setClientsOptions] = useState([]);
-  useEffect(() => {
-    if (!isLoading) {
-      const distinctOptions = [...new Set(data.map((item) => item.client))];
-      setClientsOptions(distinctOptions);
-      setSelectedClients(distinctOptions);
-    }
-  }, [isLoading, data]);
 
   if (error) return "An error has occurred: " + error.message;
 
@@ -133,16 +113,7 @@ const SystemWatcherTable = ({ tableHeight = "100%" }) => {
                 <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
               ))}
             </Tabs>
-            <Grid item style={{ flexGrow: 1 }} xs={12} lg="auto" mt={2}>
-              {clientsOptions.length > 0 && (
-                <MultiOptionsPicker
-                  selectedOptions={selectedClients}
-                  setSelectedOptions={setSelectedClients}
-                  options={clientsOptions}
-                  label="Clients"
-                />
-              )}
-            </Grid>
+            <Grid item style={{ flexGrow: 1 }} xs={12} lg="auto" mt={2}></Grid>
           </Grid>
           <TableWrapper>
             {tabColumns.map((tab, i) => (
@@ -152,13 +123,7 @@ const SystemWatcherTable = ({ tableHeight = "100%" }) => {
                     isLoading={isLoading}
                     label={tabInfo[i].label}
                     columns={tabColumns[i]}
-                    data={
-                      clientsOptions.length > 0
-                        ? tabInfo[i].data.filter((row) =>
-                            selectedClients.includes(row.client)
-                          )
-                        : data
-                    }
+                    data={data}
                     height={tableHeight}
                   />
                 )}

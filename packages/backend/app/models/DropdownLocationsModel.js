@@ -1,3 +1,5 @@
+const {Op} = require('sequelize');
+const {SELECTED_USERS} = require('../../constants');
 module.exports = (sequelize, DataTypes) => {
   const {INTEGER, TEXT, REAL, GEOMETRY} = DataTypes;
   const DropdownLocations = sequelize.define(
@@ -24,6 +26,13 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
+      defaultScope: {
+        where: {
+          assoc_client_ndx: {
+            [Op.overlap]: `{${SELECTED_USERS}}`,
+          },
+        },
+      },
       timestamps: false,
       schema: 'web',
       freezeTableName: true,

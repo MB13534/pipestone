@@ -6,7 +6,7 @@ import styled from "styled-components/macro";
 
 import { spacing } from "@material-ui/system";
 import TimeseriesTemperature from "./TimeseriesTemperature";
-import TimeseriesFlowVsStage from "./TimeseriesFlowVsStage";
+import TimeseriesFlow from "./TimeseriesFlow";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
@@ -27,7 +27,7 @@ function a11yProps(index) {
 const GraphTabs = () => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const tabInfo = [{ label: "Temperature" }, { label: "Flow vs Stage" }];
+  const tabInfo = [{ label: "Flow" }, { label: "Temperature" }];
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -65,10 +65,10 @@ const GraphTabs = () => {
 
       <TableWrapper>
         <TabPanel value={activeTab} index={0}>
-          <TimeseriesTemperature />
+          <TimeseriesFlow />
         </TabPanel>
         <TabPanel value={activeTab} index={1}>
-          <TimeseriesFlowVsStage />
+          <TimeseriesTemperature />
         </TabPanel>
       </TableWrapper>
     </>

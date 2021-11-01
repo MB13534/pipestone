@@ -42,9 +42,9 @@ const Map = () => {
   }
   const service = useService({ toast: false });
   const {
-    data: geometryData,
-    isLoading: isGeometryDataLoading,
-    error: geometryDataError,
+    data: data,
+    isLoading: isDataLoading,
+    error: error,
   } = useQuery(
     ["dropdown-locationss"],
     async () => {
@@ -93,7 +93,7 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
-    if (!isGeometryDataLoading && mapIsLoaded && typeof map != "undefined") {
+    if (mapIsLoaded && typeof map != "undefined") {
       if (!map.getSource("locations")) {
         map.addSource("locations", {
           // This GeoJSON contains features that include an "icon"
@@ -102,7 +102,7 @@ const Map = () => {
           type: "geojson",
           data: {
             type: "FeatureCollection",
-            features: geometryData.map((location) => {
+            features: data?.map((location) => {
               return {
                 type: "Feature",
                 properties: {
@@ -160,10 +160,9 @@ const Map = () => {
         });
       }
     }
-  }, [isGeometryDataLoading, mapIsLoaded, map, geometryData]);
+  }, [isDataLoading, mapIsLoaded, map, data]);
 
-  if (geometryDataError)
-    return "An error has occurred: " + geometryDataError.message;
+  if (error) return "An error has occurred: " + error.message;
 
   return (
     <MapContainer ref={mapContainer}>

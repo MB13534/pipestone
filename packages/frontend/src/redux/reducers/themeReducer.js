@@ -1,7 +1,7 @@
 import * as types from "../../constants";
 
 const initialState = {
-  currentTheme: localStorage.getItem("theme") || types.THEMES.DARK,
+  currentTheme: localStorage.getItem("theme") || types.THEMES.LIGHT,
 };
 
 export default function reducer(state = initialState, actions) {

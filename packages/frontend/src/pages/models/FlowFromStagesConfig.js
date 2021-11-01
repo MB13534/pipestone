@@ -46,12 +46,7 @@ export function columns(modelName) {
       headerName: "Measurement Point",
       width: 250,
     },
-    {
-      field: "ffs_effective_ts",
-      headerName: "Start",
-      width: 200,
-      renderCell: Renderers.DateRenderer,
-    },
+
     {
       field: "ffs_low_stage",
       headerName: "From Stage",
@@ -90,6 +85,12 @@ export function columns(modelName) {
       headerName: "Shift",
       width: 150,
       renderCell: (params) => params.value ?? 0,
+    },
+    {
+      field: "ffs_effective_ts",
+      headerName: "Start",
+      width: 200,
+      renderCell: Renderers.DateRenderer,
     },
     // {
     //   field: "ffs_ndx",
@@ -137,7 +138,7 @@ export const fields = [
     required: true,
     type: CRUD_FIELD_TYPES.DROPDOWN,
     typeConfig: {
-      table: "dropdown_measurements",
+      table: "dropdown_measurements_ffs",
       key: "measurement_ndx",
       value: "measurement_name",
       crud: false,
@@ -207,7 +208,7 @@ export const fields = [
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
     typeConfig: {
-      decimalScale: 5,
+      decimalScale: 14,
     },
     cols: 3,
     isOpen: true,
@@ -218,7 +219,7 @@ export const fields = [
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
     typeConfig: {
-      decimalScale: 5,
+      decimalScale: 14,
     },
     cols: 3,
     isOpen: true,
@@ -229,7 +230,7 @@ export const fields = [
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
     typeConfig: {
-      decimalScale: 5,
+      decimalScale: 14,
     },
     cols: 3,
     isOpen: true,
@@ -240,7 +241,7 @@ export const fields = [
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
     typeConfig: {
-      decimalScale: 5,
+      decimalScale: 14,
     },
     cols: 3,
     isOpen: true,

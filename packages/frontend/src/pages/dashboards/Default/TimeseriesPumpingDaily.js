@@ -92,7 +92,10 @@ const TimeseriesPumpingDaily = () => {
               locationsOptions?.length && (
                 <>
                   <Grid container>
-                    <Grid item style={{ flexGrow: 1 }} xs="auto">
+                    <Grid
+                      item
+                      style={{ flexGrow: 1, maxWidth: "calc(100% - 53px)" }}
+                    >
                       <MultiOptionsPicker
                         selectedOptions={selectedLocations}
                         setSelectedOptions={setSelectedLocations}
@@ -100,7 +103,7 @@ const TimeseriesPumpingDaily = () => {
                         label="Locations"
                       />
                     </Grid>
-                    <Grid item>
+                    <Grid item style={{ width: "53px" }}>
                       <SaveGraphButton
                         ref={ref}
                         title="Pumping Daily Timeseries Graph"

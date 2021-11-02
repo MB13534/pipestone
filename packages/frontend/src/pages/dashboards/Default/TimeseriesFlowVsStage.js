@@ -98,7 +98,10 @@ const TimeseriesTemperature = () => {
               locationsOptions?.length && (
                 <>
                   <Grid container>
-                    <Grid item style={{ flexGrow: 1 }} xs="auto">
+                    <Grid
+                      item
+                      style={{ flexGrow: 1, maxWidth: "calc(100% - 53px)" }}
+                    >
                       <OptionsPicker
                         selectedOption={selectedLocation}
                         setSelectedOption={setSelectedLocation}
@@ -106,7 +109,7 @@ const TimeseriesTemperature = () => {
                         label="Locations"
                       />
                     </Grid>
-                    <Grid item>
+                    <Grid item style={{ width: "53px" }}>
                       <SaveGraphButton
                         ref={ref}
                         title="Flow vs Stage Timeseries Graph"

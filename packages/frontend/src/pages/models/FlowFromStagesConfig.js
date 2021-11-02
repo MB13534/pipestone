@@ -185,6 +185,10 @@ export const fields = [
     isOpen: true,
   },
   {
+    type: CRUD_FIELD_TYPES.SECTION_HEADER,
+    title: "Curve Factors",
+  },
+  {
     name: "Curve Type",
     key: "ffs_calc_type_ndx",
     required: true,
@@ -197,10 +201,6 @@ export const fields = [
     },
     cols: 12,
     isOpen: true,
-  },
-  {
-    type: CRUD_FIELD_TYPES.SECTION_HEADER,
-    title: "Curve Factors",
   },
   {
     name: "Shift",
@@ -254,6 +254,9 @@ export const fields = [
   //   cols: 6,
   //   isOpen: true,
   // },
+  {
+    type: CRUD_FIELD_TYPES.DIVIDER,
+  },
   {
     name: "Notes",
     key: "notes",

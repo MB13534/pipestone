@@ -144,50 +144,42 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <Panel
-            title="Admin Last Report and Period of Record Review Table"
-            rightHeader={
-              <IconButton aria-label="settings">
-                <MoreVertical />
-              </IconButton>
-            }
+      <Panel
+        title="Admin Last Report and Period of Record Review Table"
+        rightHeader={
+          <IconButton aria-label="settings">
+            <MoreVertical />
+          </IconButton>
+        }
+      >
+        <Grid container>
+          <Tabs
+            mr={6}
+            mb={2}
+            indicatorColor="primary"
+            value={activeTab}
+            onChange={handleTabChange}
+            aria-label="Review Tables"
           >
-            <Grid container>
-              <Tabs
-                mr={6}
-                mb={2}
-                indicatorColor="primary"
-                value={activeTab}
-                onChange={handleTabChange}
-                aria-label="Review Tables"
-              >
-                {tabInfo.map((tab, i) => (
-                  <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
-                ))}
-              </Tabs>
-            </Grid>
-            <TableWrapper>
-              {tabColumns.map((tab, i) => (
-                <TabPanel value={activeTab} index={i} key={i}>
-                  {!isLoading && (
-                    <Table
-                      isLoading={isLoading}
-                      label={tabInfo[i].label}
-                      columns={tabColumns[i]}
-                      data={data}
-                      height={tableHeight}
-                    />
-                  )}
-                </TabPanel>
-              ))}
-            </TableWrapper>
-          </Panel>
-        </>
-      )}
+            {tabInfo.map((tab, i) => (
+              <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
+            ))}
+          </Tabs>
+        </Grid>
+        <TableWrapper>
+          {tabColumns.map((tab, i) => (
+            <TabPanel value={activeTab} index={i} key={i}>
+              <Table
+                isLoading={isLoading}
+                label={tabInfo[i].label}
+                columns={tabColumns[i]}
+                data={data}
+                height={tableHeight}
+              />
+            </TabPanel>
+          ))}
+        </TableWrapper>
+      </Panel>
     </>
   );
 };

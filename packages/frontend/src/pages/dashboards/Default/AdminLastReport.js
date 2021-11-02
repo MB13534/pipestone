@@ -179,21 +179,19 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
           <TableWrapper>
             {tabColumns.map((tab, i) => (
               <TabPanel value={activeTab} index={i} key={i}>
-                {!isLoading && (
-                  <Table
-                    isLoading={isLoading}
-                    label={tabInfo[i].label}
-                    columns={tabColumns[i]}
-                    data={
-                      clientsOptions.length > 0
-                        ? tabInfo[i].data.filter((row) =>
-                            selectedClients.includes(row.client)
-                          )
-                        : data
-                    }
-                    height={tableHeight}
-                  />
-                )}
+                <Table
+                  isLoading={isLoading}
+                  label={tabInfo[i].label}
+                  columns={tabColumns[i]}
+                  data={
+                    clientsOptions.length > 0
+                      ? tabInfo[i].data.filter((row) =>
+                          selectedClients.includes(row.client)
+                        )
+                      : data
+                  }
+                  height={tableHeight}
+                />
               </TabPanel>
             ))}
           </TableWrapper>

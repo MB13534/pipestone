@@ -6,7 +6,6 @@ import { Helmet } from "react-helmet-async";
 import {
   Divider as MuiDivider,
   Grid,
-  IconButton,
   Typography as MuiTypography,
 } from "@material-ui/core";
 
@@ -16,7 +15,6 @@ import Actions from "./Actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import Map from "./Map";
 import Panel from "../../../components/Panels/Panel";
-import { MoreVertical } from "react-feather";
 import DailyBarWidgets from "./DailyBarWidgets";
 import SystemWatcherTable from "./SystemWatcherTable";
 

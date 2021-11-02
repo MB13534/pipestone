@@ -94,7 +94,7 @@ const TimeseriesPumpingDaily = () => {
                   <Grid container>
                     <Grid
                       item
-                      style={{ flexGrow: 1, maxWidth: "calc(100% - 53px)" }}
+                      style={{ flexGrow: 1, maxWidth: "calc(100% - 54px)" }}
                     >
                       <MultiOptionsPicker
                         selectedOptions={selectedLocations}

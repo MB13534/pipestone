@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import useService from "../../../hooks/useService";
 import { useQuery } from "react-query";
 
-import { Grid as MuiGrid, Tab, Tabs as MuiTabs } from "@material-ui/core";
+import {
+  Grid as MuiGrid,
+  IconButton,
+  Tab,
+  Tabs as MuiTabs,
+} from "@material-ui/core";
 
 import styled from "styled-components/macro";
 
@@ -11,6 +16,8 @@ import { dateFormatter, renderStatusChip } from "../../../utils";
 import Table from "./Table";
 import { spacing } from "@material-ui/system";
 import Loader from "../../../components/Loader";
+import { MoreVertical } from "react-feather";
+import Panel from "../../../components/Panels/Panel";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
@@ -27,7 +34,7 @@ function a11yProps(index) {
     "aria-controls": `review-table-${index}`,
   };
 }
-
+//388px
 const AdminLastReport = ({ tableHeight = "100%" }) => {
   const service = useService({ toast: false });
 
@@ -141,35 +148,44 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
         <Loader />
       ) : (
         <>
-          <Grid container>
-            <Tabs
-              mr={6}
-              mb={2}
-              indicatorColor="primary"
-              value={activeTab}
-              onChange={handleTabChange}
-              aria-label="Review Tables"
-            >
-              {tabInfo.map((tab, i) => (
-                <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
+          <Panel
+            title="Admin Last Report and Period of Record Review Table"
+            rightHeader={
+              <IconButton aria-label="settings">
+                <MoreVertical />
+              </IconButton>
+            }
+          >
+            <Grid container>
+              <Tabs
+                mr={6}
+                mb={2}
+                indicatorColor="primary"
+                value={activeTab}
+                onChange={handleTabChange}
+                aria-label="Review Tables"
+              >
+                {tabInfo.map((tab, i) => (
+                  <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
+                ))}
+              </Tabs>
+            </Grid>
+            <TableWrapper>
+              {tabColumns.map((tab, i) => (
+                <TabPanel value={activeTab} index={i} key={i}>
+                  {!isLoading && (
+                    <Table
+                      isLoading={isLoading}
+                      label={tabInfo[i].label}
+                      columns={tabColumns[i]}
+                      data={data}
+                      height={tableHeight}
+                    />
+                  )}
+                </TabPanel>
               ))}
-            </Tabs>
-          </Grid>
-          <TableWrapper>
-            {tabColumns.map((tab, i) => (
-              <TabPanel value={activeTab} index={i} key={i}>
-                {!isLoading && (
-                  <Table
-                    isLoading={isLoading}
-                    label={tabInfo[i].label}
-                    columns={tabColumns[i]}
-                    data={data}
-                    height={tableHeight}
-                  />
-                )}
-              </TabPanel>
-            ))}
-          </TableWrapper>
+            </TableWrapper>
+          </Panel>
         </>
       )}
     </>

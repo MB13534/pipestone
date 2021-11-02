@@ -1,9 +1,15 @@
 import React from "react";
-import { Activity } from "react-feather";
+import AdminGuard from "../components/AdminGuard";
+import AdminVisibilityFilter from "../components/AdminVisibilityFilter";
 
 // Configuration
 export const CRUD_MODELS = [
-  { name: "FlowFromStages", icon: <Activity />, header: "Data Management" },
+  {
+    name: "FlowFromStages",
+    header: "Data Management",
+    guard: AdminGuard,
+    visibilityFilter: AdminVisibilityFilter,
+  },
 ];
 
 export const THEME = {

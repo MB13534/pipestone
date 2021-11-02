@@ -82,37 +82,6 @@ function Default() {
           <DailyBarWidgets chartHeight={"200px"} />
         </Grid>
       </Grid>
-
-      <Grid container spacing={6}>
-        <Grid item xs={12} lg={12}>
-          <Panel
-            title="Admin Last Report and Period of Record Review Table"
-            rightHeader={
-              <IconButton aria-label="settings">
-                <MoreVertical />
-              </IconButton>
-            }
-          >
-            <AdminLastReport tableHeight="388px" />
-          </Panel>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={6}>
-        <Grid item xs={12}>
-          <Panel
-            title="Timeseries Graphs"
-            height="600px"
-            rightHeader={
-              <IconButton aria-label="settings">
-                <MoreVertical />
-              </IconButton>
-            }
-          >
-            <GraphTabs />
-          </Panel>
-        </Grid>
-      </Grid>
     </React.Fragment>
   );
 }

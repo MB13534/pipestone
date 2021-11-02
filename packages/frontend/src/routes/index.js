@@ -6,8 +6,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import async from "../components/Async";
 
 import {
+  Activity,
   BookOpen,
   Database,
+  FileText,
   Grid,
   Home,
   List,
@@ -34,6 +36,8 @@ import Default from "../pages/dashboards/Default";
 import { CrudProvider } from "../CrudProvider";
 import CRUD from "../pages/docs/CRUD";
 import Deploy from "../pages/docs/Deploy";
+import AdminLastReport from "../pages/dashboards/Default/AdminLastReport";
+import GraphTabs from "../pages/dashboards/Default/GraphTabs";
 const Account = async(() => import("../pages/pages/Account"));
 const Profile = async(() => import("../pages/pages/Profile"));
 
@@ -53,6 +57,8 @@ const getSidebarMenu = (list) => {
       provider: CrudProvider,
       children: item.children,
       header: item.header,
+      guard: item.guard,
+      visibilityFilter: item.visibilityFilter,
     };
   });
 };
@@ -289,11 +295,38 @@ const adminRoutes = {
   visibilityFilter: AdminVisibilityFilter,
 };
 
+const graphsRoutes = {
+  id: "Graphs",
+  header: "Data Access",
+  icon: <Activity />,
+  children: [
+    {
+      path: "/data-access/graphs/time-series",
+      name: "Time Series",
+      component: GraphTabs,
+    },
+  ],
+};
+
+const reportsRoutes = {
+  id: "Reports",
+  icon: <FileText />,
+  children: [
+    {
+      path: "/data-access/reports/admin-last-report",
+      name: "Admin",
+      component: AdminLastReport,
+    },
+  ],
+};
+
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
   pageRoutes,
   mainRoutes,
   changelogRoutes,
+  graphsRoutes,
+  reportsRoutes,
   accountRoutes,
   documentationRoutes,
   componentsRoutes,
@@ -317,6 +350,8 @@ export const protectedRoutes = [protectedPageRoutes];
 // Routes visible in the sidebar
 export const sidebarRoutes = [
   mainRoutes,
+  graphsRoutes,
+  reportsRoutes,
   ...crudSidebarMenu,
   adminRoutes,
   componentsRoutes,

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 
-import { Tab, Tabs as MuiTabs } from "@material-ui/core";
+import { Grid, IconButton, Tab, Tabs as MuiTabs } from "@material-ui/core";
 
 import styled from "styled-components/macro";
 
 import { spacing } from "@material-ui/system";
 import TimeseriesTemperature from "./TimeseriesTemperature";
 import TimeseriesFlow from "./TimeseriesFlow";
+import { MoreVertical } from "react-feather";
+import Panel from "../../../components/Panels/Panel";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
@@ -27,7 +29,7 @@ function a11yProps(index) {
 const GraphTabs = () => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const tabInfo = [{ label: "Flow" }, { label: "Temperature" }];
+  const tabInfo = [{ label: "Streamflow" }, { label: "Temperature" }];
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -50,27 +52,37 @@ const GraphTabs = () => {
 
   return (
     <>
-      <Tabs
-        mr={6}
-        mb={2}
-        indicatorColor="primary"
-        value={activeTab}
-        onChange={handleTabChange}
-        aria-label="Review Tables"
+      <Panel
+        title="Timeseries Graphs"
+        height="600px"
+        rightHeader={
+          <IconButton aria-label="settings">
+            <MoreVertical />
+          </IconButton>
+        }
       >
-        {tabInfo.map((tab, i) => (
-          <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
-        ))}
-      </Tabs>
+        <Tabs
+          mr={6}
+          mb={2}
+          indicatorColor="primary"
+          value={activeTab}
+          onChange={handleTabChange}
+          aria-label="Review Tables"
+        >
+          {tabInfo.map((tab, i) => (
+            <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
+          ))}
+        </Tabs>
 
-      <TableWrapper>
-        <TabPanel value={activeTab} index={0}>
-          <TimeseriesFlow />
-        </TabPanel>
-        <TabPanel value={activeTab} index={1}>
-          <TimeseriesTemperature />
-        </TabPanel>
-      </TableWrapper>
+        <TableWrapper>
+          <TabPanel value={activeTab} index={0}>
+            <TimeseriesFlow />
+          </TabPanel>
+          <TabPanel value={activeTab} index={1}>
+            <TimeseriesTemperature />
+          </TabPanel>
+        </TableWrapper>
+      </Panel>
     </>
   );
 };

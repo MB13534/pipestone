@@ -41,11 +41,7 @@ const Map = () => {
     coordinates.current.innerHTML = `Longitude: ${e.features[0].geometry.coordinates[0]}<br />Latitude: ${e.features[0].geometry.coordinates[1]}`;
   }
   const service = useService({ toast: false });
-  const {
-    data: data,
-    isLoading: isDataLoading,
-    error: error,
-  } = useQuery(
+  const { data, isLoading, error } = useQuery(
     ["dropdown-locationss"],
     async () => {
       try {
@@ -160,7 +156,7 @@ const Map = () => {
         });
       }
     }
-  }, [isDataLoading, mapIsLoaded, map, data]);
+  }, [isLoading, mapIsLoaded, map, data]);
 
   if (error) return "An error has occurred: " + error.message;
 

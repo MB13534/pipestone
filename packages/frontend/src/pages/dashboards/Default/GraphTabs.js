@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Grid, IconButton, Tab, Tabs as MuiTabs } from "@material-ui/core";
+import { IconButton, Tab, Tabs as MuiTabs } from "@material-ui/core";
 
 import styled from "styled-components/macro";
 

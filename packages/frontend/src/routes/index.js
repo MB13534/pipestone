@@ -318,6 +318,8 @@ const reportsRoutes = {
       component: AdminLastReport,
     },
   ],
+  guard: AdminGuard,
+  visibilityFilter: AdminVisibilityFilter,
 };
 
 // Routes using the Dashboard layout

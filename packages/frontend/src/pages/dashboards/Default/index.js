@@ -17,8 +17,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Map from "./Map";
 import Panel from "../../../components/Panels/Panel";
 import { MoreVertical } from "react-feather";
-import GraphTabs from "./GraphTabs";
-import AdminLastReport from "./AdminLastReport";
 import DailyBarWidgets from "./DailyBarWidgets";
 import SystemWatcherTable from "./SystemWatcherTable";
 

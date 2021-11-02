@@ -44,10 +44,9 @@ const DailyBarWidgets = () => {
   );
 
   if (error) return "An error has occurred: " + error.message;
-
   return (
     <>
-      {isLoading ? (
+      {isLoading || distinctMeasurementTypes.length === 0 ? (
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Panel

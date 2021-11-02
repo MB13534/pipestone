@@ -8,12 +8,11 @@ import {
 import styled from "styled-components/macro";
 
 const Card = styled(MuiCard)`
-  // margin-bottom: 12px;
   height: 100%;
 `;
 
 const CardContent = styled(MuiCardContent)`
-  height: calc(100% - 32px - 24px);
+  height: 100%;
 `;
 
 const ChartWrapper = styled.div`
@@ -25,7 +24,7 @@ const ChartWrapper = styled.div`
 
 function Panel({
   children,
-  title,
+  title = null,
   rightHeader,
   height = "100%",
   minHeight = "0px",
@@ -33,7 +32,7 @@ function Panel({
 }) {
   return (
     <Card>
-      <CardHeader action={rightHeader} title={title} />
+      {title && <CardHeader action={rightHeader} title={title} />}
       <CardContent>
         <ChartWrapper
           overflowY={overflowY}

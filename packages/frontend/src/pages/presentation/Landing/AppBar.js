@@ -37,13 +37,13 @@ function AppBarComponent({ width }) {
             <Grid item>
               <Brand style={{ display: "flex", alignItems: "center" }}>
                 <BrandIcon
-                  src={`/static/img/lrewater-logo-square.svg`}
+                  src={`/static/img/telluride-logo-square.svg`}
                   width="32"
                   height="32"
                   alt="LRE Icon"
                 />{" "}
                 <Box ml={1} style={{ display: "flex" }}>
-                  Unified Platform{" "}
+                  Telluride Monitoring Dashboard{" "}
                 </Box>
               </Brand>
             </Grid>

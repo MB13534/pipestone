@@ -5,7 +5,14 @@ import { copyToClipboard, dateFormatter } from "../../../utils";
 import MaterialTable from "material-table";
 import { useApp } from "../../../AppProvider";
 
-const Table = ({ columns, label, data, isLoading = false, height }) => {
+const Table = ({
+  columns,
+  label,
+  data,
+  pageSize = 10,
+  isLoading = false,
+  height,
+}) => {
   const { doToast } = useApp();
   return (
     <MaterialTable
@@ -40,8 +47,8 @@ const Table = ({ columns, label, data, isLoading = false, height }) => {
         exportAllData: true,
         columnsButton: true,
         exportButton: true,
-        pageSize: 10,
-        pageSizeOptions: [10, 30, 60],
+        pageSize: pageSize,
+        pageSizeOptions: [5, 10, 30, 60],
         padding: "dense",
         searchFieldAlignment: "left",
         showTitle: false,

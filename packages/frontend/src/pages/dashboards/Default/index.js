@@ -29,7 +29,7 @@ function Default() {
 
   return (
     <React.Fragment>
-      <Helmet title="Default Dashboard" />
+      <Helmet title="Landing Dashboard" />
       <Grid justify="space-between" container spacing={6}>
         <Grid item>
           <Typography variant="h3" gutterBottom>
@@ -49,27 +49,12 @@ function Default() {
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={5}>
-          <Panel
-            title="Map"
-            minHeight="551px"
-            rightHeader={
-              <IconButton aria-label="settings">
-                <MoreVertical />
-              </IconButton>
-            }
-          >
+          <Panel minHeight="300px">
             <Map />
           </Panel>
         </Grid>
         <Grid item xs={12} lg={7}>
-          <Panel
-            title="System Watcher Table"
-            rightHeader={
-              <IconButton aria-label="settings">
-                <MoreVertical />
-              </IconButton>
-            }
-          >
+          <Panel>
             <SystemWatcherTable tableHeight="388px" />
           </Panel>
         </Grid>
@@ -77,7 +62,7 @@ function Default() {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <DailyBarWidgets chartHeight={"200px"} />
+          <DailyBarWidgets />
         </Grid>
       </Grid>
     </React.Fragment>

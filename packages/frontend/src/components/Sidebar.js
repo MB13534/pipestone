@@ -331,13 +331,13 @@ const Sidebar = ({
         }}
       >
         <BrandIcon
-          src={`/static/img/lrewater-logo-square.svg`}
+          src={`/static/img/telluride-logo-square.svg`}
           width="32"
           height="32"
           alt="LRE Icon"
         />{" "}
         <Box ml={1} style={{ display: "flex" }}>
-          Unified Platform{" "}
+          Monitoring Dashboard{" "}
         </Box>
       </Brand>
       <Scrollbar

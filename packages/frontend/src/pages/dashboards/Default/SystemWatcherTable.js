@@ -118,6 +118,7 @@ const SystemWatcherTable = ({ tableHeight = "100%" }) => {
               <TabPanel value={activeTab} index={i} key={i}>
                 {!isLoading && (
                   <Table
+                    pageSize={5}
                     isLoading={isLoading}
                     label={tabInfo[i].label}
                     columns={tabColumns[i]}

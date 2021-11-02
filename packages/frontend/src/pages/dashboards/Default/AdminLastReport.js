@@ -15,7 +15,6 @@ import { findRawRecords } from "../../../services/crudService";
 import { dateFormatter, renderStatusChip } from "../../../utils";
 import Table from "./Table";
 import { spacing } from "@material-ui/system";
-import Loader from "../../../components/Loader";
 import { MoreVertical } from "react-feather";
 import Panel from "../../../components/Panels/Panel";
 

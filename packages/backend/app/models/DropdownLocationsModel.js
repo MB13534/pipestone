@@ -1,5 +1,5 @@
 const {Op} = require('sequelize');
-const {SELECTED_USERS} = require('../../constants');
+const {SELECTED_CLIENTS} = require('../../constants');
 module.exports = (sequelize, DataTypes) => {
   const {INTEGER, TEXT, REAL, GEOMETRY} = DataTypes;
   const DropdownLocations = sequelize.define(
@@ -24,12 +24,15 @@ module.exports = (sequelize, DataTypes) => {
       location_geometry: {
         type: GEOMETRY,
       },
+      exclude_auth0_user_id: {
+        type: TEXT,
+      },
     },
     {
       defaultScope: {
         where: {
           assoc_client_ndx: {
-            [Op.overlap]: `{${SELECTED_USERS}}`,
+            [Op.overlap]: `{${SELECTED_CLIENTS}}`,
           },
         },
       },

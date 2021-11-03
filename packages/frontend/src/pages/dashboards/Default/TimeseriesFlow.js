@@ -1,19 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useService from "../../../hooks/useService";
 import { useQuery } from "react-query";
 
 import { Box, Grid, Typography } from "@material-ui/core";
 
 import { findRawRecords } from "../../../services/crudService";
-import { lineColors } from "../../../utils";
+import { filterDataByUser, lineColors } from "../../../utils";
 
 import Loader from "../../../components/Loader";
 import SaveGraphButton from "./SaveGraphButton";
 import TimeseriesLineChart from "./TimeseriesLineChart";
 import MultiOptionsPicker from "../../../components/Pickers/MultiOptionsPicker";
+import { useApp } from "../../../AppProvider";
 
 const TimeseriesTemperature = () => {
   const service = useService({ toast: false });
+
+  const { currentUser } = useApp();
 
   const ref = useRef(null);
 
@@ -22,10 +25,12 @@ const TimeseriesTemperature = () => {
     isLoading: isTimeseriesLoading,
     error: timeseriesError,
   } = useQuery(
-    ["timeseries-flow"],
+    ["timeseries-flow", currentUser],
     async () => {
       try {
-        return await service([findRawRecords, ["TimeseriesFlows"]]);
+        const response = await service([findRawRecords, ["TimeseriesFlows"]]);
+
+        return filterDataByUser(response, currentUser);
       } catch (err) {
         console.error(err);
       }

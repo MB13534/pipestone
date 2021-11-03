@@ -6,6 +6,8 @@ import { useQuery } from "react-query";
 import { findRawRecords } from "../../../services/crudService";
 import ResetZoomControl from "./ResetZoomControl";
 import { STARTING_LOCATION } from "../../../constants";
+import { useApp } from "../../../AppProvider";
+import { filterDataByUser } from "../../../utils";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
@@ -41,12 +43,16 @@ const Map = () => {
     coordinates.current.innerHTML = `Longitude: ${e.features[0].geometry.coordinates[0]}<br />Latitude: ${e.features[0].geometry.coordinates[1]}`;
   }
   const service = useService({ toast: false });
+
+  const { currentUser } = useApp();
+
   const { data, isLoading, error } = useQuery(
-    ["dropdown-locationss"],
+    ["dropdown-locations", currentUser],
     async () => {
       try {
         const response = await service([findRawRecords, ["DropdownLocations"]]);
-        return response.filter((location) => location.location_geometry);
+        const data = filterDataByUser(response, currentUser);
+        return data.filter((location) => location.location_geometry);
       } catch (err) {
         console.error(err);
       }

@@ -1,5 +1,5 @@
 const {Op} = require('sequelize');
-const {SELECTED_USERS} = require('../../constants');
+const {SELECTED_CLIENTS} = require('../../constants');
 module.exports = (sequelize, DataTypes) => {
   const {INTEGER, TEXT, DATE, REAL} = DataTypes;
   const AdminDataLastReports = sequelize.define(
@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultScope: {
         where: {
           client_ndx: {
-            [Op.in]: SELECTED_USERS,
+            [Op.in]: SELECTED_CLIENTS,
           },
         },
       },

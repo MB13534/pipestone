@@ -1,6 +1,8 @@
 import AdminGuard from "../components/AdminGuard";
 import AdminVisibilityFilter from "../components/AdminVisibilityFilter";
 
+export const EXCLUDED_USERS = "auth0|6181b13ed3603a0069075d2b";
+
 // Configuration
 export const CRUD_MODELS = [
   {

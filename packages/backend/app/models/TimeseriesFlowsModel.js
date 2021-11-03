@@ -22,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       location_ndx: {
         type: INTEGER,
       },
+      exclude_auth0_user_id: {
+        type: TEXT,
+      },
     },
     {
       defaultScope: {

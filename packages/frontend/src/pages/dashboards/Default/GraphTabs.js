@@ -9,6 +9,8 @@ import TimeseriesTemperature from "./TimeseriesTemperature";
 import TimeseriesFlow from "./TimeseriesFlow";
 import { MoreVertical } from "react-feather";
 import Panel from "../../../components/Panels/Panel";
+import { useApp } from "../../../AppProvider";
+import { EXCLUDED_USERS } from "../../../constants";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
@@ -29,7 +31,11 @@ function a11yProps(index) {
 const GraphTabs = () => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const tabInfo = [{ label: "Streamflow" }, { label: "Temperature" }];
+  const { currentUser } = useApp();
+
+  const tabInfo = [{ label: "Streamflow" }];
+
+  currentUser?.sub !== EXCLUDED_USERS && tabInfo.push({ label: "Temperature" });
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -78,9 +84,11 @@ const GraphTabs = () => {
           <TabPanel value={activeTab} index={0}>
             <TimeseriesFlow />
           </TabPanel>
-          <TabPanel value={activeTab} index={1}>
-            <TimeseriesTemperature />
-          </TabPanel>
+          {currentUser?.sub !== EXCLUDED_USERS && (
+            <TabPanel value={activeTab} index={1}>
+              <TimeseriesTemperature />
+            </TabPanel>
+          )}
         </TableWrapper>
       </Panel>
     </>

@@ -13,6 +13,8 @@ import { MoreVertical } from "react-feather";
 import DailyBarWidget from "./DailyBarWidget";
 import styled from "styled-components/macro";
 import Loader from "../../../components/Loader";
+import { useApp } from "../../../AppProvider";
+import { filterDataByUser } from "../../../utils";
 
 Chart.register(zoomPlugin);
 
@@ -23,19 +25,25 @@ const PadRight = styled.div`
 const DailyBarWidgets = () => {
   const service = useService({ toast: false });
 
+  const { currentUser } = useApp();
+
   const [distinctMeasurementTypes, setDistinctMeasurementTypes] = useState([]);
   const { data, isLoading, error } = useQuery(
-    ["current-conditions-widgets"],
+    ["current-conditions-widgets", currentUser],
     async () => {
       try {
         const response = await service([
           findRawRecords,
           ["CurrentConditionsWidgets"],
         ]);
+
+        const data = filterDataByUser(response, currentUser);
+
         setDistinctMeasurementTypes([
-          ...new Set(response.map((item) => item.measurement_type_desc)),
+          ...new Set(data.map((item) => item.measurement_type_desc)),
         ]);
-        return response;
+
+        return data;
       } catch (err) {
         console.error(err);
       }
@@ -46,7 +54,9 @@ const DailyBarWidgets = () => {
   if (error) return "An error has occurred: " + error.message;
   return (
     <>
-      {isLoading || distinctMeasurementTypes.length === 0 ? (
+      {data?.length === 0 ||
+      isLoading ||
+      distinctMeasurementTypes.length === 0 ? (
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Panel
@@ -66,7 +76,7 @@ const DailyBarWidgets = () => {
       ) : (
         <Grid container spacing={6}>
           {distinctMeasurementTypes.map((type) => (
-            <Grid item xs={12} md={6} lg={6} xl={4} key={type}>
+            <Grid item xs={12} md={12} lg={6} key={type}>
               <Panel
                 title={type}
                 height="200px"

@@ -98,3 +98,9 @@ export const renderStatusChip = (status) => {
     <Chip label="Unavailable" rgbcolor={lineColors.orange} />
   );
 };
+
+export const filterDataByUser = (data, user) => {
+  return data
+    ? data.filter((item) => !item.exclude_auth0_user_id.includes(user?.sub))
+    : [];
+};

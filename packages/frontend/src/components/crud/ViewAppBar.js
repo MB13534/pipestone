@@ -151,7 +151,9 @@ function ViewAppBar({
         </Grid>
         {isWidthUp("md", width) && mode === CRUD_VIEW_MODES.EDIT && (
           <Grid item>
-            <ContentTypeChip label={inflector.titleize(modelName)} />
+            <ContentTypeChip
+              label={inflector.titleize(applyInflectorOverrides(modelName))}
+            />
           </Grid>
         )}
         {mode === CRUD_VIEW_MODES.EDIT && (

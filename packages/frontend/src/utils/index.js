@@ -104,3 +104,8 @@ export const filterDataByUser = (data, user) => {
     ? data.filter((item) => !item.exclude_auth0_user_id.includes(user?.sub))
     : [];
 };
+
+export const applyInflectorOverrides = (str) => {
+  const myStr = str ? str : "";
+  return myStr.replace("Curf", "Curve");
+};

@@ -6,7 +6,7 @@ export const EXCLUDED_USERS = "auth0|6181b13ed3603a0069075d2b";
 // Configuration
 export const CRUD_MODELS = [
   {
-    name: "FlowFromStages",
+    name: "RatingCurves",
     header: "Data Management",
     guard: AdminGuard,
     visibilityFilter: AdminVisibilityFilter,

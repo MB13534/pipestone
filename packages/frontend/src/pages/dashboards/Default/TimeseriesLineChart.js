@@ -68,7 +68,7 @@ const TimeseriesLineChart = forwardRef(
         },
         zoom: {
           pan: {
-            enabled: false,
+            enabled: true,
             mode: "x",
           },
           zoom: {
@@ -144,8 +144,6 @@ const TimeseriesLineChart = forwardRef(
         const chart = e.chart;
         chart.options.plugins.zoom.zoom.wheel.enabled =
           !chart.options.plugins.zoom.zoom.wheel.enabled;
-        chart.options.plugins.zoom.pan.enabled =
-          !chart.options.plugins.zoom.pan.enabled;
         chart.update();
       },
     };

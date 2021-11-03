@@ -1,7 +1,7 @@
 const express = require('express');
 const {checkAccessToken} = require('../../core/middleware/auth.js');
 const {
-  flow_from_stage: model,
+  rating_curves: model,
   content_node_statuses,
 } = require('../../core/models');
 const {buildAppCrudRoutes} = require('../../core/routes/crud/handlers');

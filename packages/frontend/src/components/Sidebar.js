@@ -336,7 +336,7 @@ const Sidebar = ({
           height="32"
           alt="LRE Icon"
         />{" "}
-        <Box ml={1} style={{ display: "flex" }}>
+        <Box ml={1} style={{ fontSize: "0.9rem", display: "flex" }}>
           Monitoring Dashboard{" "}
         </Box>
       </Brand>

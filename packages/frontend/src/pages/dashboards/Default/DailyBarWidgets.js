@@ -63,11 +63,6 @@ const DailyBarWidgets = () => {
               title="Current Conditions Widgets"
               height="200px"
               overflowY={"auto"}
-              rightHeader={
-                <IconButton aria-label="settings">
-                  <MoreVertical />
-                </IconButton>
-              }
             >
               <Loader />
             </Panel>
@@ -77,16 +72,7 @@ const DailyBarWidgets = () => {
         <Grid container spacing={6}>
           {distinctMeasurementTypes.map((type) => (
             <Grid item xs={12} md={12} lg={6} key={type}>
-              <Panel
-                title={type}
-                height="200px"
-                overflowY={"auto"}
-                rightHeader={
-                  <IconButton aria-label="settings">
-                    <MoreVertical />
-                  </IconButton>
-                }
-              >
+              <Panel title={type} height="200px" overflowY={"auto"}>
                 <PadRight>
                   <DailyBarWidget data={data} measurementType={type} />
                 </PadRight>

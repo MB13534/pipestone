@@ -143,14 +143,7 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
 
   return (
     <>
-      <Panel
-        title="Admin Reports"
-        rightHeader={
-          <IconButton aria-label="settings">
-            <MoreVertical />
-          </IconButton>
-        }
-      >
+      <Panel title="Admin Reports">
         <Grid container>
           <Tabs
             mr={6}

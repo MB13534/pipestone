@@ -95,7 +95,7 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
-    if (mapIsLoaded && typeof map != "undefined") {
+    if (mapIsLoaded && data?.length > 0 && typeof map != "undefined") {
       if (!map.getSource("locations")) {
         map.addSource("locations", {
           // This GeoJSON contains features that include an "icon"
@@ -104,7 +104,7 @@ const Map = () => {
           type: "geojson",
           data: {
             type: "FeatureCollection",
-            features: data?.map((location) => {
+            features: data.map((location) => {
               return {
                 type: "Feature",
                 properties: {

@@ -80,6 +80,25 @@ const GraphTabs = () => {
     <>
       <Grid container spacing={6}>
         <Grid item xs={12}>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="map-content"
+              id="map-header"
+            >
+              <Typography variant="subtitle1">Map</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <MapContainer>
+                <Map />
+              </MapContainer>
+            </AccordionDetails>
+          </Accordion>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
           <Panel title="Time Series Graphs" height="600px">
             <Tabs
               mr={6}
@@ -113,25 +132,6 @@ const GraphTabs = () => {
               )}
             </TableWrapper>
           </Panel>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={6}>
-        <Grid item xs={12}>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="map-content"
-              id="map-header"
-            >
-              <Typography variant="subtitle1">Map</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <MapContainer>
-                <Map />
-              </MapContainer>
-            </AccordionDetails>
-          </Accordion>
         </Grid>
       </Grid>
     </>

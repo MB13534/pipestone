@@ -123,6 +123,7 @@ const TimeseriesTemperature = () => {
             locationsOptions?.length ? (
               <TimeseriesLineChart
                 yLLabel="Flow CFS"
+                reverseLegend={false}
                 xLabelUnit="day"
                 data={filteredTimeseriesData}
                 ref={ref}

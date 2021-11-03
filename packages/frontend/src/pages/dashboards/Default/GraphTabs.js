@@ -4,7 +4,6 @@ import {
   Accordion,
   AccordionDetails,
   Grid,
-  IconButton,
   Tab,
   Tabs as MuiTabs,
   Typography,
@@ -15,7 +14,6 @@ import styled from "styled-components/macro";
 import { spacing } from "@material-ui/system";
 import TimeseriesTemperature from "./TimeseriesTemperature";
 import TimeseriesFlow from "./TimeseriesFlow";
-import { MoreVertical } from "react-feather";
 import Panel from "../../../components/Panels/Panel";
 import { useApp } from "../../../AppProvider";
 import { EXCLUDED_USERS } from "../../../constants";

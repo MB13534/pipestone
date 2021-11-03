@@ -38,7 +38,7 @@ export function columns(modelName) {
     {
       field: "ffs_desc",
       headerName: "Description",
-      width: 300,
+      width: 350,
     },
 
     {
@@ -108,7 +108,7 @@ export function columns(modelName) {
     {
       field: "notes",
       headerName: "Notes",
-      width: 300,
+      width: 400,
     },
     {
       field: "id",

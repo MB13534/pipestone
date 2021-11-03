@@ -2,12 +2,7 @@ import React, { useState } from "react";
 import useService from "../../../hooks/useService";
 import { useQuery } from "react-query";
 
-import {
-  Grid as MuiGrid,
-  IconButton,
-  Tab,
-  Tabs as MuiTabs,
-} from "@material-ui/core";
+import { Grid as MuiGrid, Tab, Tabs as MuiTabs } from "@material-ui/core";
 
 import styled from "styled-components/macro";
 
@@ -15,7 +10,6 @@ import { findRawRecords } from "../../../services/crudService";
 import { dateFormatter, renderStatusChip } from "../../../utils";
 import Table from "./Table";
 import { spacing } from "@material-ui/system";
-import { MoreVertical } from "react-feather";
 import Panel from "../../../components/Panels/Panel";
 
 const TableWrapper = styled.div`

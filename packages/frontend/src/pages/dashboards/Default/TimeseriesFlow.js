@@ -129,6 +129,7 @@ const TimeseriesTemperature = () => {
                 xLabelUnit="day"
                 data={filteredTimeseriesData}
                 ref={saveRef}
+                reverseLegend={false}
               />
             ) : (
               <Typography>No Data Available</Typography>

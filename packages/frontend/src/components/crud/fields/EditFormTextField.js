@@ -116,8 +116,8 @@ function EditFormTextField({
           }
         >
           <DiffViewer
-            oldValue={newValue[field.key]}
-            newValue={oldValue[field.key]}
+            oldValue={String(newValue[field.key])}
+            newValue={String(oldValue[field.key])}
             splitView={isWidthDown("xs", width) === false}
             useDarkTheme={theme.palette.type === "dark"}
             compareMethod={"diffWordsWithSpace"}

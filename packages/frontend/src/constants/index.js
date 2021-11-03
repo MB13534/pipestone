@@ -13,6 +13,11 @@ export const CRUD_MODELS = [
   },
 ];
 
+export const CRUD_LOOKUP_TABLES = [
+  "dropdown_measurements",
+  "dropdown_ffs_calc_types",
+];
+
 export const THEME = {
   MAIN_SIDEBAR_WIDTH: 258,
   DATETIME_FORMAT_SHORT: "MM/dd/yyyy hh:mm a",

@@ -45,6 +45,10 @@ export function columns(modelName) {
       field: "measurement_ndx",
       headerName: "Measurement Point",
       width: 250,
+      renderCell: Renderers.DropdownValueRenderer,
+      lookupModel: "dropdown_measurements",
+      lookupKey: "measurement_ndx",
+      lookupValue: "measurement_name",
     },
 
     {
@@ -61,6 +65,10 @@ export function columns(modelName) {
       field: "ffs_calc_type_ndx",
       headerName: "Curve Type",
       width: 200,
+      renderCell: Renderers.DropdownValueRenderer,
+      lookupModel: "dropdown_ffs_calc_types",
+      lookupKey: "ffs_calc_type_ndx",
+      lookupValue: "ffs_calc_type_desc",
     },
     {
       field: "ffs_a",

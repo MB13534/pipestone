@@ -84,7 +84,7 @@ function ViewSidebarContent({
   const { doToast } = useApp();
   const [toastOpen, setToastOpen] = useState(false);
 
-  const createdBy = user.nickname;
+  const createdBy = user.name;
   const updatedBy = createdBy;
 
   return (
@@ -128,7 +128,7 @@ function ViewSidebarContent({
           </GridValue>
           <GridDot item>
             <Tooltip title={`Created by ${createdBy}`}>
-              <TimestampAvatar src={user.picture} alt={user.nickname} />
+              <TimestampAvatar src={user.picture} alt={user.name} />
             </Tooltip>
           </GridDot>
         </GridRow>
@@ -139,7 +139,7 @@ function ViewSidebarContent({
           </GridValue>
           <GridDot item>
             <Tooltip title={`Updated by ${updatedBy}`}>
-              <TimestampAvatar src={user.picture} alt={user.nickname} />
+              <TimestampAvatar src={user.picture} alt={user.name} />
             </Tooltip>
           </GridDot>
         </GridRow>

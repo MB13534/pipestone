@@ -61,7 +61,7 @@ const TimeseriesTemperature = () => {
         labels: filterData.map((item) => item.collect_timestamp),
         datasets: [
           {
-            label: "Measured Flow",
+            label: "Flow",
             borderColor: lineColors.blue,
             backgroundColor: lineColors.blue,
             data: filterData.map((item) => item.flow_cfs),

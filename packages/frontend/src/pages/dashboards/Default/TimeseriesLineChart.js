@@ -77,7 +77,7 @@ const TimeseriesLineChart = forwardRef(
               enabled: false,
             },
             pinch: {
-              enabled: false,
+              enabled: true,
             },
           },
           //TODO line segment styling
@@ -144,8 +144,6 @@ const TimeseriesLineChart = forwardRef(
         const chart = e.chart;
         chart.options.plugins.zoom.zoom.wheel.enabled =
           !chart.options.plugins.zoom.zoom.wheel.enabled;
-        chart.options.plugins.zoom.zoom.pinch.enabled =
-          !chart.options.plugins.zoom.zoom.pinch.enabled;
         chart.update();
       },
     };

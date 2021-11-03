@@ -53,7 +53,6 @@ const DailyBarWidget = ({
           label: function (tooltipItems, data) {
             return `${tooltipItems.dataset.label}: ${tooltipItems.formattedValue} ${tooltipItems.dataset.units}`;
           },
-          footerColor: "red",
         },
         footerAlign: "center",
         displayColors: false,

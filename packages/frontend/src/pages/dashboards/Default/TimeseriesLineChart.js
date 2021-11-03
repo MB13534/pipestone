@@ -59,6 +59,20 @@ const TimeseriesLineChart = forwardRef(
         filler: {
           propagate: false,
         },
+        tooltip: {
+          callbacks: {
+            footer: (tooltipItems) => {
+              return (
+                tooltipItems[0].dataset.popupInfo &&
+                tooltipItems[0].dataset.popupInfo[tooltipItems[0].dataIndex]
+              );
+            },
+          },
+          footerAlign: "center",
+          displayColors: false,
+          //TODO
+          // footerColor: ctx =>
+        },
         legend: {
           display: true,
           reverse: reverseLegend,

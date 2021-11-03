@@ -22,6 +22,7 @@ import { EXCLUDED_USERS } from "../../../constants";
 import Map from "./Map";
 import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
+import TimeseriesFlowVsTargets from "./TimeseriesFlowVsTargets";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
@@ -49,9 +50,14 @@ const GraphTabs = () => {
 
   const { currentUser } = useApp();
 
-  const tabInfo = [{ label: "Streamflow" }];
-
-  currentUser?.sub !== EXCLUDED_USERS && tabInfo.push({ label: "Temperature" });
+  const tabInfo =
+    currentUser?.sub === EXCLUDED_USERS
+      ? [{ label: "Flow Vs Targets" }]
+      : [
+          { label: "Streamflow" },
+          { label: "Flow Vs Targets" },
+          { label: "Temperature" },
+        ];
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -76,15 +82,7 @@ const GraphTabs = () => {
     <>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <Panel
-            title="Time Series Graphs"
-            height="600px"
-            rightHeader={
-              <IconButton aria-label="settings">
-                <MoreVertical />
-              </IconButton>
-            }
-          >
+          <Panel title="Time Series Graphs" height="600px">
             <Tabs
               mr={6}
               mb={2}
@@ -99,11 +97,19 @@ const GraphTabs = () => {
             </Tabs>
 
             <TableWrapper>
-              <TabPanel value={activeTab} index={0}>
-                <TimeseriesFlow />
+              {currentUser?.sub !== EXCLUDED_USERS && (
+                <TabPanel value={activeTab} index={0}>
+                  <TimeseriesFlow />
+                </TabPanel>
+              )}
+              <TabPanel
+                value={activeTab}
+                index={currentUser?.sub !== EXCLUDED_USERS ? 1 : 0}
+              >
+                <TimeseriesFlowVsTargets />
               </TabPanel>
               {currentUser?.sub !== EXCLUDED_USERS && (
-                <TabPanel value={activeTab} index={1}>
+                <TabPanel value={activeTab} index={2}>
                   <TimeseriesTemperature />
                 </TabPanel>
               )}

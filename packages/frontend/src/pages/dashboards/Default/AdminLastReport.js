@@ -144,7 +144,7 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
   return (
     <>
       <Panel
-        title="Admin Last Report and Period of Record Review Table"
+        title="Admin Reports"
         rightHeader={
           <IconButton aria-label="settings">
             <MoreVertical />

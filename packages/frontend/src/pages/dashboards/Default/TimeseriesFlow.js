@@ -18,7 +18,7 @@ const TimeseriesTemperature = () => {
 
   const { currentUser } = useApp();
 
-  const ref = useRef(null);
+  const saveRef = useRef(null);
 
   const {
     data: timeseriesData,
@@ -113,7 +113,7 @@ const TimeseriesTemperature = () => {
                   </Grid>
                   <Grid item style={{ width: "53px" }}>
                     <SaveGraphButton
-                      ref={ref}
+                      ref={saveRef}
                       title="Flow vs Stage Timeseries Graph"
                     />
                   </Grid>
@@ -128,7 +128,7 @@ const TimeseriesTemperature = () => {
                 yLLabel="Flow CFS"
                 xLabelUnit="day"
                 data={filteredTimeseriesData}
-                ref={ref}
+                ref={saveRef}
               />
             ) : (
               <Typography>No Data Available</Typography>

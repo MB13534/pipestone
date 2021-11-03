@@ -25,8 +25,6 @@ const Typography = styled(MuiTypography)(spacing);
 function Default() {
   const { user } = useAuth0();
 
-  console.log(user);
-
   return (
     <React.Fragment>
       <Helmet title="Landing Dashboard" />

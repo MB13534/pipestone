@@ -69,7 +69,6 @@ const TimeseriesLineChart = forwardRef(
             },
           },
           footerAlign: "center",
-          displayColors: false,
           //TODO
           // footerColor: ctx =>
         },

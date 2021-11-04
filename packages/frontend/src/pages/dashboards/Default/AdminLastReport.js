@@ -60,7 +60,7 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
         title: "Last Report",
         field: "last_collected",
         render: (rowData) => {
-          return dateFormatter(rowData.last_collected, "YYYY MM DD, h:mm A");
+          return dateFormatter(rowData.last_collected, "MM/DD/YYYY, h:mm A");
         },
       },
       {
@@ -87,14 +87,14 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
         title: "POR Start",
         field: "por_start",
         render: (rowData) => {
-          return dateFormatter(rowData.por_start, "YYYY MM DD");
+          return dateFormatter(rowData.por_start, "MM/DD/YYYY, h:mm A");
         },
       },
       {
         title: "POR End",
         field: "por_end",
         render: (rowData) => {
-          return dateFormatter(rowData.por_start, "YYYY MM DD");
+          return dateFormatter(rowData.por_end, "MM/DD/YYYY, h:mm A");
         },
       },
       {

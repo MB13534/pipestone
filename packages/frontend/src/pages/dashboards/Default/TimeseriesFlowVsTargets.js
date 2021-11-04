@@ -56,6 +56,7 @@ const TimeseriesTemperature = () => {
         pointStyle: "line",
         pointRadius: 0,
         pointHoverRadius: 0,
+        // tension: 0.5,
       };
       const mutatedData = {
         labels: filterData.map((item) => item.collect_timestamp),

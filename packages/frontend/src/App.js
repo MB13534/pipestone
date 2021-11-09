@@ -33,7 +33,7 @@ function App() {
         <HelmetProvider>
           <Helmet
             titleTemplate="%s | LRE Water"
-            defaultTitle="LRE Water - Unified Platform"
+            defaultTitle="LRE Water - Monitoring Platform"
           />
           <StylesProvider jss={jss}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>

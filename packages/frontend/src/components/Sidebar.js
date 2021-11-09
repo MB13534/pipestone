@@ -336,8 +336,8 @@ const Sidebar = ({
           height="32"
           alt="LRE Icon"
         />{" "}
-        <Box ml={1} style={{ display: "flex" }}>
-          Unified Platform{" "}
+        <Box ml={1} style={{ fontSize: "0.9rem", display: "flex" }}>
+          Monitoring Dashboard{" "}
         </Box>
       </Brand>
       <Scrollbar
@@ -424,14 +424,12 @@ const Sidebar = ({
                   }}
                   variant="dot"
                 >
-                  <Avatar alt={user.nickname} src={user.picture} />
+                  <Avatar alt={user.name} src={user.picture} />
                 </SidebarFooterBadge>
               </UserDropdown>
             </Grid>
             <Grid item>
-              <SidebarFooterText variant="body2">
-                {user.nickname}
-              </SidebarFooterText>
+              <SidebarFooterText variant="body2">{user.name}</SidebarFooterText>
               <SidebarFooterSubText variant="caption">
                 {user.email}
               </SidebarFooterSubText>

@@ -1,9 +1,21 @@
-import React from "react";
-import { Activity } from "react-feather";
+import AdminGuard from "../components/AdminGuard";
+import AdminVisibilityFilter from "../components/AdminVisibilityFilter";
+
+export const EXCLUDED_USERS = "auth0|6181b13ed3603a0069075d2b";
 
 // Configuration
 export const CRUD_MODELS = [
-  { name: "FlowFromStages", icon: <Activity />, header: "Data Management" },
+  {
+    name: "RatingCurves",
+    header: "Data Management",
+    guard: AdminGuard,
+    visibilityFilter: AdminVisibilityFilter,
+  },
+];
+
+export const CRUD_LOOKUP_TABLES = [
+  "dropdown_measurements",
+  "dropdown_ffs_calc_types",
 ];
 
 export const THEME = {
@@ -117,6 +129,8 @@ export const THEMES = {
 };
 
 export const THEME_SELECTED = "THEME_SELECTED";
+
+export const STARTING_LOCATION = [-107.85129441664017, 37.949747156874196];
 
 // Redux Actions
 export const ACTIONS = {

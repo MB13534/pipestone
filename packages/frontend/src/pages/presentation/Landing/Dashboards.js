@@ -84,7 +84,7 @@ function Dashboards() {
         <Grid container spacing={6}>
           <Demo
             to="/dashboard/default"
-            title="Default dashboard"
+            title="Dashboard"
             img="dashboard-default"
           />
           <Demo

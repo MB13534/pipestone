@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const {INTEGER, TEXT, UUID, DATE, REAL} = DataTypes;
-  const FlowFromStages = sequelize.define(
-    'flow_from_stage',
+  const RatingCurves = sequelize.define(
+    'rating_curves',
     {
       id: {
         type: UUID,
@@ -68,23 +68,24 @@ module.exports = (sequelize, DataTypes) => {
       },
       schema: 'calcs',
       paranoid: true,
+      tableName: 'flow_from_stage',
     }
   );
 
-  FlowFromStages.associate = function (models) {
-    FlowFromStages.belongsTo(models.content_node_statuses, {
+  RatingCurves.associate = function (models) {
+    RatingCurves.belongsTo(models.content_node_statuses, {
       foreignKey: 'status_id',
       as: 'content_node_statuses',
     });
-    FlowFromStages.hasMany(models.flow_from_stage, {
+    RatingCurves.hasMany(models.rating_curves, {
       foreignKey: 'parent_id',
       as: 'versions',
     });
-    FlowFromStages.belongsTo(models.flow_from_stage, {
+    RatingCurves.belongsTo(models.rating_curves, {
       foreignKey: 'parent_id',
       as: 'parent',
     });
   };
 
-  return FlowFromStages;
+  return RatingCurves;
 };

@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components/macro";
 import { useCrud } from "../../CrudProvider";
 import * as inflector from "inflected";
+import { applyInflectorOverrides } from "../../utils";
 
 const Button = styled(MuiButton)`
   white-space: nowrap;
@@ -35,7 +36,7 @@ function CreateModelButton(props) {
     >
       {isWidthUp("sm", props.width) && "Create"}
       {isWidthUp("md", props.width) &&
-        ` ${inflector.titleize(props.modelName)}`}
+        ` ${inflector.titleize(applyInflectorOverrides(props.modelName))}`}
     </Button>
   );
 }

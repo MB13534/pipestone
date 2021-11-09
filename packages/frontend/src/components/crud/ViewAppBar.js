@@ -27,6 +27,7 @@ import { ActionsDropdown, ActionsDropdownTypes } from "./ActionsDropdown";
 import { StatusDotRenderer, StatusHelpIconRenderer } from "./ResultsRenderers";
 import { useCrud } from "../../CrudProvider";
 import * as inflector from "inflected";
+import { applyInflectorOverrides } from "../../utils";
 
 const AppBar = styled(MuiAppBar)`
   min-height: 72px;
@@ -150,7 +151,9 @@ function ViewAppBar({
         </Grid>
         {isWidthUp("md", width) && mode === CRUD_VIEW_MODES.EDIT && (
           <Grid item>
-            <ContentTypeChip label={inflector.titleize(modelName)} />
+            <ContentTypeChip
+              label={inflector.titleize(applyInflectorOverrides(modelName))}
+            />
           </Grid>
         )}
         {mode === CRUD_VIEW_MODES.EDIT && (
@@ -172,7 +175,9 @@ function ViewAppBar({
         >
           <Typography variant="h5" className="ellipsis">
             {mode === CRUD_VIEW_MODES.ADD && (
-              <span>New {inflector.titleize(modelName)}</span>
+              <span>
+                New {inflector.titleize(applyInflectorOverrides(modelName))}
+              </span>
             )}
             {mode === CRUD_VIEW_MODES.EDIT && <span>{displayName}</span>}
           </Typography>

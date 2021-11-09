@@ -75,10 +75,12 @@ export const renderStatusChip = (status) => {
   const Chip = styled(MuiChip)`
     ${spacing}
     height: 20px;
-    padding: 4px 0;
-    font-size: 90%;
+    // padding: 4px 0;
+    // font-size: 90%;
     margin-top: 1px;
     margin-bottom: 1px;
+    padding: 4px 0;
+    font-size: 90%;
     background-color: ${(props) => props.rgbcolor};
     color: ${(props) => props.theme.palette.common.white};
   `;
@@ -97,4 +99,15 @@ export const renderStatusChip = (status) => {
   ) : (
     <Chip label="Unavailable" rgbcolor={lineColors.orange} />
   );
+};
+
+export const filterDataByUser = (data, user) => {
+  return data
+    ? data.filter((item) => !item.exclude_auth0_user_id.includes(user?.sub))
+    : [];
+};
+
+export const applyInflectorOverrides = (str) => {
+  const myStr = str ? str : "";
+  return myStr.replace("Curf", "Curve");
 };

@@ -2,8 +2,8 @@ const {Op} = require('sequelize');
 const {SELECTED_LOCATIONS} = require('../../constants');
 module.exports = (sequelize, DataTypes) => {
   const {INTEGER, TEXT} = DataTypes;
-  const DropdownMeasurements = sequelize.define(
-    'dropdown_measurements',
+  const DropdownMeasurementsFFS = sequelize.define(
+    'dropdown_measurements_ffs',
     {
       measurement_ndx: {
         type: INTEGER,
@@ -34,5 +34,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  return DropdownMeasurements;
+  return DropdownMeasurementsFFS;
 };

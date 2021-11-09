@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 
 import { Chart } from "react-chartjs-2";
 import "chartjs-plugin-zoom";
@@ -13,8 +13,6 @@ const ChartWrapper = styled.div`
 `;
 
 const DailyBarWidget = ({ data, measurementType }) => {
-  const ref = useRef(null);
-
   const filterData = data.filter(
     (item) => item.measurement_type_desc === measurementType
   );
@@ -73,7 +71,6 @@ const DailyBarWidget = ({ data, measurementType }) => {
         lastCollected={mutatedData.lastCollected}
         units={mutatedData.units}
         data={mutatedData}
-        ref={ref}
       />
     </ChartWrapper>
   );

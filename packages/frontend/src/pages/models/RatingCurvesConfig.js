@@ -38,20 +38,19 @@ export function columns(modelName) {
     {
       field: "ffs_desc",
       headerName: "Description",
-      width: 300,
+      width: 350,
     },
 
     {
       field: "measurement_ndx",
       headerName: "Measurement Point",
       width: 250,
+      renderCell: Renderers.DropdownValueRenderer,
+      lookupModel: "dropdown_measurements",
+      lookupKey: "measurement_ndx",
+      lookupValue: "measurement_name",
     },
-    {
-      field: "ffs_effective_ts",
-      headerName: "Start",
-      width: 200,
-      renderCell: Renderers.DateRenderer,
-    },
+
     {
       field: "ffs_low_stage",
       headerName: "From Stage",
@@ -66,6 +65,10 @@ export function columns(modelName) {
       field: "ffs_calc_type_ndx",
       headerName: "Curve Type",
       width: 200,
+      renderCell: Renderers.DropdownValueRenderer,
+      lookupModel: "dropdown_ffs_calc_types",
+      lookupKey: "ffs_calc_type_ndx",
+      lookupValue: "ffs_calc_type_desc",
     },
     {
       field: "ffs_a",
@@ -91,6 +94,12 @@ export function columns(modelName) {
       width: 150,
       renderCell: (params) => params.value ?? 0,
     },
+    {
+      field: "ffs_effective_ts",
+      headerName: "Start",
+      width: 200,
+      renderCell: Renderers.DateRenderer,
+    },
     // {
     //   field: "ffs_ndx",
     //   headerName: "Index",
@@ -99,7 +108,7 @@ export function columns(modelName) {
     {
       field: "notes",
       headerName: "Notes",
-      width: 300,
+      width: 400,
     },
     {
       field: "id",
@@ -137,7 +146,7 @@ export const fields = [
     required: true,
     type: CRUD_FIELD_TYPES.DROPDOWN,
     typeConfig: {
-      table: "dropdown_measurements",
+      table: "dropdown_measurements_ffs",
       key: "measurement_ndx",
       value: "measurement_name",
       crud: false,
@@ -184,6 +193,10 @@ export const fields = [
     isOpen: true,
   },
   {
+    type: CRUD_FIELD_TYPES.SECTION_HEADER,
+    title: "Curve Factors",
+  },
+  {
     name: "Curve Type",
     key: "ffs_calc_type_ndx",
     required: true,
@@ -198,16 +211,12 @@ export const fields = [
     isOpen: true,
   },
   {
-    type: CRUD_FIELD_TYPES.SECTION_HEADER,
-    title: "Curve Factors",
-  },
-  {
     name: "Shift",
     key: "ffs_shift",
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
     typeConfig: {
-      decimalScale: 5,
+      decimalScale: 14,
     },
     cols: 3,
     isOpen: true,
@@ -218,7 +227,7 @@ export const fields = [
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
     typeConfig: {
-      decimalScale: 5,
+      decimalScale: 14,
     },
     cols: 3,
     isOpen: true,
@@ -229,7 +238,7 @@ export const fields = [
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
     typeConfig: {
-      decimalScale: 5,
+      decimalScale: 14,
     },
     cols: 3,
     isOpen: true,
@@ -240,7 +249,7 @@ export const fields = [
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
     typeConfig: {
-      decimalScale: 5,
+      decimalScale: 14,
     },
     cols: 3,
     isOpen: true,
@@ -253,6 +262,9 @@ export const fields = [
   //   cols: 6,
   //   isOpen: true,
   // },
+  {
+    type: CRUD_FIELD_TYPES.DIVIDER,
+  },
   {
     name: "Notes",
     key: "notes",

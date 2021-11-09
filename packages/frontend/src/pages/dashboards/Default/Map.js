@@ -4,6 +4,11 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import styled from "styled-components/macro";
 import { useQuery } from "react-query";
 import { findRawRecords } from "../../../services/crudService";
+import ResetZoomControl from "./ResetZoomControl";
+import { STARTING_LOCATION } from "../../../constants";
+import { useApp } from "../../../AppProvider";
+// import { filterDataByUser } from "../../../utils";
+import ToggleBasemapControl from "./ToggleBasemapControl";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
@@ -33,21 +38,26 @@ const Map = () => {
   const [map, setMap] = useState();
   const mapContainer = useRef(null); // create a reference to the map container
   const coordinates = useRef(null);
+  const DUMMY_BASEMAP_LAYERS = [
+    { url: "streets-v11", icon: "commute" },
+    { url: "outdoors-v11", icon: "park" },
+    { url: "satellite-streets-v11", icon: "satellite_alt" },
+  ];
 
   function onPointClick(e) {
     coordinates.current.style.display = "block";
     coordinates.current.innerHTML = `Longitude: ${e.features[0].geometry.coordinates[0]}<br />Latitude: ${e.features[0].geometry.coordinates[1]}`;
   }
   const service = useService({ toast: false });
-  const {
-    data: geometryData,
-    isLoading: isGeometryDataLoading,
-    error: geometryDataError,
-  } = useQuery(
-    ["dropdown-locationss"],
+
+  const { currentUser } = useApp();
+
+  const { data, isLoading, error } = useQuery(
+    ["dropdown-locations", currentUser],
     async () => {
       try {
         const response = await service([findRawRecords, ["DropdownLocations"]]);
+        // const data = filterDataByUser(response, currentUser);
         return response.filter((location) => location.location_geometry);
       } catch (err) {
         console.error(err);
@@ -59,15 +69,12 @@ const Map = () => {
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [-106.64425246096249, 39.62037385121381],
-
-      zoom: 9,
+      style: "mapbox://styles/mapbox/" + DUMMY_BASEMAP_LAYERS[0].url,
+      center: STARTING_LOCATION,
+      zoom: 11,
     });
 
     map.addControl(new mapboxgl.NavigationControl(), "top-left");
-    map.addControl(new mapboxgl.FullscreenControl());
-    // Add geolocate control to the map.
     map.addControl(
       new mapboxgl.GeolocateControl({
         positionOptions: {
@@ -77,8 +84,16 @@ const Map = () => {
         trackUserLocation: true,
         // Draw an arrow next to the location dot to indicate which direction the device is heading.
         showUserHeading: true,
-      })
+      }),
+      "top-left"
     );
+    map.addControl(new mapboxgl.FullscreenControl());
+    // Add geolocate control to the map.
+    map.addControl(new ResetZoomControl(), "top-left");
+
+    DUMMY_BASEMAP_LAYERS.forEach((layer) => {
+      return map.addControl(new ToggleBasemapControl(layer.url, layer.icon));
+    });
 
     map.on("render", () => {
       map.resize();
@@ -88,10 +103,10 @@ const Map = () => {
       map.resize();
       setMap(map);
     });
-  }, []);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
-    if (!isGeometryDataLoading && mapIsLoaded && typeof map != "undefined") {
+    if (mapIsLoaded && data?.length > 0 && typeof map != "undefined") {
       if (!map.getSource("locations")) {
         map.addSource("locations", {
           // This GeoJSON contains features that include an "icon"
@@ -100,7 +115,7 @@ const Map = () => {
           type: "geojson",
           data: {
             type: "FeatureCollection",
-            features: geometryData.map((location) => {
+            features: data.map((location) => {
               return {
                 type: "Feature",
                 properties: {
@@ -158,10 +173,9 @@ const Map = () => {
         });
       }
     }
-  }, [isGeometryDataLoading, mapIsLoaded, map, geometryData]);
+  }, [isLoading, mapIsLoaded, map, data]);
 
-  if (geometryDataError)
-    return "An error has occurred: " + geometryDataError.message;
+  if (error) return "An error has occurred: " + error.message;
 
   return (
     <MapContainer ref={mapContainer}>

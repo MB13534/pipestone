@@ -18,6 +18,7 @@ const CONTENT_NODE_STATUS_IDS = {
 
 const findAll = (model, options) => {
   return (req, res, next) => {
+    if (!model) res.json([]);
     model
       .findAll({where: {parent_id: null}, ...options})
       .then((data) => {

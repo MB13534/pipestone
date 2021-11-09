@@ -59,6 +59,19 @@ const TimeseriesLineChart = forwardRef(
         filler: {
           propagate: false,
         },
+        tooltip: {
+          callbacks: {
+            footer: (tooltipItems) => {
+              return (
+                tooltipItems[0].dataset.popupInfo &&
+                tooltipItems[0].dataset.popupInfo[tooltipItems[0].dataIndex]
+              );
+            },
+          },
+          footerAlign: "center",
+          //TODO
+          // footerColor: ctx =>
+        },
         legend: {
           display: true,
           reverse: reverseLegend,
@@ -77,7 +90,7 @@ const TimeseriesLineChart = forwardRef(
               enabled: false,
             },
             pinch: {
-              enabled: false,
+              enabled: true,
             },
           },
           //TODO line segment styling
@@ -144,8 +157,6 @@ const TimeseriesLineChart = forwardRef(
         const chart = e.chart;
         chart.options.plugins.zoom.zoom.wheel.enabled =
           !chart.options.plugins.zoom.zoom.wheel.enabled;
-        chart.options.plugins.zoom.zoom.pinch.enabled =
-          !chart.options.plugins.zoom.zoom.pinch.enabled;
         chart.update();
       },
     };

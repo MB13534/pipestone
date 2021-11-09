@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useService from "../../../hooks/useService";
 import { useQuery } from "react-query";
 
@@ -8,10 +8,9 @@ import styled from "styled-components/macro";
 
 import { findRawRecords } from "../../../services/crudService";
 import { dateFormatter, renderStatusChip } from "../../../utils";
-import MultiOptionsPicker from "../../../components/Pickers/MultiOptionsPicker";
 import Table from "./Table";
 import { spacing } from "@material-ui/system";
-import Loader from "../../../components/Loader";
+import Panel from "../../../components/Panels/Panel";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
@@ -28,7 +27,7 @@ function a11yProps(index) {
     "aria-controls": `review-table-${index}`,
   };
 }
-
+//388px
 const AdminLastReport = ({ tableHeight = "100%" }) => {
   const service = useService({ toast: false });
 
@@ -46,16 +45,6 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
     { keepPreviousData: true }
   );
 
-  const [selectedClients, setSelectedClients] = useState([]);
-  const [clientsOptions, setClientsOptions] = useState([]);
-  useEffect(() => {
-    if (!isLoading) {
-      const distinctOptions = [...new Set(data.map((item) => item.client))];
-      setClientsOptions(distinctOptions);
-      setSelectedClients(distinctOptions);
-    }
-  }, [isLoading, data]);
-
   if (error) return "An error has occurred: " + error.message;
 
   const tabInfo = [
@@ -71,7 +60,7 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
         title: "Last Report",
         field: "last_collected",
         render: (rowData) => {
-          return dateFormatter(rowData.last_collected, "YYYY MM DD, h:mm A");
+          return dateFormatter(rowData.last_collected, "MM/DD/YYYY, h:mm A");
         },
       },
       {
@@ -98,14 +87,14 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
         title: "POR Start",
         field: "por_start",
         render: (rowData) => {
-          return dateFormatter(rowData.por_start, "YYYY MM DD");
+          return dateFormatter(rowData.por_start, "MM/DD/YYYY, h:mm A");
         },
       },
       {
         title: "POR End",
         field: "por_end",
         render: (rowData) => {
-          return dateFormatter(rowData.por_start, "YYYY MM DD");
+          return dateFormatter(rowData.por_end, "MM/DD/YYYY, h:mm A");
         },
       },
       {
@@ -148,55 +137,35 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <Grid container>
-            <Tabs
-              mr={6}
-              mb={2}
-              indicatorColor="primary"
-              value={activeTab}
-              onChange={handleTabChange}
-              aria-label="Review Tables"
-            >
-              {tabInfo.map((tab, i) => (
-                <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
-              ))}
-            </Tabs>
-            <Grid item style={{ flexGrow: 1 }} xs={12} lg="auto" mt={2}>
-              {clientsOptions.length > 0 && (
-                <MultiOptionsPicker
-                  selectedOptions={selectedClients}
-                  setSelectedOptions={setSelectedClients}
-                  options={clientsOptions}
-                  label="Clients"
-                />
-              )}
-            </Grid>
-          </Grid>
-          <TableWrapper>
-            {tabColumns.map((tab, i) => (
-              <TabPanel value={activeTab} index={i} key={i}>
-                <Table
-                  isLoading={isLoading}
-                  label={tabInfo[i].label}
-                  columns={tabColumns[i]}
-                  data={
-                    clientsOptions.length > 0
-                      ? tabInfo[i].data.filter((row) =>
-                          selectedClients.includes(row.client)
-                        )
-                      : data
-                  }
-                  height={tableHeight}
-                />
-              </TabPanel>
+      <Panel title="Admin Reports">
+        <Grid container>
+          <Tabs
+            mr={6}
+            mb={2}
+            indicatorColor="primary"
+            value={activeTab}
+            onChange={handleTabChange}
+            aria-label="Review Tables"
+          >
+            {tabInfo.map((tab, i) => (
+              <Tab label={tab.label} {...a11yProps(i)} key={tab.label} />
             ))}
-          </TableWrapper>
-        </>
-      )}
+          </Tabs>
+        </Grid>
+        <TableWrapper>
+          {tabColumns.map((tab, i) => (
+            <TabPanel value={activeTab} index={i} key={i}>
+              <Table
+                isLoading={isLoading}
+                label={tabInfo[i].label}
+                columns={tabColumns[i]}
+                data={data}
+                height={tableHeight}
+              />
+            </TabPanel>
+          ))}
+        </TableWrapper>
+      </Panel>
     </>
   );
 };

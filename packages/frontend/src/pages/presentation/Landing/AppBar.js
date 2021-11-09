@@ -43,7 +43,7 @@ function AppBarComponent({ width }) {
                   alt="LRE Icon"
                 />{" "}
                 <Box ml={1} style={{ display: "flex" }}>
-                  Unified Platform{" "}
+                  Monitoring Dashboard{" "}
                 </Box>
               </Brand>
             </Grid>

@@ -296,16 +296,12 @@ const adminRoutes = {
 };
 
 const graphsRoutes = {
-  id: "Graphs",
+  id: "Time Series",
   header: "Data Access",
   icon: <Activity />,
-  children: [
-    {
-      path: "/data-access/graphs/time-series",
-      name: "Time Series",
-      component: GraphTabs,
-    },
-  ],
+  path: "/data-access/graphs/time-series",
+  name: "Time Series",
+  component: GraphTabs,
 };
 
 const reportsRoutes = {

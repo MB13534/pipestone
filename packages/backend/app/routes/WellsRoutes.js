@@ -5,7 +5,7 @@ const {
   content_node_statuses,
   measurements,
   well_types,
-  regions
+  regions,
 } = require('../../core/models');
 const {buildAppCrudRoutes} = require('../../core/routes/crud/handlers');
 

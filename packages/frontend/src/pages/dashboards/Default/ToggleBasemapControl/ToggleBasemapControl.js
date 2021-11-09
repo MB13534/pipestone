@@ -10,7 +10,7 @@ class ToggleBasemapControl {
     this.styleId = this.base;
     function swapStyle(styleID) {
       var currentStyle = map.getStyle();
-      console.log(currentStyle);
+
       json(
         `https://api.mapbox.com/styles/v1/mapbox/${styleID}?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`,
         (newStyle) => {
@@ -39,23 +39,27 @@ class ToggleBasemapControl {
       );
     }
 
+    // <button
+    //   className="mapboxgl-ctrl-geolocate"
+    //   type="button"
+    //   title="Find my location"
+    //   aria-label="Find my location"
+    //   aria-pressed="false"
+    // >
+    //   <span className="mapboxgl-ctrl-icon" aria-hidden="true"></span>
+    // </button>;
+
     this._map = map;
     this._container = document.createElement("div");
     this._container.className = "mapboxgl-ctrl mapboxgl-ctrl-group";
-    this._container.style.padding = `3px`;
 
-    const icon = document.createElement("i");
+    const icon = document.createElement("button");
     icon.className = "material-icons";
     icon.style.verticalAlign = "middle";
     icon.style.cursor = "pointer";
     icon.textContent = this.icon;
     this._container.appendChild(icon);
     this._container.addEventListener("click", (e) => {
-      // map.flyTo({
-      //   center: STARTING_LOCATION,
-      //   zoom: 11,
-      // });
-
       swapStyle(this.base);
     });
     return this._container;

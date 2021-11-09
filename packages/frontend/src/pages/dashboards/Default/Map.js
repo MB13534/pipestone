@@ -8,6 +8,7 @@ import ResetZoomControl from "./ResetZoomControl";
 import { STARTING_LOCATION } from "../../../constants";
 import { useApp } from "../../../AppProvider";
 import { filterDataByUser } from "../../../utils";
+import ToggleBasemapControl from "./ToggleBasemapControl";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
@@ -37,6 +38,11 @@ const Map = () => {
   const [map, setMap] = useState();
   const mapContainer = useRef(null); // create a reference to the map container
   const coordinates = useRef(null);
+  const DUMMY_BASEMAP_LAYERS = [
+    { url: "streets-v11", icon: "commute" },
+    { url: "outdoors-v11", icon: "park" },
+    { url: "satellite-streets-v11", icon: "satellite_alt" },
+  ];
 
   function onPointClick(e) {
     coordinates.current.style.display = "block";
@@ -63,15 +69,12 @@ const Map = () => {
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "mapbox://styles/mapbox/" + DUMMY_BASEMAP_LAYERS[0].url,
       center: STARTING_LOCATION,
       zoom: 11,
     });
 
     map.addControl(new mapboxgl.NavigationControl(), "top-left");
-    map.addControl(new mapboxgl.FullscreenControl());
-    // Add geolocate control to the map.
-    map.addControl(new ResetZoomControl(), "top-left");
     map.addControl(
       new mapboxgl.GeolocateControl({
         positionOptions: {
@@ -81,8 +84,16 @@ const Map = () => {
         trackUserLocation: true,
         // Draw an arrow next to the location dot to indicate which direction the device is heading.
         showUserHeading: true,
-      })
+      }),
+      "top-left"
     );
+    map.addControl(new mapboxgl.FullscreenControl());
+    // Add geolocate control to the map.
+    map.addControl(new ResetZoomControl(), "top-left");
+
+    DUMMY_BASEMAP_LAYERS.forEach((layer) => {
+      return map.addControl(new ToggleBasemapControl(layer.url, layer.icon));
+    });
 
     map.on("render", () => {
       map.resize();
@@ -92,7 +103,7 @@ const Map = () => {
       map.resize();
       setMap(map);
     });
-  }, []);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     if (mapIsLoaded && data?.length > 0 && typeof map != "undefined") {

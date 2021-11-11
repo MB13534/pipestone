@@ -197,6 +197,23 @@ const GraphTabs = () => {
           </Panel>
         </Grid>
       </Grid>
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="map-content"
+              id="map-header"
+            >
+              <Typography variant="subtitle1">Table</Typography>
+            </AccordionSummary>
+
+            <AccordionDetails>
+              <MapContainer>This is the table</MapContainer>
+            </AccordionDetails>
+          </Accordion>
+        </Grid>
+      </Grid>
     </>
   );
 };

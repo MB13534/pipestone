@@ -23,6 +23,7 @@ import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import TimeseriesFlowVsTargets from "./TimeseriesFlowVsTargets";
 import { TimeseriesFilters } from "./TimeseriesFilters";
+import TimeseriesPumpingDaily from "./TimeseriesPumpingDaily";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
@@ -61,6 +62,7 @@ const GraphTabs = () => {
     { label: "Flow Vs Targets" },
     { label: "Flow Vs Stage" },
     { label: "Temperature" },
+    { label: "Pumping" },
   ];
 
   const handleTabChange = (event, newValue) => {
@@ -177,6 +179,14 @@ const GraphTabs = () => {
 
               <TabPanel value={activeTab} index={3}>
                 <TimeseriesTemperature
+                  inputPickerValue={previousDays}
+                  endDate={endDate}
+                  startDate={startDate}
+                  checked={checked}
+                />
+              </TabPanel>
+              <TabPanel value={activeTab} index={4}>
+                <TimeseriesPumpingDaily
                   inputPickerValue={previousDays}
                   endDate={endDate}
                   startDate={startDate}

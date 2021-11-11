@@ -12,7 +12,12 @@ import MultiOptionsPicker from "../../../components/Pickers/MultiOptionsPicker";
 import SaveGraphButton from "./SaveGraphButton";
 import TimeseriesLineChart from "./TimeseriesLineChart";
 
-const TimeseriesPumpingDaily = () => {
+const TimeseriesPumpingDaily = ({
+  inputPickerValue,
+  endDate,
+  startDate,
+  checked,
+}) => {
   const service = useService({ toast: false });
 
   const ref = useRef(null);
@@ -119,9 +124,13 @@ const TimeseriesPumpingDaily = () => {
               <TimeseriesLineChart
                 yLLabel="Pumping af"
                 data={filteredTimeseriesData}
-                xLabelUnit="week"
                 reverseLegend={false}
+                xLabelUnit="day"
                 ref={ref}
+                previousDays={inputPickerValue}
+                endDate={endDate}
+                startDate={startDate}
+                checked={checked}
               />
             ) : (
               <Typography>No Data Available</Typography>

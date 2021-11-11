@@ -9,6 +9,8 @@ import {
   Typography,
 } from "@material-ui/core";
 
+import { add } from "date-fns";
+
 import styled from "styled-components/macro";
 
 import { spacing } from "@material-ui/system";
@@ -21,6 +23,7 @@ import Map from "./Map";
 import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import TimeseriesFlowVsTargets from "./TimeseriesFlowVsTargets";
+import { TimeseriesFilters } from "./TimeseriesFilters";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
@@ -29,6 +32,10 @@ const TableWrapper = styled.div`
   height: 100%;
 `;
 
+const FiltersContainer = styled.div`
+  height: 100%;
+  width: 100%;
+`;
 const MapContainer = styled.div`
   height: 300px;
   width: 100%;
@@ -45,6 +52,10 @@ function a11yProps(index) {
 
 const GraphTabs = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const [previousDays, setPreviousDays] = useState(7);
+  const [startDate, setStartDate] = useState(add(new Date(), { days: -7 }));
+  const [endDate, setEndDate] = useState(new Date());
+  const [checked, setChecked] = useState(true);
 
   const { currentUser } = useApp();
 
@@ -79,7 +90,7 @@ const GraphTabs = () => {
   return (
     <>
       <Grid container spacing={6}>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={12} lg={7}>
           <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -88,11 +99,39 @@ const GraphTabs = () => {
             >
               <Typography variant="subtitle1">Map</Typography>
             </AccordionSummary>
+
             <AccordionDetails>
               <MapContainer>
                 <Map />
               </MapContainer>
             </AccordionDetails>
+          </Accordion>
+        </Grid>
+        <Grid item xs={12} md={12} lg={5}>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="filter-controls"
+              id="filter-controls"
+            >
+              <Typography variant="subtitle1">Date Filters</Typography>
+            </AccordionSummary>
+            <Panel>
+              <AccordionDetails>
+                <FiltersContainer>
+                  <TimeseriesFilters
+                    inputPickerValue={previousDays}
+                    inputPickerValueSetter={setPreviousDays}
+                    endDate={endDate}
+                    setEndDate={setEndDate}
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                    checked={checked}
+                    setChecked={setChecked}
+                  />
+                </FiltersContainer>
+              </AccordionDetails>
+            </Panel>
           </Accordion>
         </Grid>
       </Grid>
@@ -116,18 +155,33 @@ const GraphTabs = () => {
             <TableWrapper>
               {currentUser?.sub !== EXCLUDED_USERS && (
                 <TabPanel value={activeTab} index={0}>
-                  <TimeseriesFlow />
+                  <TimeseriesFlow
+                    inputPickerValue={previousDays}
+                    endDate={endDate}
+                    startDate={startDate}
+                    checked={checked}
+                  />
                 </TabPanel>
               )}
               <TabPanel
                 value={activeTab}
                 index={currentUser?.sub !== EXCLUDED_USERS ? 1 : 0}
               >
-                <TimeseriesFlowVsTargets />
+                <TimeseriesFlowVsTargets
+                  inputPickerValue={previousDays}
+                  endDate={endDate}
+                  startDate={startDate}
+                  checked={checked}
+                />
               </TabPanel>
               {currentUser?.sub !== EXCLUDED_USERS && (
                 <TabPanel value={activeTab} index={2}>
-                  <TimeseriesTemperature />
+                  <TimeseriesTemperature
+                    inputPickerValue={previousDays}
+                    endDate={endDate}
+                    startDate={startDate}
+                    checked={checked}
+                  />
                 </TabPanel>
               )}
             </TableWrapper>

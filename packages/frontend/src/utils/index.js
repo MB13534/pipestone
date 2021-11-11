@@ -75,6 +75,8 @@ export const renderStatusChip = (status) => {
   const Chip = styled(MuiChip)`
     ${spacing}
     height: 20px;
+    // padding: 4px 0;
+    // font-size: 90%;
     margin-top: 1px;
     margin-bottom: 1px;
     padding: 4px 0;

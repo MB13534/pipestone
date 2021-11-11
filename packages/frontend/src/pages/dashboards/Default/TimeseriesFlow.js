@@ -13,7 +13,7 @@ import TimeseriesLineChart from "./TimeseriesLineChart";
 import MultiOptionsPicker from "../../../components/Pickers/MultiOptionsPicker";
 import { useApp } from "../../../AppProvider";
 
-const TimeseriesTemperature = () => {
+const TimeseriesFlow = ({ inputPickerValue, endDate, startDate, checked }) => {
   const service = useService({ toast: false });
 
   const { currentUser } = useApp();
@@ -130,6 +130,10 @@ const TimeseriesTemperature = () => {
                 data={filteredTimeseriesData}
                 ref={saveRef}
                 reverseLegend={false}
+                previousDays={inputPickerValue}
+                endDate={endDate}
+                startDate={startDate}
+                checked={checked}
               />
             ) : (
               <Typography>No Data Available</Typography>
@@ -141,4 +145,4 @@ const TimeseriesTemperature = () => {
   );
 };
 
-export default TimeseriesTemperature;
+export default TimeseriesFlow;

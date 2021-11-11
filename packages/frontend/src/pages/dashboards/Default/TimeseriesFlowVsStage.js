@@ -12,7 +12,12 @@ import OptionsPicker from "../../../components/Pickers/OptionsPicker";
 import SaveGraphButton from "./SaveGraphButton";
 import TimeseriesLineChart from "./TimeseriesLineChart";
 
-const TimeseriesTemperature = () => {
+const TimeseriesTemperature = ({
+  inputPickerValue,
+  endDate,
+  startDate,
+  checked,
+}) => {
   const service = useService({ toast: false });
 
   const ref = useRef(null);
@@ -66,7 +71,7 @@ const TimeseriesTemperature = () => {
             borderColor: lineColors.red,
             backgroundColor: lineColors.red,
             data: filterData.map((item) => item.stage_ft),
-            borderWidth: 1,
+            borderWidth: 2,
             ...defaultStyle,
           },
           {
@@ -75,7 +80,7 @@ const TimeseriesTemperature = () => {
             borderColor: lineColors.green,
             backgroundColor: lineColors.green,
             data: filterData.map((item) => item.flow_cfs),
-            borderWidth: 2,
+            borderWidth: 4,
             ...defaultStyle,
           },
         ],
@@ -128,6 +133,10 @@ const TimeseriesTemperature = () => {
                 xLabelUnit="day"
                 data={filteredTimeseriesData}
                 ref={ref}
+                previousDays={inputPickerValue}
+                endDate={endDate}
+                startDate={startDate}
+                checked={checked}
               />
             ) : (
               <Typography>No Data Available</Typography>

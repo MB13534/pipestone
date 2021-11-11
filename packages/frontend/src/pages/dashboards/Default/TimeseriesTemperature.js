@@ -12,7 +12,12 @@ import OptionsPicker from "../../../components/Pickers/OptionsPicker";
 import SaveGraphButton from "./SaveGraphButton";
 import TimeseriesLineChart from "./TimeseriesLineChart";
 
-const TimeseriesTemperature = () => {
+const TimeseriesTemperature = ({
+  inputPickerValue,
+  endDate,
+  startDate,
+  checked,
+}) => {
   const service = useService({ toast: false });
 
   const ref = useRef(null);
@@ -107,7 +112,7 @@ const TimeseriesTemperature = () => {
             data: filterData.map((item) => item.temp_rolling_two_hour_avg_degf),
             pointRadius: 0,
             borderDash: [8, 5],
-            borderWidth: 2,
+            borderWidth: 4,
             pointStyle: "dash",
             pointHoverRadius: 0,
             ...defaultStyle,
@@ -174,6 +179,10 @@ const TimeseriesTemperature = () => {
                 xLabelUnit="day"
                 data={filteredTimeseriesData}
                 ref={ref}
+                previousDays={inputPickerValue}
+                endDate={endDate}
+                startDate={startDate}
+                checked={checked}
               />
             ) : (
               <Typography>No Data Available</Typography>

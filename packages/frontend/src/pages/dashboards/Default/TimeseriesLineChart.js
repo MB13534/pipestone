@@ -4,6 +4,7 @@ import { withTheme } from "styled-components/macro";
 import { Chart, Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 import zoomPlugin from "chartjs-plugin-zoom";
+import { add } from "date-fns";
 
 Chart.register(zoomPlugin);
 
@@ -18,6 +19,10 @@ const TimeseriesLineChart = forwardRef(
       data,
       yLLabel,
       yRLLabel = null,
+      previousDays,
+      endDate,
+      startDate,
+      checked,
     },
     ref
   ) => {
@@ -100,6 +105,13 @@ const TimeseriesLineChart = forwardRef(
       scales: {
         x: {
           type: "time",
+          min:
+            previousDays === ""
+              ? null
+              : checked
+              ? add(new Date(), { days: -previousDays })
+              : startDate,
+          max: previousDays === "" ? null : checked ? new Date() : endDate,
           time: {
             unit: xLabelUnit,
             displayFormats: {

@@ -12,7 +12,7 @@ const FormControl = styled(MuiFormControl)`
   width: 100%;
 `;
 
-function MultiChipPicker({ selectedDate, setSelectedDate, label }) {
+function DatePicker({ selectedDate, setSelectedDate, label, checked }) {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -21,6 +21,7 @@ function MultiChipPicker({ selectedDate, setSelectedDate, label }) {
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <FormControl>
         <KeyboardDatePicker
+          disabled={checked}
           inputVariant="outlined"
           autoOk
           disableToolbar
@@ -38,4 +39,4 @@ function MultiChipPicker({ selectedDate, setSelectedDate, label }) {
   );
 }
 
-export default MultiChipPicker;
+export default DatePicker;

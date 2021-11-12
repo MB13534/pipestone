@@ -1,24 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import useService from "../../../hooks/useService";
 import { useQuery } from "react-query";
 
 import { Box, Grid, Typography } from "@material-ui/core";
 
 import { findRawRecords } from "../../../services/crudService";
+import useService from "../../../hooks/useService";
+import { useApp } from "../../../AppProvider";
 import { lineColors } from "../../../utils";
 
 import Loader from "../../../components/Loader";
-import OptionsPicker from "../../../components/Pickers/OptionsPicker";
 import SaveGraphButton from "./SaveGraphButton";
 import TimeseriesLineChart from "./TimeseriesLineChart";
+import OptionsPicker from "../../../components/Pickers/OptionsPicker";
 
-const TimeseriesTemperature = ({
-  inputPickerValue,
-  endDate,
-  startDate,
-  checked,
-}) => {
+const TimeseriesTemperature = ({ filterValues }) => {
   const service = useService({ toast: false });
+
+  const { currentUser } = useApp();
 
   const ref = useRef(null);
 
@@ -133,10 +131,7 @@ const TimeseriesTemperature = ({
                 xLabelUnit="day"
                 data={filteredTimeseriesData}
                 ref={ref}
-                previousDays={inputPickerValue}
-                endDate={endDate}
-                startDate={startDate}
-                checked={checked}
+                filterValues={filterValues}
               />
             ) : (
               <Typography>No Data Available</Typography>

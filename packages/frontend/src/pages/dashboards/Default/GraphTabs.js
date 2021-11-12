@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Accordion,
@@ -6,7 +6,7 @@ import {
   Grid,
   Tab,
   Tabs as MuiTabs,
-  Typography,
+  Typography as MuiTypography,
 } from "@material-ui/core";
 
 import { add } from "date-fns";
@@ -24,12 +24,14 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import TimeseriesFlowVsTargets from "./TimeseriesFlowVsTargets";
 import { TimeseriesFilters } from "./TimeseriesFilters";
 import TimeseriesPumpingDaily from "./TimeseriesPumpingDaily";
+import Table from "./Table";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
   max-height: calc(100% - 48px);
   height: 100%;
+  width: 100%;
 `;
 
 const FiltersContainer = styled.div`
@@ -41,6 +43,8 @@ const MapContainer = styled.div`
   width: 100%;
 `;
 
+const Typography = styled(MuiTypography)(spacing);
+
 const Tabs = styled(MuiTabs)(spacing);
 
 function a11yProps(index) {
@@ -51,23 +55,57 @@ function a11yProps(index) {
 }
 
 const GraphTabs = () => {
-  const [activeTab, setActiveTab] = useState(0);
-  const [previousDays, setPreviousDays] = useState(7);
-  const [startDate, setStartDate] = useState(add(new Date(), { days: -7 }));
-  const [endDate, setEndDate] = useState(new Date());
-  const [checked, setChecked] = useState(true);
+  const defaultFilterValues = {
+    previousDays: 7,
+    startDate: add(new Date(), { days: -7 }),
+    endDate: new Date(),
+    checked: true,
+  };
 
-  const tabInfo = [
-    { label: "Streamflow" },
-    { label: "Flow Vs Targets" },
-    { label: "Flow Vs Stage" },
-    { label: "Temperature" },
-    { label: "Pumping" },
-  ];
+  const [filterValues, setFilterValues] = useState(defaultFilterValues);
+
+  const changeFilterValues = (name, value) => {
+    setFilterValues((prevState) => {
+      let newFilterValues = { ...prevState };
+
+      newFilterValues[name] = value;
+
+      return newFilterValues;
+    });
+  };
+
+  const [activeTab, setActiveTab] = useState(0);
+
+  useEffect(() => {
+    console.log(tabInfo[activeTab]);
+  }, [activeTab]);
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
+
+  const tabInfo = [
+    {
+      label: "Streamflow",
+      component: <TimeseriesFlow filterValues={filterValues} />,
+    },
+    {
+      label: "Flow Vs Targets",
+      component: <TimeseriesFlowVsTargets filterValues={filterValues} />,
+    },
+    {
+      label: "Flow Vs Stage",
+      component: <TimeseriesFlowVsStage filterValues={filterValues} />,
+    },
+    {
+      label: "Temperature",
+      component: <TimeseriesTemperature filterValues={filterValues} />,
+    },
+    {
+      label: "Pumping",
+      component: <TimeseriesPumpingDaily filterValues={filterValues} />,
+    },
+  ];
 
   const TabPanel = ({ children, value, index, ...other }) => {
     return (
@@ -94,7 +132,9 @@ const GraphTabs = () => {
               aria-controls="map-content"
               id="map-header"
             >
-              <Typography variant="subtitle1">Map</Typography>
+              <Typography variant="subtitle1" ml={2}>
+                Map
+              </Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -111,20 +151,16 @@ const GraphTabs = () => {
               aria-controls="filter-controls"
               id="filter-controls"
             >
-              <Typography variant="subtitle1">Date Filters</Typography>
+              <Typography variant="subtitle1" ml={2}>
+                Date Filters
+              </Typography>
             </AccordionSummary>
             <Panel>
               <AccordionDetails>
                 <FiltersContainer>
                   <TimeseriesFilters
-                    inputPickerValue={previousDays}
-                    inputPickerValueSetter={setPreviousDays}
-                    endDate={endDate}
-                    setEndDate={setEndDate}
-                    startDate={startDate}
-                    setStartDate={setStartDate}
-                    checked={checked}
-                    setChecked={setChecked}
+                    filterValues={filterValues}
+                    changeFilterValues={changeFilterValues}
                   />
                 </FiltersContainer>
               </AccordionDetails>
@@ -150,67 +186,42 @@ const GraphTabs = () => {
             </Tabs>
 
             <TableWrapper>
-              <TabPanel value={activeTab} index={0}>
-                <TimeseriesFlow
-                  inputPickerValue={previousDays}
-                  endDate={endDate}
-                  startDate={startDate}
-                  checked={checked}
-                />
-              </TabPanel>
-
-              <TabPanel value={activeTab} index={1}>
-                <TimeseriesFlowVsTargets
-                  inputPickerValue={previousDays}
-                  endDate={endDate}
-                  startDate={startDate}
-                  checked={checked}
-                />
-              </TabPanel>
-
-              <TabPanel value={activeTab} index={2}>
-                <TimeseriesFlowVsStage
-                  inputPickerValue={previousDays}
-                  endDate={endDate}
-                  startDate={startDate}
-                  checked={checked}
-                />
-              </TabPanel>
-
-              <TabPanel value={activeTab} index={3}>
-                <TimeseriesTemperature
-                  inputPickerValue={previousDays}
-                  endDate={endDate}
-                  startDate={startDate}
-                  checked={checked}
-                />
-              </TabPanel>
-              <TabPanel value={activeTab} index={4}>
-                <TimeseriesPumpingDaily
-                  inputPickerValue={previousDays}
-                  endDate={endDate}
-                  startDate={startDate}
-                  checked={checked}
-                />
-              </TabPanel>
+              {typeof filterValues?.previousDays !== "undefined" &&
+                tabInfo.map((tab, i) => (
+                  <TabPanel value={activeTab} index={i} key={tab.label}>
+                    {tab.component}
+                  </TabPanel>
+                ))}
             </TableWrapper>
           </Panel>
         </Grid>
       </Grid>
+
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Accordion>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
-              aria-controls="map-content"
-              id="map-header"
+              aria-controls="table-content"
+              id="table-header"
             >
-              <Typography variant="subtitle1">Table</Typography>
+              <Typography variant="subtitle1" ml={2}>
+                Table
+              </Typography>
             </AccordionSummary>
-
-            <AccordionDetails>
-              <MapContainer>This is the table</MapContainer>
-            </AccordionDetails>
+            <Panel>
+              <AccordionDetails>
+                <TableWrapper>
+                  <Table
+                  // isLoading={isTimeseriesLoading}
+                  // label="This will be the label"
+                  // columns={columns}
+                  // data={tableData}
+                  // height="100%"
+                  />
+                </TableWrapper>
+              </AccordionDetails>
+            </Panel>
           </Accordion>
         </Grid>
       </Grid>

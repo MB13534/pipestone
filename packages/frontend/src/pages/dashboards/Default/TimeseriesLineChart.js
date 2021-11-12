@@ -19,10 +19,7 @@ const TimeseriesLineChart = forwardRef(
       data,
       yLLabel,
       yRLLabel = null,
-      previousDays,
-      endDate,
-      startDate,
-      checked,
+      filterValues,
     },
     ref
   ) => {
@@ -106,12 +103,17 @@ const TimeseriesLineChart = forwardRef(
         x: {
           type: "time",
           min:
-            previousDays === ""
+            filterValues.previousDays === ""
               ? null
-              : checked
-              ? add(new Date(), { days: -previousDays })
-              : startDate,
-          max: previousDays === "" ? null : checked ? new Date() : endDate,
+              : filterValues.checked
+              ? add(new Date(), { days: -filterValues.previousDays })
+              : filterValues.startDate,
+          max:
+            filterValues.previousDays === ""
+              ? null
+              : filterValues.checked
+              ? new Date()
+              : filterValues.endDate,
           time: {
             unit: xLabelUnit,
             displayFormats: {

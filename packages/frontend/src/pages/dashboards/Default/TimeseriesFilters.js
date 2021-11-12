@@ -17,16 +17,7 @@ const PointerDiv = styled.div`
   cursor: pointer;
 `;
 
-export function TimeseriesFilters({
-  inputPickerValue,
-  inputPickerValueSetter,
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
-  checked,
-  setChecked,
-}) {
+export function TimeseriesFilters({ filterValues, changeFilterValues }) {
   return (
     <>
       <Grid container mb={2} spacing={6} alignItems="center">
@@ -34,8 +25,11 @@ export function TimeseriesFilters({
           <PointerDiv style={{ color: "#606368" }}>
             <Typography
               align="center"
-              color={checked ? "textPrimary" : "inherit"}
-              onClick={() => !checked && setChecked(!checked)}
+              color={filterValues.checked ? "textPrimary" : "inherit"}
+              onClick={() =>
+                !filterValues.checked &&
+                changeFilterValues("checked", !filterValues.checked)
+              }
             >
               Show the Most Current Data for the Last:
             </Typography>
@@ -45,18 +39,19 @@ export function TimeseriesFilters({
           <InputPicker
             label="Days"
             type="number"
-            value={inputPickerValue}
-            setter={inputPickerValueSetter}
-            checked={checked}
+            name="previousDays"
+            value={filterValues.previousDays}
+            setValue={changeFilterValues}
+            checked={filterValues.checked}
           />
         </Grid>
       </Grid>
 
       <Typography variant="h2" align="center" mb={5}>
         <TogglePicker
-          checked={checked}
-          setChecked={setChecked}
-          inputPickerValueSetter={inputPickerValueSetter}
+          name="checked"
+          checked={filterValues.checked}
+          setChecked={changeFilterValues}
         />
       </Typography>
       <Grid container spacing={6} alignItems="center">
@@ -64,8 +59,11 @@ export function TimeseriesFilters({
           <PointerDiv style={{ color: "#606368" }}>
             <Typography
               align="center"
-              color={checked ? "inherit" : "textPrimary"}
-              onClick={() => checked && setChecked(!checked)}
+              color={filterValues.checked ? "inherit" : "textPrimary"}
+              onClick={() =>
+                filterValues.checked &&
+                changeFilterValues("checked", !filterValues.checked)
+              }
             >
               Show the Data for the Time Period Between:
             </Typography>
@@ -75,18 +73,20 @@ export function TimeseriesFilters({
           <Grid container spacing={6}>
             <Grid item xs={12}>
               <DatePicker
-                selectedDate={startDate}
-                setSelectedDate={setStartDate}
                 label="Select Start Date"
-                checked={checked}
+                name="startDate"
+                selectedDate={filterValues.startDate}
+                setSelectedDate={changeFilterValues}
+                checked={filterValues.checked}
               />
             </Grid>
             <Grid item xs={12}>
               <DatePicker
-                selectedDate={endDate}
-                setSelectedDate={setEndDate}
                 label="Select End Date"
-                checked={checked}
+                name="endDate"
+                selectedDate={filterValues.endDate}
+                setSelectedDate={changeFilterValues}
+                checked={filterValues.checked}
               />
             </Grid>
           </Grid>

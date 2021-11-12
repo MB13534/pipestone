@@ -7,30 +7,31 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import { findRawRecords } from "../../../services/crudService";
 import { lineColors } from "../../../utils";
 
-import Loader from "../../../components/Loader";
-import OptionsPicker from "../../../components/Pickers/OptionsPicker";
 import SaveGraphButton from "./SaveGraphButton";
+import Loader from "../../../components/Loader";
 import TimeseriesLineChart from "./TimeseriesLineChart";
+import OptionsPicker from "../../../components/Pickers/OptionsPicker";
+import { useApp } from "../../../AppProvider";
 
-const TimeseriesTemperature = ({
-  inputPickerValue,
-  endDate,
-  startDate,
-  checked,
-}) => {
+const TimeseriesTemperature = ({ filterValues }) => {
   const service = useService({ toast: false });
-
-  const ref = useRef(null);
+  const { currentUser } = useApp();
+  const saveRef = useRef(null);
 
   const {
     data: timeseriesData,
     isLoading: isTimeseriesLoading,
     error: timeseriesError,
   } = useQuery(
-    ["timeseries-flow-vs-stage"],
+    ["timeseries-flow-vs-stage", currentUser],
     async () => {
       try {
-        return await service([findRawRecords, ["TimeseriesFlowVsStages"]]);
+        const response = await service([
+          findRawRecords,
+          ["TimeseriesFlowVsStages"],
+        ]);
+        // return filterDataByUser(response, currentUser);
+        return response;
       } catch (err) {
         console.error(err);
       }
@@ -116,7 +117,7 @@ const TimeseriesTemperature = ({
                     </Grid>
                     <Grid item style={{ width: "53px" }}>
                       <SaveGraphButton
-                        ref={ref}
+                        ref={saveRef}
                         title="Flow vs Stage Timeseries Graph"
                       />
                     </Grid>
@@ -132,11 +133,8 @@ const TimeseriesTemperature = ({
                 yRLLabel="Stage Ft"
                 xLabelUnit="day"
                 data={filteredTimeseriesData}
-                ref={ref}
-                previousDays={inputPickerValue}
-                endDate={endDate}
-                startDate={startDate}
-                checked={checked}
+                ref={saveRef}
+                filterValues={filterValues}
               />
             ) : (
               <Typography>No Data Available</Typography>

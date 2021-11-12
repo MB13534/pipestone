@@ -1,27 +1,41 @@
 import React, { useEffect, useRef, useState } from "react";
-import useService from "../../../hooks/useService";
 import { useQuery } from "react-query";
 
 import { Box, Grid, Typography } from "@material-ui/core";
 
 import { findRawRecords } from "../../../services/crudService";
+import useService from "../../../hooks/useService";
+import { useApp } from "../../../AppProvider";
 import {
+  dateFormatter,
   // filterDataByUser,
   lineColors,
 } from "../../../utils";
 
-import Loader from "../../../components/Loader";
 import SaveGraphButton from "./SaveGraphButton";
+import Loader from "../../../components/Loader";
 import TimeseriesLineChart from "./TimeseriesLineChart";
 import MultiOptionsPicker from "../../../components/Pickers/MultiOptionsPicker";
-import { useApp } from "../../../AppProvider";
 
-const TimeseriesFlow = ({ inputPickerValue, endDate, startDate, checked }) => {
+const TimeseriesFlow = ({ filterValues }) => {
   const service = useService({ toast: false });
-
   const { currentUser } = useApp();
-
   const saveRef = useRef(null);
+
+  // const columns = [
+  //   { title: "Location", field: "location_name", width: "100%" },
+  //   {
+  //     title: "Last Report",
+  //     field: "collect_timestamp",
+  //     render: (rowData) => {
+  //       return dateFormatter(rowData.collect_timestamp, "MM/DD/YYYY, h:mm A");
+  //     },
+  //   },
+  //   { title: "Flow CFS", field: "flow_cfs" },
+  //   { title: "Calculated", field: "calculated" },
+  //   { title: "Measurement NDX", field: "measurement_ndx" },
+  //   { title: "Location NDX", field: "location_ndx" },
+  // ];
 
   const {
     data: timeseriesData,
@@ -32,7 +46,6 @@ const TimeseriesFlow = ({ inputPickerValue, endDate, startDate, checked }) => {
     async () => {
       try {
         const response = await service([findRawRecords, ["TimeseriesFlows"]]);
-
         // return filterDataByUser(response, currentUser);
         return response;
       } catch (err) {
@@ -55,11 +68,13 @@ const TimeseriesFlow = ({ inputPickerValue, endDate, startDate, checked }) => {
   }, [timeseriesData]);
 
   const [filteredTimeseriesData, setFilteredTimeseriesData] = useState([]);
+  // const [tableData, setTableData] = useState([]);
   useEffect(() => {
     if (timeseriesData?.length) {
       const filterData = timeseriesData.filter((item) =>
         selectedLocations.includes(item.location_name)
       );
+      // setTableData(filterData);
       const defaultStyle = {
         fill: false,
         pointStyle: "line",
@@ -86,7 +101,6 @@ const TimeseriesFlow = ({ inputPickerValue, endDate, startDate, checked }) => {
           }),
         ][0],
       };
-
       setFilteredTimeseriesData(mutatedData);
     }
   }, [timeseriesData, selectedLocations]);
@@ -134,10 +148,7 @@ const TimeseriesFlow = ({ inputPickerValue, endDate, startDate, checked }) => {
                 data={filteredTimeseriesData}
                 ref={saveRef}
                 reverseLegend={false}
-                previousDays={inputPickerValue}
-                endDate={endDate}
-                startDate={startDate}
-                checked={checked}
+                filterValues={filterValues}
               />
             ) : (
               <Typography>No Data Available</Typography>

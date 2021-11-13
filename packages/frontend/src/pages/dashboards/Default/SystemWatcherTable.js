@@ -7,12 +7,8 @@ import { Grid as MuiGrid, Tab, Tabs as MuiTabs } from "@material-ui/core";
 import styled from "styled-components/macro";
 
 import { findRawRecords } from "../../../services/crudService";
-import {
-  dateFormatter,
-  // filterDataByUser,
-  renderStatusChip,
-} from "../../../utils";
-import Table from "./Table";
+import { dateFormatter, renderStatusChip } from "../../../utils";
+import Table from "../../../components/Table";
 import { spacing } from "@material-ui/system";
 import Loader from "../../../components/Loader";
 import { useApp } from "../../../AppProvider";
@@ -44,11 +40,10 @@ const SystemWatcherTable = ({ tableHeight = "100%" }) => {
     ["current-conditions-system-watcher", currentUser],
     async () => {
       try {
-        const response = await service([
+        return await service([
           findRawRecords,
           ["CurrentConditionsSystemWatchers"],
         ]);
-        return response;
         // return filterDataByUser(response, currentUser);
       } catch (err) {
         console.error(err);

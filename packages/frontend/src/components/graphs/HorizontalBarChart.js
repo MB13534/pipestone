@@ -6,7 +6,7 @@ import "chartjs-plugin-zoom";
 import zoomPlugin from "chartjs-plugin-zoom";
 Chart.register(zoomPlugin);
 
-const DailyBarWidget = ({
+const HorizontalBarChart = ({
   lastCollected = "N/A",
   units = "N/A",
   data,
@@ -50,7 +50,7 @@ const DailyBarWidget = ({
               .split(",")
               .join(", ");
           },
-          label: function (tooltipItems, data) {
+          label: function (tooltipItems) {
             return `${tooltipItems.dataset.label}: ${tooltipItems.formattedValue} ${tooltipItems.dataset.units}`;
           },
         },
@@ -98,9 +98,9 @@ const DailyBarWidget = ({
 
   return (
     <>
-      <Bar plugins={plugins} data={data} options={options} />
+      <Bar plugins={plugins} data={data} options={options} type="bar" />
     </>
   );
 };
 
-export default withTheme(DailyBarWidget);
+export default withTheme(HorizontalBarChart);

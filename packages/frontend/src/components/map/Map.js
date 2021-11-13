@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import useService from "../../../hooks/useService";
+import useService from "../../hooks/useService";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import styled from "styled-components/macro";
 import { useQuery } from "react-query";
-import { findRawRecords } from "../../../services/crudService";
+import { findRawRecords } from "../../services/crudService";
 import ResetZoomControl from "./ResetZoomControl";
-import { STARTING_LOCATION } from "../../../constants";
-import { useApp } from "../../../AppProvider";
+import { STARTING_LOCATION } from "../../constants";
+import { useApp } from "../../AppProvider";
 // import { filterDataByUser } from "../../../utils";
 import ToggleBasemapControl from "./ToggleBasemapControl";
 
@@ -88,7 +88,7 @@ const Map = () => {
       "top-left"
     );
     map.addControl(new mapboxgl.FullscreenControl());
-    // Add geolocate control to the map.
+    // Add locate control to the map.
     map.addControl(new ResetZoomControl(), "top-left");
 
     DUMMY_BASEMAP_LAYERS.forEach((layer) => {

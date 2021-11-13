@@ -8,7 +8,7 @@ import useService from "../../../hooks/useService";
 import zoomPlugin from "chartjs-plugin-zoom";
 
 import { Grid } from "@material-ui/core";
-import Panel from "../../../components/Panels/Panel";
+import Panel from "../../../components/panels/Panel";
 import DailyBarWidget from "./DailyBarWidget";
 import styled from "styled-components/macro";
 import Loader from "../../../components/Loader";

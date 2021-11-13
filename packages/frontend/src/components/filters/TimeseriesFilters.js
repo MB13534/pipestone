@@ -7,9 +7,9 @@ import {
 import { spacing } from "@material-ui/system";
 import styled from "styled-components/macro";
 
-import DatePicker from "../../../components/Pickers/DatePicker";
-import InputPicker from "../../../components/Pickers/InputPicker";
-import TogglePicker from "../../../components/Pickers/TogglePicker";
+import DatePicker from "../pickers/DatePicker";
+import InputPicker from "../pickers/InputPicker";
+import TogglePicker from "../pickers/TogglePicker";
 
 const Grid = styled(MuiGrid)(spacing);
 const Typography = styled(MuiTypography)(spacing);
@@ -17,7 +17,7 @@ const PointerDiv = styled.div`
   cursor: pointer;
 `;
 
-export function TimeseriesFilters({ filterValues, changeFilterValues }) {
+function TimeseriesFilters({ filterValues, changeFilterValues }) {
   return (
     <>
       <Grid container mb={2} spacing={6} alignItems="center">
@@ -95,3 +95,5 @@ export function TimeseriesFilters({ filterValues, changeFilterValues }) {
     </>
   );
 }
+
+export default TimeseriesFilters;

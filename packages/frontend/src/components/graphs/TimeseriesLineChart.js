@@ -5,21 +5,26 @@ import { Chart, Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { add } from "date-fns";
+import Loader from "../Loader";
+import { Typography } from "@material-ui/core";
 
 Chart.register(zoomPlugin);
 
 const TimeseriesLineChart = forwardRef(
   (
     {
-      xLabelFormat = "MM-DD-YYYY",
-      xLabelUnit = "week",
-      tooltipFormat = "MM-DD-YYYY, h:mm A",
-      reverseLegend = true,
-      theme,
       data,
-      yLLabel,
-      yRLLabel = null,
+      error,
+      isLoading,
       filterValues,
+      locationsOptions,
+      yLLabel,
+      reverseLegend = true,
+      xLabelUnit = "day",
+      xLabelFormat = "MM-DD-YYYY",
+      tooltipFormat = "MM-DD-YYYY, h:mm A",
+      yRLLabel = null,
+      theme,
     },
     ref
   ) => {
@@ -106,7 +111,7 @@ const TimeseriesLineChart = forwardRef(
             filterValues.previousDays === ""
               ? null
               : filterValues.checked
-              ? add(new Date(), { days: -filterValues.previousDays })
+              ? add(new Date().getTime(), { days: -filterValues.previousDays })
               : filterValues.startDate,
           max:
             filterValues.previousDays === ""
@@ -175,9 +180,26 @@ const TimeseriesLineChart = forwardRef(
       },
     };
 
+    if (error) return "An error has occurred: " + error.message;
     return (
       <>
-        <Line plugins={plugins} ref={ref} data={data} options={options} />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            {data?.datasets ? (
+              <Line
+                plugins={plugins}
+                ref={ref}
+                data={data}
+                options={options}
+                type="line"
+              />
+            ) : (
+              <Typography>No Data Available</Typography>
+            )}
+          </>
+        )}
       </>
     );
   }

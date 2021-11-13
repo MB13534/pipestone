@@ -31,7 +31,7 @@ function TimeseriesFilters({ filterValues, changeFilterValues }) {
                 changeFilterValues("checked", !filterValues.checked)
               }
             >
-              Show the Most Current Data for the Last:
+              Show Last:
             </Typography>
           </PointerDiv>
         </Grid>
@@ -65,7 +65,7 @@ function TimeseriesFilters({ filterValues, changeFilterValues }) {
                 changeFilterValues("checked", !filterValues.checked)
               }
             >
-              Show the Data for the Time Period Between:
+              Show Date Range:
             </Typography>
           </PointerDiv>
         </Grid>

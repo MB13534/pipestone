@@ -64,22 +64,6 @@ const DailyBarWidget = ({
         text: `Last Collected: ${lastCollected}`,
         align: "end",
       },
-      zoom: {
-        pan: {
-          enabled: true,
-          mode: "y",
-        },
-        zoom: {
-          mode: "y",
-          wheel: {
-            enabled: false,
-          },
-          pinch: {
-            enabled: false,
-          },
-        },
-        //TODO line segment styling
-      },
     },
     scales: {
       x: {
@@ -109,14 +93,6 @@ const DailyBarWidget = ({
           display: false,
         },
       },
-    },
-    onClick(e) {
-      const chart = e.chart;
-      chart.options.plugins.zoom.zoom.wheel.enabled =
-        !chart.options.plugins.zoom.zoom.wheel.enabled;
-      chart.options.plugins.zoom.zoom.pinch.enabled =
-        !chart.options.plugins.zoom.zoom.pinch.enabled;
-      chart.update();
     },
   };
 

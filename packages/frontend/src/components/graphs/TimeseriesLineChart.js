@@ -187,7 +187,7 @@ const TimeseriesLineChart = forwardRef(
           <Loader />
         ) : (
           <>
-            {data?.datasets ? (
+            {data?.datasets?.length > 0 && locationsOptions?.length ? (
               <Line
                 plugins={plugins}
                 ref={ref}

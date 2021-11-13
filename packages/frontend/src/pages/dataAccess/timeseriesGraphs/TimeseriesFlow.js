@@ -126,7 +126,7 @@ const TimeseriesFlow = () => {
   //it also filters by date
   const [filteredTableData, setFilteredTableData] = useState([]);
   useEffect(() => {
-    if (selectedLocations?.length > 0) {
+    if (locationsOptions?.length > 0) {
       const filteredData = data.filter((item) =>
         selectedLocations.includes(item.location_name)
       );
@@ -178,7 +178,7 @@ const TimeseriesFlow = () => {
       };
       setFilteredMutatedGraphData(graphData);
     }
-  }, [selectedLocations, filterValues, data]);
+  }, [selectedLocations, locationsOptions, filterValues, data]);
 
   return (
     <>

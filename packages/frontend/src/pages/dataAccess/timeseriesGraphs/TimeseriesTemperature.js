@@ -223,6 +223,7 @@ const TimeseriesTemperature = () => {
             pointStyle: "dash",
             pointHoverRadius: 0,
             ...defaultStyle,
+            hidden: true,
           },
           {
             label: "Measured",

@@ -85,6 +85,7 @@ const TimeseriesLineChart = forwardRef(
           reverse: reverseLegend,
           labels: {
             usePointStyle: true,
+            color: "#C2C3C5",
           },
         },
         zoom: {
@@ -131,7 +132,8 @@ const TimeseriesLineChart = forwardRef(
             display: false,
           },
           ticks: {
-            color: theme.palette.text.secondary,
+            color: "#C2C3C5",
+            // color: theme.palette.text.secondary,
             maxTicksLimit: 9,
           },
         },
@@ -142,10 +144,10 @@ const TimeseriesLineChart = forwardRef(
           title: {
             display: true,
             text: yLLabel,
-            color: theme.palette.text.secondary,
+            color: "#C2C3C5",
           },
           ticks: {
-            color: theme.palette.text.secondary,
+            color: "#C2C3C5",
           },
           grid: {
             color: theme.palette.text.gridLines,
@@ -154,17 +156,16 @@ const TimeseriesLineChart = forwardRef(
             drawTicks: true,
           },
         },
-
         yR: {
           position: "right",
           display: !!yRLLabel,
           title: {
             display: true,
             text: yRLLabel,
-            color: theme.palette.text.secondary,
+            color: "#C2C3C5",
           },
           ticks: {
-            color: theme.palette.text.secondary,
+            color: "#C2C3C5",
           },
           grid: {
             display: false,

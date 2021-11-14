@@ -160,7 +160,7 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
                 label={tabInfo[i].label}
                 columns={tabColumns[i]}
                 data={data}
-                height={tableHeight}
+                height="600px"
               />
             </TabPanel>
           ))}

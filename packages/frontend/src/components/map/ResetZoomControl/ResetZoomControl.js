@@ -1,5 +1,5 @@
 // Control implemented as ES6 class
-import { STARTING_LOCATION } from "../../../../constants";
+import { STARTING_LOCATION } from "../../../constants";
 
 class ResetZoomControl {
   onAdd(map) {

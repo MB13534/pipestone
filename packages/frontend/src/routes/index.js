@@ -36,8 +36,12 @@ import Default from "../pages/dashboards/Default";
 import { CrudProvider } from "../CrudProvider";
 import CRUD from "../pages/docs/CRUD";
 import Deploy from "../pages/docs/Deploy";
-import AdminLastReport from "../pages/dashboards/Default/AdminLastReport";
-import GraphTabs from "../pages/dashboards/Default/GraphTabs";
+import AdminLastReport from "../pages/dataAccess/reports/AdminLastReport";
+import TimeseriesFlow from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlow";
+import TimeseriesFlowVsTargets from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsTargets";
+import TimeseriesFlowVsStage from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsStage";
+import TimeseriesTemperature from "../pages/dataAccess/timeseriesGraphs/TimeseriesTemperature";
+import TimeseriesPumpingDaily from "../pages/dataAccess/timeseriesGraphs/TimeseriesPumpingDaily";
 const Account = async(() => import("../pages/pages/Account"));
 const Profile = async(() => import("../pages/pages/Profile"));
 
@@ -295,15 +299,35 @@ const adminRoutes = {
   visibilityFilter: AdminVisibilityFilter,
 };
 
-const graphsRoutes = {
-  id: "Graphs",
+const timeseriesRoutes = {
+  id: "Time Series",
   header: "Data Access",
   icon: <Activity />,
   children: [
     {
-      path: "/data-access/graphs/time-series",
-      name: "Time Series",
-      component: GraphTabs,
+      path: "/data-access/graphs/streamflow",
+      name: "Streamflow",
+      component: TimeseriesFlow,
+    },
+    {
+      path: "/data-access/graphs/flow-vs-targets",
+      name: "Flow vs Targets",
+      component: TimeseriesFlowVsTargets,
+    },
+    {
+      path: "/data-access/graphs/flow-vs-stage",
+      name: "Flow vs Stage",
+      component: TimeseriesFlowVsStage,
+    },
+    {
+      path: "/data-access/graphs/temperature",
+      name: "Temperature",
+      component: TimeseriesTemperature,
+    },
+    {
+      path: "/data-access/graphs/pumping",
+      name: "Pumping",
+      component: TimeseriesPumpingDaily,
     },
   ],
 };
@@ -327,7 +351,7 @@ export const dashboardLayoutRoutes = [
   pageRoutes,
   mainRoutes,
   changelogRoutes,
-  graphsRoutes,
+  timeseriesRoutes,
   reportsRoutes,
   accountRoutes,
   documentationRoutes,
@@ -352,7 +376,7 @@ export const protectedRoutes = [protectedPageRoutes];
 // Routes visible in the sidebar
 export const sidebarRoutes = [
   mainRoutes,
-  graphsRoutes,
+  timeseriesRoutes,
   reportsRoutes,
   ...crudSidebarMenu,
   adminRoutes,

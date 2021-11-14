@@ -63,7 +63,7 @@ export const lineColors = {
   olive: "#808000",
   tan: "#ffd8b1",
   royalBlue: "#000075",
-  gray: "#808080",
+  gray: "#8D9093",
   black: "#000000",
 };
 

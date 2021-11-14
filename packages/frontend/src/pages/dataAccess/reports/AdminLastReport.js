@@ -8,9 +8,9 @@ import styled from "styled-components/macro";
 
 import { findRawRecords } from "../../../services/crudService";
 import { dateFormatter, renderStatusChip } from "../../../utils";
-import Table from "./Table";
+import Table from "../../../components/Table";
 import { spacing } from "@material-ui/system";
-import Panel from "../../../components/Panels/Panel";
+import Panel from "../../../components/panels/Panel";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
@@ -160,7 +160,7 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
                 label={tabInfo[i].label}
                 columns={tabColumns[i]}
                 data={data}
-                height={tableHeight}
+                height="600px"
               />
             </TabPanel>
           ))}

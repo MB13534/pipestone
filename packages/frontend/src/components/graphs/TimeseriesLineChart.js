@@ -5,24 +5,27 @@ import { Chart, Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { add } from "date-fns";
+import Loader from "../Loader";
+import { Typography } from "@material-ui/core";
+import { lineColors } from "../../utils";
 
 Chart.register(zoomPlugin);
 
 const TimeseriesLineChart = forwardRef(
   (
     {
-      xLabelFormat = "MM-DD-YYYY",
-      xLabelUnit = "week",
-      tooltipFormat = "MM-DD-YYYY, h:mm A",
-      reverseLegend = true,
-      theme,
       data,
+      error,
+      isLoading,
+      filterValues,
+      locationsOptions,
       yLLabel,
+      reverseLegend = true,
+      xLabelUnit = "day",
+      xLabelFormat = "MM-DD-YYYY",
+      tooltipFormat = "MM-DD-YYYY, h:mm A",
       yRLLabel = null,
-      previousDays,
-      endDate,
-      startDate,
-      checked,
+      theme,
     },
     ref
   ) => {
@@ -31,7 +34,7 @@ const TimeseriesLineChart = forwardRef(
         id: "chartFillBackground",
         beforeDraw: (chart) => {
           const ctx = chart.ctx;
-          ctx.fillStyle = theme.palette.background.paper;
+          ctx.fillStyle = lineColors.gray;
           ctx.fillRect(0, 0, chart.width, chart.height);
         },
       },
@@ -82,6 +85,7 @@ const TimeseriesLineChart = forwardRef(
           reverse: reverseLegend,
           labels: {
             usePointStyle: true,
+            color: "#F3F4F4",
           },
         },
         zoom: {
@@ -106,12 +110,17 @@ const TimeseriesLineChart = forwardRef(
         x: {
           type: "time",
           min:
-            previousDays === ""
+            filterValues.previousDays === ""
               ? null
-              : checked
-              ? add(new Date(), { days: -previousDays })
-              : startDate,
-          max: previousDays === "" ? null : checked ? new Date() : endDate,
+              : filterValues.checked
+              ? add(new Date().getTime(), { days: -filterValues.previousDays })
+              : filterValues.startDate,
+          max:
+            filterValues.previousDays === ""
+              ? null
+              : filterValues.checked
+              ? new Date()
+              : filterValues.endDate,
           time: {
             unit: xLabelUnit,
             displayFormats: {
@@ -123,7 +132,8 @@ const TimeseriesLineChart = forwardRef(
             display: false,
           },
           ticks: {
-            color: theme.palette.text.secondary,
+            color: "#F3F4F4",
+            // color: theme.palette.text.secondary,
             maxTicksLimit: 9,
           },
         },
@@ -134,10 +144,10 @@ const TimeseriesLineChart = forwardRef(
           title: {
             display: true,
             text: yLLabel,
-            color: theme.palette.text.secondary,
+            color: "#F3F4F4",
           },
           ticks: {
-            color: theme.palette.text.secondary,
+            color: "#F3F4F4",
           },
           grid: {
             color: theme.palette.text.gridLines,
@@ -146,17 +156,16 @@ const TimeseriesLineChart = forwardRef(
             drawTicks: true,
           },
         },
-
         yR: {
           position: "right",
           display: !!yRLLabel,
           title: {
             display: true,
             text: yRLLabel,
-            color: theme.palette.text.secondary,
+            color: "#F3F4F4",
           },
           ticks: {
-            color: theme.palette.text.secondary,
+            color: "#F3F4F4",
           },
           grid: {
             display: false,
@@ -173,9 +182,26 @@ const TimeseriesLineChart = forwardRef(
       },
     };
 
+    if (error) return "An error has occurred: " + error.message;
     return (
       <>
-        <Line plugins={plugins} ref={ref} data={data} options={options} />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            {data?.datasets?.length > 0 && locationsOptions?.length ? (
+              <Line
+                plugins={plugins}
+                ref={ref}
+                data={data}
+                options={options}
+                type="line"
+              />
+            ) : (
+              <Typography>No Data Available</Typography>
+            )}
+          </>
+        )}
       </>
     );
   }

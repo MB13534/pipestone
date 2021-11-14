@@ -4,13 +4,13 @@ import { Grid as MuiGrid } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
 import styled from "styled-components/macro";
 
-import MultiChipPicker from "../../../components/Pickers/MultiChipPicker";
-import DatePicker from "../../../components/Pickers/DatePicker";
-import OptionsPicker from "../../../components/Pickers/OptionsPicker";
+import MultiChipPicker from "../pickers/MultiChipPicker";
+import DatePicker from "../pickers/DatePicker";
+import OptionsPicker from "../pickers/OptionsPicker";
 
 const Grid = styled(MuiGrid)(spacing);
 
-export function Filters() {
+function ClearwaterFilters() {
   const [selectedDataSource, setSelectedDataSource] = React.useState("");
   const [selectedWaterQuality, setSelectedWaterQuality] = React.useState("");
   const [startDate, setStartDate] = React.useState(new Date());
@@ -115,3 +115,5 @@ export function Filters() {
     </>
   );
 }
+
+export default ClearwaterFilters;

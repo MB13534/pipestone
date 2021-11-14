@@ -13,8 +13,8 @@ import { spacing } from "@material-ui/system";
 
 import Actions from "./Actions";
 import { useAuth0 } from "@auth0/auth0-react";
-import Map from "./Map";
-import Panel from "../../../components/Panels/Panel";
+import Map from "../../../components/map/Map";
+import Panel from "../../../components/panels/Panel";
 import DailyBarWidgets from "./DailyBarWidgets";
 import SystemWatcherTable from "./SystemWatcherTable";
 

@@ -7,6 +7,7 @@ import zoomPlugin from "chartjs-plugin-zoom";
 import { add } from "date-fns";
 import Loader from "../Loader";
 import { Typography } from "@material-ui/core";
+import { lineColors } from "../../utils";
 
 Chart.register(zoomPlugin);
 
@@ -33,7 +34,7 @@ const TimeseriesLineChart = forwardRef(
         id: "chartFillBackground",
         beforeDraw: (chart) => {
           const ctx = chart.ctx;
-          ctx.fillStyle = theme.palette.background.paper;
+          ctx.fillStyle = lineColors.gray;
           ctx.fillRect(0, 0, chart.width, chart.height);
         },
       },

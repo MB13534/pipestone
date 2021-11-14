@@ -25,6 +25,27 @@ module.exports = (sequelize, DataTypes) => {
       location_ndx: {
         type: INTEGER,
       },
+      blue_lake_to_stream_cfs: {
+        type: REAL,
+      },
+      native_flow_cfs: {
+        type: REAL,
+      },
+      below_target_cfs: {
+        type: REAL,
+      },
+      daily_avg_depth_ft: {
+        type: REAL,
+      },
+      shift_applied_ft: {
+        type: REAL,
+      },
+      measured_flow_cfs: {
+        type: REAL,
+      },
+      rating_curve_applied: {
+        type: TEXT,
+      },
       client_ndx: {
         type: INTEGER,
       },

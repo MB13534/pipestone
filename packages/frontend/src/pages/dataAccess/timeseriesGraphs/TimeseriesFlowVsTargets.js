@@ -69,19 +69,31 @@ const TimeseriesFlowVsTargets = () => {
 
   //columns and fields to render on table
   const tableColumns = [
-    { title: "Location", field: "location_name", width: "100%" },
     {
-      title: "Last Report",
+      title: "Date",
       field: "collect_timestamp",
       render: (rowData) => {
-        return dateFormatter(rowData.collect_timestamp, "MM/DD/YYYY, h:mm A");
+        return dateFormatter(rowData.collect_timestamp, "MM/DD/YYYY");
       },
     },
-    { title: "Flow CFS", field: "flow_cfs" },
-    { title: "FT Rate CFS", field: "ft_rate_cfs" },
-    { title: "FT Remark", field: "ft_remark" },
-    { title: "Measurement NDX", field: "measurement_ndx" },
-    { title: "Location NDX", field: "location_ndx" },
+    { title: "Streamflow, CFS", field: "flow_cfs" },
+    { title: "Native Flow", field: "native_flow_cfs" },
+    { title: "Target CFS", field: "ft_rate_cfs" },
+    {
+      title: "Below Target",
+      field: "below_target_cfs",
+      cellStyle: (e, rowData) => {
+        if (rowData.below_target_cfs < 0) {
+          return { color: "red" };
+        }
+      },
+    }, //red if negative
+    { title: "Blue Lk to Stream", field: "blue_lake_to_stream_cfs" },
+    { title: "Flow Target Notes", field: "ft_remark" },
+    { title: "Rating Curve", field: "rating_curve_applied" },
+    { title: "Stream Depth, Ft", field: "daily_avg_depth_ft" },
+    { title: "Shift, Ft", field: "shift_applied_ft" },
+    { title: "Measured Flow Point", field: "measured_flow_cfs" },
   ];
 
   const service = useService({ toast: false });
@@ -165,12 +177,21 @@ const TimeseriesFlowVsTargets = () => {
         labels: filteredData.map((item) => item.collect_timestamp),
         datasets: [
           {
-            label: "Flow",
+            label: "Avg Daily Flow",
             borderColor: lineColors.blue,
             backgroundColor: lineColors.blue,
             data: filteredData.map((item) => item.flow_cfs),
             popupInfo: filteredData.map((item) => item.ft_remark),
             borderWidth: 2,
+            borderDash: [8, 5],
+            ...defaultStyle,
+          },
+          {
+            label: "Native Flow",
+            borderColor: lineColors.green,
+            backgroundColor: lineColors.green,
+            data: filteredData.map((item) => item.native_flow_cfs),
+            borderWidth: 4,
             ...defaultStyle,
           },
           {
@@ -180,6 +201,16 @@ const TimeseriesFlowVsTargets = () => {
             data: filteredData.map((item) => item.ft_rate_cfs),
             borderWidth: 4,
             ...defaultStyle,
+          },
+          {
+            label: "Measured Flow Point",
+            backgroundColor: lineColors.cyan,
+            borderColor: lineColors.black,
+            data: filteredData.map((item) => item.measured_flow_cfs),
+            pointStyle: "circle",
+            borderWidth: 2,
+            pointHoverRadius: 7,
+            pointRadius: 7,
           },
         ],
       };
@@ -275,7 +306,7 @@ const TimeseriesFlowVsTargets = () => {
                       isLoading={isLoading}
                       filterValues={filterValues}
                       locationsOptions={locationsOptions}
-                      yLLabel="Flow CFS"
+                      yLLabel="CFS"
                       reverseLegend={false}
                       ref={saveRef}
                     />
@@ -296,7 +327,7 @@ const TimeseriesFlowVsTargets = () => {
               id="table-header"
             >
               <Typography variant="h4" ml={2}>
-                Table
+                Daily Averages Table
               </Typography>
             </AccordionSummary>
             <Panel>

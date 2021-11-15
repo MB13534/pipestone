@@ -10,7 +10,6 @@ import {
   BookOpen,
   Database,
   FileText,
-  Grid,
   Home,
   List,
   Monitor,
@@ -29,10 +28,8 @@ import Landing from "../pages/presentation/Landing";
 import ProtectedPage from "../pages/protected/ProtectedPage";
 import Introduction from "../pages/docs/Introduction";
 import Support from "../pages/docs/Support";
-import { All, EXAMPLE_COMPONENTS } from "../pages/components/All";
 import { DocumentationProvider } from "../pages/docs/DocumentationProvider";
 import * as inflector from "inflected";
-import { dasherize, underscore } from "inflected";
 import GettingStarted from "../pages/docs/GettingStarted";
 import Default from "../pages/dashboards/Default";
 import { CrudProvider } from "../CrudProvider";
@@ -233,9 +230,9 @@ const documentationRoutes = {
   visibilityFilter: AdminVisibilityFilter,
 };
 
-const slugify = (str) => {
-  return dasherize(underscore(str));
-};
+// const slugify = (str) => {
+//   return dasherize(underscore(str));
+// };
 
 // const componentsRoutes = {
 //   id: "Components",

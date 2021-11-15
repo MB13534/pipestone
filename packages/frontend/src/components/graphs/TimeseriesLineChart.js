@@ -34,7 +34,7 @@ const TimeseriesLineChart = forwardRef(
         id: "chartFillBackground",
         beforeDraw: (chart) => {
           const ctx = chart.ctx;
-          ctx.fillStyle = lineColors.gray;
+          ctx.fillStyle = lineColors.lightGray;
           ctx.fillRect(0, 0, chart.width, chart.height);
         },
       },
@@ -85,7 +85,7 @@ const TimeseriesLineChart = forwardRef(
           reverse: reverseLegend,
           labels: {
             usePointStyle: true,
-            color: "#F3F4F4",
+            color: lineColors.darkGray,
           },
         },
         zoom: {
@@ -132,7 +132,7 @@ const TimeseriesLineChart = forwardRef(
             display: false,
           },
           ticks: {
-            color: "#F3F4F4",
+            color: lineColors.darkGray,
             // color: theme.palette.text.secondary,
             maxTicksLimit: 9,
           },
@@ -144,10 +144,10 @@ const TimeseriesLineChart = forwardRef(
           title: {
             display: true,
             text: yLLabel,
-            color: "#F3F4F4",
+            color: lineColors.darkGray,
           },
           ticks: {
-            color: "#F3F4F4",
+            color: lineColors.darkGray,
           },
           grid: {
             color: theme.palette.text.gridLines,
@@ -162,10 +162,10 @@ const TimeseriesLineChart = forwardRef(
           title: {
             display: true,
             text: yRLLabel,
-            color: "#F3F4F4",
+            color: lineColors.darkGray,
           },
           ticks: {
-            color: "#F3F4F4",
+            color: lineColors.darkGray,
           },
           grid: {
             display: false,

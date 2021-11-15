@@ -301,7 +301,7 @@ const TimeseriesPumpingDaily = () => {
                 <TableWrapper>
                   <Table
                     isLoading={isLoading}
-                    label="This will be the label"
+                    label="Pumping Daily Timeseries Table"
                     columns={tableColumns}
                     data={filteredTableData}
                     height="600px"

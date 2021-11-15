@@ -10,11 +10,12 @@ import {
   BookOpen,
   Database,
   FileText,
-  Grid,
   Home,
   List,
   Monitor,
   Users,
+  Archive,
+  Folder,
 } from "react-feather";
 
 import AuthGuard from "../components/AuthGuard";
@@ -29,10 +30,8 @@ import Landing from "../pages/presentation/Landing";
 import ProtectedPage from "../pages/protected/ProtectedPage";
 import Introduction from "../pages/docs/Introduction";
 import Support from "../pages/docs/Support";
-import { All, EXAMPLE_COMPONENTS } from "../pages/components/All";
 import { DocumentationProvider } from "../pages/docs/DocumentationProvider";
 import * as inflector from "inflected";
-import { dasherize, underscore } from "inflected";
 import GettingStarted from "../pages/docs/GettingStarted";
 import Default from "../pages/dashboards/Default";
 import { CrudProvider } from "../CrudProvider";
@@ -42,6 +41,8 @@ import AdminLastReport from "../pages/dataAccess/reports/AdminLastReport";
 import TimeseriesFlow from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlow";
 import TimeseriesFlowVsTargets from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsTargets";
 import TimeseriesTemperature from "../pages/dataAccess/timeseriesGraphs/TimeseriesTemperature";
+import PublicFiles from "../pages/documents/PublicFiles";
+import ClientDocs from "../pages/documents/ClientDocs";
 const Account = async(() => import("../pages/pages/Account"));
 const Profile = async(() => import("../pages/pages/Profile"));
 
@@ -227,30 +228,30 @@ const documentationRoutes = {
   visibilityFilter: AdminVisibilityFilter,
 };
 
-const slugify = (str) => {
-  return dasherize(underscore(str));
-};
+// const slugify = (str) => {
+//   return dasherize(underscore(str));
+// };
 
-const componentsRoutes = {
-  id: "Components",
-  path: "/components",
-  header: "UI Kit",
-  icon: <Grid />,
-  children: [
-    {
-      path: "/components/all",
-      name: "All",
-      component: All,
-    },
-    ...EXAMPLE_COMPONENTS.map((x) => ({
-      name: x.title,
-      path: `/components/${slugify(x.title)}`,
-      component: () => All({ exampleComponent: x }),
-    })),
-  ],
-  component: null,
-  visibilityFilter: AdminVisibilityFilter,
-};
+// const componentsRoutes = {
+//   id: "Components",
+//   path: "/components",
+//   header: "UI Kit",
+//   icon: <Grid />,
+//   children: [
+//     {
+//       path: "/components/all",
+//       name: "All",
+//       component: All,
+//     },
+//     ...EXAMPLE_COMPONENTS.map((x) => ({
+//       name: x.title,
+//       path: `/components/${slugify(x.title)}`,
+//       component: () => All({ exampleComponent: x }),
+//     })),
+//   ],
+//   component: null,
+//   visibilityFilter: AdminVisibilityFilter,
+// };
 
 const changelogRoutes = {
   id: "Changelog",
@@ -340,6 +341,25 @@ const reportsRoutes = {
   visibilityFilter: AdminVisibilityFilter,
 };
 
+const publicFilesRoutes = {
+  id: "Public Files",
+  header: "Documents",
+  icon: <Archive />,
+  path: "/data-access/documents/public-files",
+  name: "Pumping",
+  component: PublicFiles,
+};
+
+const clientDocsRoutes = {
+  id: "Client Docs",
+  icon: <Folder />,
+  path: "/data-access/documents/client-docs",
+  name: "Pumping",
+  component: ClientDocs,
+  guard: UserGuard,
+  visibilityFilter: UserVisibilityFilter,
+};
+
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
   pageRoutes,
@@ -347,9 +367,11 @@ export const dashboardLayoutRoutes = [
   changelogRoutes,
   timeseriesRoutes,
   reportsRoutes,
+  publicFilesRoutes,
+  clientDocsRoutes,
   accountRoutes,
   documentationRoutes,
-  componentsRoutes,
+  // componentsRoutes,
   adminRoutes,
 ];
 
@@ -372,8 +394,10 @@ export const sidebarRoutes = [
   mainRoutes,
   timeseriesRoutes,
   reportsRoutes,
+  publicFilesRoutes,
+  clientDocsRoutes,
   ...crudSidebarMenu,
   adminRoutes,
-  componentsRoutes,
+  // componentsRoutes,
   documentationRoutes,
 ];

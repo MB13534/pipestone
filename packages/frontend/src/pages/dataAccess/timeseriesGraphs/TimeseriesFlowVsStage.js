@@ -305,7 +305,7 @@ const TimeseriesFlowVsStage = () => {
                 <TableWrapper>
                   <Table
                     isLoading={isLoading}
-                    label="This will be the label"
+                    label="Flow vs Stage Timeseries Table"
                     columns={tableColumns}
                     data={filteredTableData}
                     height="600px"

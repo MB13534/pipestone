@@ -50,7 +50,7 @@ export const lineColors = {
   blue: "#4363d8",
   orange: "#f58231",
   purple: "#911eb4",
-  lightBlue: "#46f0f0",
+  cyan: "#2CF5F7",
   pink: "#f032e6",
   neon: "#bcf60c",
   peach: "#fabebe",
@@ -63,7 +63,7 @@ export const lineColors = {
   olive: "#808000",
   tan: "#ffd8b1",
   royalBlue: "#000075",
-  gray: "#808080",
+  gray: "#8D9093",
   black: "#000000",
 };
 

@@ -9,9 +9,9 @@ const Rotate = styled.div`
   transform: rotate(-90deg);
 `;
 
-function TogglePicker({ checked, setChecked }) {
+function TogglePicker({ name, checked, setChecked }) {
   const handleChange = (e) => {
-    setChecked(e.target.checked);
+    setChecked(name, e.target.checked);
   };
 
   const CustomToggle = withStyles({
@@ -30,7 +30,7 @@ function TogglePicker({ checked, setChecked }) {
 
   return (
     <Rotate>
-      <CustomToggle checked={checked} onChange={handleChange} name="checkedB" />
+      <CustomToggle checked={checked} onChange={handleChange} />
     </Rotate>
   );
 }

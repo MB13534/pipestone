@@ -8,7 +8,7 @@ import { spacing } from "@material-ui/system";
 
 import styled from "styled-components/macro";
 
-import { downloadChartImage } from "../../../utils";
+import { downloadChartImage } from "../../utils";
 
 const Tooltip = styled(MuiTooltip)(spacing);
 

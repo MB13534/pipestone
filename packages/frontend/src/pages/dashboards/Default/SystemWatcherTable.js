@@ -12,7 +12,7 @@ import {
   filterDataByUser,
   renderStatusChip,
 } from "../../../utils";
-import Table from "./Table";
+import Table from "../../../components/Table";
 import { spacing } from "@material-ui/system";
 import Loader from "../../../components/Loader";
 import { useApp } from "../../../AppProvider";

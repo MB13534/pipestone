@@ -20,6 +20,8 @@ import {
 import AuthGuard from "../components/AuthGuard";
 import AdminGuard from "../components/AdminGuard";
 import AdminVisibilityFilter from "../components/AdminVisibilityFilter";
+import UserVisibilityFilter from "../components/UserVisibilityFilter";
+import UserGuard from "../components/UserGuard";
 
 import Blank from "../pages/pages/Blank";
 import Changelog from "../pages/docs/Changelog";
@@ -36,8 +38,10 @@ import Default from "../pages/dashboards/Default";
 import { CrudProvider } from "../CrudProvider";
 import CRUD from "../pages/docs/CRUD";
 import Deploy from "../pages/docs/Deploy";
-import AdminLastReport from "../pages/dashboards/Default/AdminLastReport";
-import GraphTabs from "../pages/dashboards/Default/GraphTabs";
+import AdminLastReport from "../pages/dataAccess/reports/AdminLastReport";
+import TimeseriesFlow from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlow";
+import TimeseriesFlowVsTargets from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsTargets";
+import TimeseriesTemperature from "../pages/dataAccess/timeseriesGraphs/TimeseriesTemperature";
 const Account = async(() => import("../pages/pages/Account"));
 const Profile = async(() => import("../pages/pages/Profile"));
 
@@ -295,13 +299,31 @@ const adminRoutes = {
   visibilityFilter: AdminVisibilityFilter,
 };
 
-const graphsRoutes = {
+const timeseriesRoutes = {
   id: "Time Series",
   header: "Data Access",
   icon: <Activity />,
-  path: "/data-access/graphs/time-series",
-  name: "Time Series",
-  component: GraphTabs,
+  children: [
+    {
+      path: "/data-access/graphs/streamflow",
+      name: "Streamflow",
+      component: TimeseriesFlow,
+      guard: UserGuard,
+      visibilityFilter: UserVisibilityFilter,
+    },
+    {
+      path: "/data-access/graphs/flow-vs-targets",
+      name: "Flow vs Targets",
+      component: TimeseriesFlowVsTargets,
+    },
+    {
+      path: "/data-access/graphs/temperature",
+      name: "Temperature",
+      component: TimeseriesTemperature,
+      guard: UserGuard,
+      visibilityFilter: UserVisibilityFilter,
+    },
+  ],
 };
 
 const reportsRoutes = {
@@ -323,7 +345,7 @@ export const dashboardLayoutRoutes = [
   pageRoutes,
   mainRoutes,
   changelogRoutes,
-  graphsRoutes,
+  timeseriesRoutes,
   reportsRoutes,
   accountRoutes,
   documentationRoutes,
@@ -348,7 +370,7 @@ export const protectedRoutes = [protectedPageRoutes];
 // Routes visible in the sidebar
 export const sidebarRoutes = [
   mainRoutes,
-  graphsRoutes,
+  timeseriesRoutes,
   reportsRoutes,
   ...crudSidebarMenu,
   adminRoutes,

@@ -12,9 +12,9 @@ const FormControl = styled(MuiFormControl)`
   width: 100%;
 `;
 
-function DatePicker({ selectedDate, setSelectedDate, label, checked }) {
+function DatePicker({ label, name, selectedDate, setSelectedDate, checked }) {
   const handleDateChange = (date) => {
-    setSelectedDate(date);
+    setSelectedDate(name, date);
   };
 
   return (

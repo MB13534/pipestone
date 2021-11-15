@@ -8,9 +8,9 @@ const TextField = styled(MuiTextField)`
   width: 100%;
 `;
 
-function InputPicker({ label, type, value, setter, checked }) {
+function InputPicker({ label, type, name, value, setValue, checked }) {
   const handleChange = (e) => {
-    setter(e.target.value);
+    setValue(name, e.target.value);
   };
 
   return (

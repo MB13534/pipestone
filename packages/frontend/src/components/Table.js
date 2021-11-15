@@ -1,9 +1,9 @@
 import React from "react";
 
 import CopyIcon from "@material-ui/icons/FileCopy";
-import { copyToClipboard, dateFormatter } from "../../../utils";
+import { copyToClipboard, dateFormatter } from "../utils";
 import MaterialTable from "material-table";
-import { useApp } from "../../../AppProvider";
+import { useApp } from "../AppProvider";
 
 const Table = ({
   columns,

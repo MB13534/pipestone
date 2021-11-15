@@ -6,10 +6,9 @@ import {
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
 import styled from "styled-components/macro";
-
-import DatePicker from "../pickers/DatePicker";
 import InputPicker from "../pickers/InputPicker";
 import TogglePicker from "../pickers/TogglePicker";
+import DatePicker from "../pickers/DatePicker";
 
 const Grid = styled(MuiGrid)(spacing);
 const Typography = styled(MuiTypography)(spacing);

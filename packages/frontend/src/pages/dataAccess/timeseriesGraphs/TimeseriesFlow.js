@@ -22,9 +22,10 @@ import Panel from "../../../components/panels/Panel";
 import Map from "../../../components/map/Map";
 import TimeseriesFilters from "../../../components/filters/TimeseriesFilters";
 import SaveGraphButton from "../../../components/graphs/SaveGraphButton";
-import MultiOptionsPicker from "../../../components/pickers/MultiOptionsPicker";
+
 import Table from "../../../components/Table";
 import TimeseriesLineChart from "../../../components/graphs/TimeseriesLineChart";
+import MultiOptionsPicker from "../../../components/pickers/MultiOptionsPicker";
 
 const TableWrapper = styled.div`
   overflow-y: auto;

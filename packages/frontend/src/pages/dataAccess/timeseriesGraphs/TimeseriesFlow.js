@@ -298,7 +298,7 @@ const TimeseriesFlow = () => {
                 <TableWrapper>
                   <Table
                     isLoading={isLoading}
-                    label="This will be the label"
+                    label="Streamflow Timeseries Table"
                     columns={tableColumns}
                     data={filteredTableData}
                     height="600px"

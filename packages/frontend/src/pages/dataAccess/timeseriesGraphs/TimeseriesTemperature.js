@@ -358,7 +358,7 @@ const TimeseriesTemperature = () => {
                 <TableWrapper>
                   <Table
                     isLoading={isLoading}
-                    label="This will be the label"
+                    label="Temperature Timeseries Table"
                     columns={tableColumns}
                     data={filteredTableData}
                     height="600px"

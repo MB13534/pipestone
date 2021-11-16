@@ -171,7 +171,6 @@ const TimeseriesFlowVsTargets = () => {
         pointStyle: "line",
         pointRadius: 0,
         pointHoverRadius: 0,
-        // tension: 0.5,
       };
       const graphData = {
         labels: filteredData.map((item) => item.collect_timestamp),
@@ -185,6 +184,7 @@ const TimeseriesFlowVsTargets = () => {
             borderWidth: 2,
             borderDash: [8, 5],
             ...defaultStyle,
+            tension: 0.5,
           },
           {
             label: "Native Flow",
@@ -193,6 +193,7 @@ const TimeseriesFlowVsTargets = () => {
             data: filteredData.map((item) => item.native_flow_cfs),
             borderWidth: 4,
             ...defaultStyle,
+            tension: 0.5,
           },
           {
             label: "Stipulated Target Flow",

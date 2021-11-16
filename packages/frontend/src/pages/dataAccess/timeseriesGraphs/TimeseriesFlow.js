@@ -173,6 +173,7 @@ const TimeseriesFlow = () => {
               data: filteredData
                 .filter((row) => location === row.location_name)
                 .map((row) => row.flow_cfs),
+              tension: 0.5,
             };
           }),
         ][0],

@@ -180,14 +180,15 @@ const TimeseriesTemperature = () => {
       //mutate data for chartJS to use
       const defaultStyle = {
         fill: false,
+        tension: 0.5,
       };
       const graphData = {
         labels: filteredData.map((item) => item.collect_timestamp),
         datasets: [
           {
             label: "Daily Avg",
-            backgroundColor: lineColors.yellow,
-            borderColor: lineColors.yellow,
+            backgroundColor: lineColors.orange,
+            borderColor: lineColors.orange,
             data: filteredData.map((item) => item.temp_daily_avg_degf),
             borderDash: [1, 2],
             borderWidth: 2,
@@ -203,12 +204,12 @@ const TimeseriesTemperature = () => {
             data: filteredData.map(
               (item) => item.temp_rolling_seven_day_avg_degf
             ),
-            pointRadius: 0,
-            borderWidth: 2,
+            borderWidth: 5,
+            pointHoverBorderWidth: 5,
+            pointHoverRadius: 8,
+            radius: 8,
             pointStyle: "line",
-            pointHoverRadius: 0,
-            ...defaultStyle,
-            spanGaps: true,
+            spanGaps: false,
           },
           {
             label: "Rolling 2-HR Avg",

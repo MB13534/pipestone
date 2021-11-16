@@ -21,6 +21,8 @@ import {
 import AuthGuard from "../components/AuthGuard";
 import AdminGuard from "../components/AdminGuard";
 import AdminVisibilityFilter from "../components/AdminVisibilityFilter";
+import UserVisibilityFilter from "../components/UserVisibilityFilter";
+import UserGuard from "../components/UserGuard";
 
 import Blank from "../pages/pages/Blank";
 import Changelog from "../pages/docs/Changelog";
@@ -41,8 +43,6 @@ import TimeseriesFlowVsTargets from "../pages/dataAccess/timeseriesGraphs/Timese
 import TimeseriesFlowVsStage from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsStage";
 import TimeseriesTemperature from "../pages/dataAccess/timeseriesGraphs/TimeseriesTemperature";
 import TimeseriesPumpingDaily from "../pages/dataAccess/timeseriesGraphs/TimeseriesPumpingDaily";
-import UserGuard from "../components/UserGuard";
-import UserVisibilityFilter from "../components/UserVisibilityFilter";
 import PublicFiles from "../pages/documents/PublicFiles";
 import ClientDocs from "../pages/documents/ClientDocs";
 const Account = async(() => import("../pages/pages/Account"));

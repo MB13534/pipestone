@@ -185,6 +185,7 @@ const TimeseriesFlowVsTargets = () => {
             borderWidth: 2,
             borderDash: [8, 5],
             ...defaultStyle,
+            tension: 0.5,
           },
           {
             label: "Native Flow",
@@ -193,6 +194,7 @@ const TimeseriesFlowVsTargets = () => {
             data: filteredData.map((item) => item.native_flow_cfs),
             borderWidth: 4,
             ...defaultStyle,
+            tension: 0.5,
           },
           {
             label: "Stipulated Target Flow",

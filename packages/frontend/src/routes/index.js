@@ -45,6 +45,7 @@ import TimeseriesTemperature from "../pages/dataAccess/timeseriesGraphs/Timeseri
 import PublicFiles from "../pages/documents/PublicFiles";
 import ClientDocs from "../pages/documents/ClientDocs";
 import AdminDocs from "../pages/documents/AdminDocs";
+import DischargeMonitoringReport from "../pages/dataAccess/reports/DischargeMonitoringReport";
 const Account = async(() => import("../pages/pages/Account"));
 const Profile = async(() => import("../pages/pages/Profile"));
 
@@ -337,6 +338,11 @@ const reportsRoutes = {
       path: "/data-access/reports/admin-last-report",
       name: "Admin",
       component: AdminLastReport,
+    },
+    {
+      path: "/data-access/reports/discharge-monitoring-report",
+      name: "Discharge Monitoring",
+      component: DischargeMonitoringReport,
     },
   ],
   guard: AdminGuard,

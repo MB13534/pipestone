@@ -28,16 +28,16 @@ function a11yProps(index) {
   };
 }
 //388px
-const AdminLastReport = ({ tableHeight = "100%" }) => {
+const DischargeMonitoringReport = ({ tableHeight = "100%" }) => {
   const service = useService({ toast: false });
 
   const [activeTab, setActiveTab] = useState(0);
 
   const { data, isLoading, error } = useQuery(
-    ["admin-data-last-report"],
+    ["DischargeMonitoringReports"],
     async () => {
       try {
-        return await service([findRawRecords, ["AdminDataLastReports"]]);
+        return await service([findRawRecords, ["DischargeMonitoringReports"]]);
       } catch (err) {
         console.error(err);
       }
@@ -47,73 +47,16 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
 
   if (error) return "An error has occurred: " + error.message;
 
-  const tabInfo = [
-    { label: "Last Report", data: data },
-    { label: "Period of Record", data: data },
-  ];
+  const tabInfo = [{ label: "Discharge Monitoring Report", data: data }];
 
   const tabColumns = [
     [
-      { title: "Location", field: "location_name", width: "100%" },
-      { title: "Parameter", field: "parameter" },
-      {
-        title: "Last Report",
-        field: "last_collected",
-        render: (rowData) => {
-          return dateFormatter(rowData.last_collected, "MM/DD/YYYY, h:mm A");
-        },
-      },
-      {
-        title: "Last Value",
-        field: "last_value",
-        type: "numeric",
-        render: (rowData) => {
-          return rowData.last_value.toFixed(3);
-        },
-      },
-      { title: "Units", field: "unit_desc" },
-      {
-        title: "Alert Status",
-        field: "alert_status",
-        render: (rowData) => {
-          return renderStatusChip(rowData.alert_status);
-        },
-      },
-    ],
-    [
-      { title: "Location", field: "location_name", width: "100%" },
-      { title: "Parameter", field: "parameter" },
-      {
-        title: "POR Start",
-        field: "por_start",
-        render: (rowData) => {
-          return dateFormatter(rowData.por_start, "MM/DD/YYYY, h:mm A");
-        },
-      },
-      {
-        title: "POR End",
-        field: "por_end",
-        render: (rowData) => {
-          return dateFormatter(rowData.por_end, "MM/DD/YYYY, h:mm A");
-        },
-      },
-      {
-        title: "Min",
-        field: "min_value",
-        type: "numeric",
-        render: (rowData) => {
-          return rowData.min_value.toFixed(3);
-        },
-      },
-      {
-        title: "Max",
-        field: "max_value",
-        type: "numeric",
-        render: (rowData) => {
-          return rowData.max_value.toFixed(3);
-        },
-      },
-      { title: "Count", field: "recordcount", type: "numeric" },
+      { title: "Location", field: "dmr_location", width: "100%" },
+      { title: "Year", field: "dmr_year" },
+      { title: "Month", field: "month_abbrev" },
+      { title: "Daily Max (DM)", field: "daily_maximum" },
+      { title: "Max Weekly (MWAT)", field: "max_weekly_average" },
+      { title: "Notes", field: "remark" },
     ],
   ];
 
@@ -170,4 +113,4 @@ const AdminLastReport = ({ tableHeight = "100%" }) => {
   );
 };
 
-export default AdminLastReport;
+export default DischargeMonitoringReport;

@@ -17,6 +17,7 @@ import Map from "../../../components/map/Map";
 import Panel from "../../../components/panels/Panel";
 import DailyBarWidgets from "./DailyBarWidgets";
 import SystemWatcherTable from "./SystemWatcherTable";
+import DailyLineWidgets from "./DailyLineWidgets";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -61,6 +62,7 @@ function Default() {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <DailyBarWidgets />
+          <DailyLineWidgets />
         </Grid>
       </Grid>
     </React.Fragment>

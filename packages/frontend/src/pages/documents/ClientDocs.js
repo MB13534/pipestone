@@ -7,18 +7,18 @@ const Container = styled.div`
   position: relative;
 `;
 
-const PublicFiles = () => {
+const ClientDocs = () => {
   return (
     <Container>
       <iframe
-        src="https://drive.google.com/embeddedfolderview?id=1E4Hbex3o8s-RmLWgaCilp9pD9Vi_pGSA#grid"
+        src="https://drive.google.com/embeddedfolderview?id=1mVRA1DyU769jP-daptP9VsqdWfJdu7By#grid"
         width="100%"
         height="100%"
         frameBorder="1"
         title="Client Docs"
-      ></iframe>
+      />
     </Container>
   );
 };
 
-export default PublicFiles;
+export default ClientDocs;

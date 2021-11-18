@@ -24,7 +24,6 @@ const DailyBarWidget = ({ data, measurementType }) => {
 
   const mutatedData = {
     labels: filterData.map((item) => item.location_name),
-    lastCollected: formattedMostRecentDate,
     units: filterData[0].unit_desc,
     datasets: [
       {
@@ -65,7 +64,7 @@ const DailyBarWidget = ({ data, measurementType }) => {
       }px`}
     >
       <HorizontalBarChart
-        lastCollected={mutatedData.lastCollected}
+        lastCollected={formattedMostRecentDate}
         units={mutatedData.units}
         data={mutatedData}
       />

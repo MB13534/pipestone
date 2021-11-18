@@ -12,6 +12,16 @@ const DailyLineWidget = ({ data, measurementType }) => {
   const filteredData = data.filter(
     (item) => item.measurement_type_desc === measurementType
   );
+
+  const unformattedCollectionDates = filteredData.map(
+    (item) => new Date(item.collect_timestamp)
+  );
+  const unformattedMostRecentDate = Math.max(...unformattedCollectionDates);
+  const formattedMostRecentDate = dateFormatter(
+    unformattedMostRecentDate,
+    "MM/DD/YYYY, h:mm A"
+  );
+
   const distinctLocations = [
     ...new Set(filteredData.map((item) => item.location_name)),
   ];
@@ -45,7 +55,12 @@ const DailyLineWidget = ({ data, measurementType }) => {
 
   return (
     <ChartWrapper height="200px">
-      <LineWidget data={mutatedData} type="line" units={mutatedData.units} />
+      <LineWidget
+        data={mutatedData}
+        type="line"
+        units={mutatedData.units}
+        lastCollected={formattedMostRecentDate}
+      />
     </ChartWrapper>
   );
 };

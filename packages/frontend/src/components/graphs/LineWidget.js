@@ -25,7 +25,9 @@ const LineWidget = ({ lastCollected = "N/A", units = "N/A", data, theme }) => {
       },
       title: {
         display: true,
-        text: `Recent Data`,
+        // text: `Recent Data`,
+        text: `Last Collected: ${lastCollected}`,
+        align: "end",
         color: theme.palette.text.secondary,
       },
     },

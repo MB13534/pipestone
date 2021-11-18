@@ -24,7 +24,6 @@ const DailyBarWidget = ({ data, measurementType }) => {
 
   const mutatedData = {
     labels: filterData.map((item) => item.location_name),
-    lastCollected: formattedMostRecentDate,
     units: filterData[0].unit_desc,
     datasets: [
       {
@@ -34,7 +33,6 @@ const DailyBarWidget = ({ data, measurementType }) => {
         alert: filterData.map((item) => item.alert),
         units: filterData[0].unit_desc,
         fill: true,
-        // borderColor: filterData.map((item, i) => lineColors[i]),
         borderColor: filterData.map((item) =>
           item.alert === "GOOD"
             ? lineColors.blue
@@ -65,7 +63,7 @@ const DailyBarWidget = ({ data, measurementType }) => {
       }px`}
     >
       <HorizontalBarChart
-        lastCollected={mutatedData.lastCollected}
+        lastCollected={formattedMostRecentDate}
         units={mutatedData.units}
         data={mutatedData}
       />

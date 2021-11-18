@@ -61,8 +61,8 @@ function Default() {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <DailyBarWidgets />
           <DailyLineWidgets />
+          <DailyBarWidgets />
         </Grid>
       </Grid>
     </React.Fragment>

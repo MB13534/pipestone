@@ -1,12 +1,8 @@
 import React from "react";
 
-import { Chart, Line } from "react-chartjs-2";
-import "chartjs-plugin-zoom";
 import { dateFormatter, lineColors } from "../../../utils";
-import zoomPlugin from "chartjs-plugin-zoom";
 import styled from "styled-components/macro";
 import LineWidget from "../../../components/graphs/LineWidget";
-Chart.register(zoomPlugin);
 
 const ChartWrapper = styled.div`
   height: ${({ height }) => height};

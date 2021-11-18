@@ -55,6 +55,7 @@ const HorizontalBarChart = ({
         },
         ticks: {
           color: theme.palette.text.secondary,
+          maxTicksLimit: 4,
         },
         title: {
           display: true,

@@ -7,7 +7,6 @@ import { Grid as MuiGrid, Tab, Tabs as MuiTabs } from "@material-ui/core";
 import styled from "styled-components/macro";
 
 import { findRawRecords } from "../../../services/crudService";
-import { dateFormatter, renderStatusChip } from "../../../utils";
 import Table from "../../../components/Table";
 import { spacing } from "@material-ui/system";
 import Panel from "../../../components/panels/Panel";

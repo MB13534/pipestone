@@ -53,9 +53,7 @@ const DailyBarWidgets = () => {
   if (error) return "An error has occurred: " + error.message;
   return (
     <>
-      {data?.length === 0 ||
-      isLoading ||
-      distinctMeasurementTypes.length === 0 ? (
+      {isLoading ? (
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Panel
@@ -67,7 +65,7 @@ const DailyBarWidgets = () => {
             </Panel>
           </Grid>
         </Grid>
-      ) : (
+      ) : data?.length === 0 || distinctMeasurementTypes.length === 0 ? null : (
         <Grid container spacing={6}>
           {distinctMeasurementTypes.map((type) => (
             <Grid item xs={12} md={12} lg={6} key={type}>

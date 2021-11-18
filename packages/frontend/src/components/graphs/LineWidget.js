@@ -1,11 +1,7 @@
 import React from "react";
 import { withTheme } from "styled-components/macro";
-
-import { Line, Chart } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import "chartjs-plugin-zoom";
-import zoomPlugin from "chartjs-plugin-zoom";
-import { dateFormatter, lineColors } from "../../utils";
-Chart.register(zoomPlugin);
 
 const LineWidget = ({ lastCollected = "N/A", units = "N/A", data, theme }) => {
   const options = {
@@ -22,7 +18,6 @@ const LineWidget = ({ lastCollected = "N/A", units = "N/A", data, theme }) => {
       tooltip: {
         callbacks: {
           label: function (tooltipItems) {
-            console.log(tooltipItems);
             return `${tooltipItems.dataset.label}: ${tooltipItems.formattedValue} ${tooltipItems.dataset.units}`;
           },
         },
@@ -36,7 +31,19 @@ const LineWidget = ({ lastCollected = "N/A", units = "N/A", data, theme }) => {
     },
     scales: {
       x: {
-        display: false,
+        display: true,
+        grid: {
+          drawBorder: false,
+          display: false,
+        },
+        ticks: {
+          display: false,
+        },
+        // title: {
+        //   display: true,
+        //   text: "Collection Date",
+        //   color: theme.palette.text.secondary,
+        // },
       },
 
       y: {

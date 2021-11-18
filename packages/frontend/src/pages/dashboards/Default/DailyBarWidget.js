@@ -1,12 +1,9 @@
 import React from "react";
 
-import { Chart } from "react-chartjs-2";
 import "chartjs-plugin-zoom";
 import { dateFormatter, lineColors } from "../../../utils";
-import zoomPlugin from "chartjs-plugin-zoom";
 import HorizontalBarChart from "../../../components/graphs/HorizontalBarChart";
 import styled from "styled-components/macro";
-Chart.register(zoomPlugin);
 
 const ChartWrapper = styled.div`
   height: ${({ height }) => height};

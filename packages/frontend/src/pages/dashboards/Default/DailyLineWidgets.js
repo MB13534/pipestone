@@ -1,22 +1,16 @@
 import React, { useState } from "react";
 
-import { Chart } from "react-chartjs-2";
-import "chartjs-plugin-zoom";
 import { useQuery } from "react-query";
 import { findRawRecords } from "../../../services/crudService";
 import useService from "../../../hooks/useService";
-import zoomPlugin from "chartjs-plugin-zoom";
 
 import { Grid } from "@material-ui/core";
 import Panel from "../../../components/panels/Panel";
-import DailyBarWidget from "./DailyBarWidget";
 import styled from "styled-components/macro";
 import Loader from "../../../components/Loader";
 import { useApp } from "../../../AppProvider";
 import { filterDataByUser } from "../../../utils";
 import DailyLineWidget from "./DailyLineWidget";
-
-Chart.register(zoomPlugin);
 
 const PadRight = styled.div`
   padding-right: 6px;
@@ -53,9 +47,7 @@ const DailyLineWidgets = () => {
   if (error) return "An error has occurred: " + error.message;
   return (
     <>
-      {data?.length === 0 ||
-      isLoading ||
-      distinctMeasurementTypes.length === 0 ? (
+      {isLoading ? (
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Panel
@@ -67,7 +59,7 @@ const DailyLineWidgets = () => {
             </Panel>
           </Grid>
         </Grid>
-      ) : (
+      ) : data?.length === 0 || distinctMeasurementTypes.length === 0 ? null : (
         <Grid container spacing={6}>
           {distinctMeasurementTypes.map((type) => (
             <Grid item xs={12} md={12} lg={6} key={type}>

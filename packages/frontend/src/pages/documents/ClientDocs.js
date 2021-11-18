@@ -7,7 +7,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const PublicFiles = () => {
+const ClientDocs = () => {
   return (
     <Container>
       <iframe
@@ -16,9 +16,9 @@ const PublicFiles = () => {
         height="100%"
         frameBorder="1"
         title="Client Docs"
-      ></iframe>
+      />
     </Container>
   );
 };
 
-export default PublicFiles;
+export default ClientDocs;

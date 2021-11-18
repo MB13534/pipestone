@@ -133,7 +133,6 @@ const TimeseriesLineChart = forwardRef(
           },
           ticks: {
             color: lineColors.darkGray,
-            // color: theme.palette.text.secondary,
             maxTicksLimit: 9,
           },
         },

@@ -16,6 +16,7 @@ import {
   Users,
   Archive,
   Folder,
+  Briefcase,
 } from "react-feather";
 
 import AuthGuard from "../components/AuthGuard";
@@ -45,6 +46,8 @@ import TimeseriesTemperature from "../pages/dataAccess/timeseriesGraphs/Timeseri
 import TimeseriesPumpingDaily from "../pages/dataAccess/timeseriesGraphs/TimeseriesPumpingDaily";
 import PublicFiles from "../pages/documents/PublicFiles";
 import ClientDocs from "../pages/documents/ClientDocs";
+import AdminDocs from "../pages/documents/AdminDocs";
+import DischargeMonitoringReport from "../pages/dataAccess/reports/DischargeMonitoringReport";
 const Account = async(() => import("../pages/pages/Account"));
 const Profile = async(() => import("../pages/pages/Profile"));
 
@@ -344,6 +347,11 @@ const reportsRoutes = {
       name: "Admin",
       component: AdminLastReport,
     },
+    {
+      path: "/data-access/reports/discharge-monitoring-report",
+      name: "Discharge Monitoring",
+      component: DischargeMonitoringReport,
+    },
   ],
   guard: AdminGuard,
   visibilityFilter: AdminVisibilityFilter,
@@ -354,7 +362,7 @@ const publicFilesRoutes = {
   header: "Documents",
   icon: <Archive />,
   path: "/data-access/documents/public-files",
-  name: "Pumping",
+  name: "Public Files",
   component: PublicFiles,
 };
 
@@ -362,10 +370,20 @@ const clientDocsRoutes = {
   id: "Client Docs",
   icon: <Folder />,
   path: "/data-access/documents/client-docs",
-  name: "Pumping",
+  name: "Client Documents",
   component: ClientDocs,
   guard: UserGuard,
   visibilityFilter: UserVisibilityFilter,
+};
+
+const adminDocsRoutes = {
+  id: "Admin Docs",
+  icon: <Briefcase />,
+  path: "/data-access/documents/admin-docs",
+  name: "Admin Documents",
+  component: AdminDocs,
+  guard: AdminGuard,
+  visibilityFilter: AdminVisibilityFilter,
 };
 
 // Routes using the Dashboard layout
@@ -377,6 +395,7 @@ export const dashboardLayoutRoutes = [
   reportsRoutes,
   publicFilesRoutes,
   clientDocsRoutes,
+  adminDocsRoutes,
   accountRoutes,
   documentationRoutes,
   // componentsRoutes,
@@ -404,6 +423,7 @@ export const sidebarRoutes = [
   reportsRoutes,
   publicFilesRoutes,
   clientDocsRoutes,
+  adminDocsRoutes,
   ...crudSidebarMenu,
   adminRoutes,
   // componentsRoutes,

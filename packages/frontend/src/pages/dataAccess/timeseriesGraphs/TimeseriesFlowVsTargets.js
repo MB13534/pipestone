@@ -171,7 +171,6 @@ const TimeseriesFlowVsTargets = () => {
         pointStyle: "line",
         pointRadius: 0,
         pointHoverRadius: 0,
-        // tension: 0.5,
       };
       const graphData = {
         labels: filteredData.map((item) => item.collect_timestamp),

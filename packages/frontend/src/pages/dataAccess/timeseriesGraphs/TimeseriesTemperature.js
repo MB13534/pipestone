@@ -186,7 +186,7 @@ const TimeseriesTemperature = () => {
         labels: filteredData.map((item) => item.collect_timestamp),
         datasets: [
           {
-            label: "Daily Avg",
+            label: "Daily Average",
             backgroundColor: lineColors.orange,
             borderColor: lineColors.orange,
             data: filteredData.map((item) => item.temp_daily_avg_degf),
@@ -198,7 +198,7 @@ const TimeseriesTemperature = () => {
             spanGaps: true,
           },
           {
-            label: "Rolling 7-Day Avg",
+            label: "7 Day Average",
             borderColor: lineColors.green,
             backgroundColor: lineColors.green,
             data: filteredData.map(
@@ -212,31 +212,29 @@ const TimeseriesTemperature = () => {
             spanGaps: false,
           },
           {
-            label: "Rolling 2-HR Avg",
-            backgroundColor: lineColors.red,
-            borderColor: lineColors.red,
+            label: "2 Hour Average",
+            backgroundColor: lineColors.blue,
+            borderColor: lineColors.blue,
             data: filteredData.map(
               (item) => item.temp_rolling_two_hour_avg_degf
             ),
-            pointRadius: 0,
-            borderDash: [8, 5],
-            borderWidth: 4,
-            pointStyle: "dash",
-            pointHoverRadius: 0,
-            ...defaultStyle,
-            hidden: true,
-          },
-          {
-            label: "Measured",
-            borderColor: lineColors.blue,
-            backgroundColor: lineColors.blue,
-            data: filteredData.map((item) => item.measured_temp_degf),
             pointRadius: 0,
             borderWidth: 4,
             pointStyle: "line",
             pointHoverRadius: 0,
             ...defaultStyle,
           },
+          // {
+          //   label: "Measured",
+          //   borderColor: lineColors.blue,
+          //   backgroundColor: lineColors.blue,
+          //   data: filteredData.map((item) => item.measured_temp_degf),
+          //   pointRadius: 0,
+          //   borderWidth: 4,
+          //   pointStyle: "line",
+          //   pointHoverRadius: 0,
+          //   ...defaultStyle,
+          // },
         ],
       };
       setFilteredMutatedGraphData(graphData);

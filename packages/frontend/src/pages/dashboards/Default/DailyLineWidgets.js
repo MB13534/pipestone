@@ -1,48 +1,42 @@
 import React, { useState } from "react";
 
-import { Chart } from "react-chartjs-2";
-import "chartjs-plugin-zoom";
 import { useQuery } from "react-query";
 import { findRawRecords } from "../../../services/crudService";
 import useService from "../../../hooks/useService";
-import zoomPlugin from "chartjs-plugin-zoom";
 
 import { Grid } from "@material-ui/core";
 import Panel from "../../../components/panels/Panel";
-import DailyBarWidget from "./DailyBarWidget";
 import styled from "styled-components/macro";
 import Loader from "../../../components/Loader";
 import { useApp } from "../../../AppProvider";
-// import { filterDataByUser } from "../../../utils";
-
-Chart.register(zoomPlugin);
+import { filterDataByUser } from "../../../utils";
+import DailyLineWidget from "./DailyLineWidget";
 
 const PadRight = styled.div`
   padding-right: 6px;
 `;
 
-const DailyBarWidgets = () => {
+const DailyLineWidgets = () => {
   const service = useService({ toast: false });
 
   const { currentUser } = useApp();
 
   const [distinctMeasurementTypes, setDistinctMeasurementTypes] = useState([]);
   const { data, isLoading, error } = useQuery(
-    ["current-conditions-widgets", currentUser],
+    ["CurrentLastFewWidgets", currentUser],
     async () => {
       try {
         const response = await service([
           findRawRecords,
-          ["CurrentConditionsWidgets"],
+          ["CurrentLastFewWidgets"],
         ]);
 
-        // const data = filterDataByUser(response, currentUser);
+        const data = filterDataByUser(response, currentUser);
 
         setDistinctMeasurementTypes([
-          ...new Set(response.map((item) => item.measurement_type_desc)),
+          ...new Set(data.map((item) => item.measurement_type_desc)),
         ]);
-
-        return response;
+        return data;
       } catch (err) {
         console.error(err);
       }
@@ -71,7 +65,7 @@ const DailyBarWidgets = () => {
             <Grid item xs={12} md={12} lg={6} key={type}>
               <Panel title={type} height="200px" overflowY={"auto"}>
                 <PadRight>
-                  <DailyBarWidget data={data} measurementType={type} />
+                  <DailyLineWidget data={data} measurementType={type} />
                 </PadRight>
               </Panel>
             </Grid>
@@ -81,4 +75,4 @@ const DailyBarWidgets = () => {
     </>
   );
 };
-export default DailyBarWidgets;
+export default DailyLineWidgets;

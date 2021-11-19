@@ -275,6 +275,7 @@ const TimeseriesPumpingDaily = () => {
                       yLLabel="Pumping af"
                       reverseLegend={false}
                       ref={saveRef}
+                      type="bar"
                     />
                   </TableWrapper>
                 </TimeseriesContainer>

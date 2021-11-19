@@ -161,13 +161,12 @@ const TimeseriesFlow = () => {
         datasets: [
           selectedLocations.map((location, i) => {
             return {
-              pointStyle: "line",
+              pointStyle: "point",
               fill: false,
               borderWidth: 2,
               pointRadius: 0,
-              pointHoverRadius: 0,
+              pointHoverRadius: 4,
               label: location,
-              yAxisID: "yL",
               borderColor: Object.values(lineColors)[i],
               backgroundColor: Object.values(lineColors)[i],
               data: filteredData

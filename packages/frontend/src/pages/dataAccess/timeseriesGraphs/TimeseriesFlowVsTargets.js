@@ -168,9 +168,9 @@ const TimeseriesFlowVsTargets = () => {
       //mutate data for chartJS to use
       const defaultStyle = {
         fill: false,
-        pointStyle: "line",
+        pointStyle: "point",
         pointRadius: 0,
-        pointHoverRadius: 0,
+        pointHoverRadius: 4,
       };
       const graphData = {
         labels: filteredData.map((item) => item.collect_timestamp),
@@ -210,7 +210,7 @@ const TimeseriesFlowVsTargets = () => {
             data: filteredData.map((item) => item.measured_flow_cfs),
             pointStyle: "circle",
             borderWidth: 2,
-            pointHoverRadius: 7,
+            pointHoverRadius: 9,
             pointRadius: 7,
           },
         ],

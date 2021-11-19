@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import { withTheme } from "styled-components/macro";
 
-import { Chart, Line } from "react-chartjs-2";
+import { Chart, Bar, Line } from "react-chartjs-2";
 import "chartjs-adapter-moment";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { add } from "date-fns";
@@ -25,6 +25,7 @@ const TimeseriesLineChart = forwardRef(
       xLabelFormat = "MM-DD-YYYY",
       tooltipFormat = "MM-DD-YYYY, h:mm A",
       yRLLabel = null,
+      type = "line",
       theme,
     },
     ref
@@ -50,6 +51,31 @@ const TimeseriesLineChart = forwardRef(
             ctx.strokeStyle = "#800000";
             ctx.lineWidth = 3;
             ctx.strokeRect(left, top, width, height);
+            ctx.restore();
+          }
+        },
+      },
+      {
+        id: "annotatedVerticalLine",
+        afterDraw(chart) {
+          if (chart.config.type === "line" && chart.tooltip?._active?.length) {
+            let x = chart.tooltip._active[0].element.x;
+            let yAxis = chart.scales.yL;
+            let ctx = chart.ctx;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(x, yAxis.top);
+            ctx.lineTo(x, yAxis.bottom);
+            ctx.lineWidth = 9;
+            ctx.strokeStyle = "rgba(0, 0, 255, 0.2)";
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(x, yAxis.top);
+            ctx.lineTo(x, yAxis.bottom);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = "rgba(0, 0, 255, 0.4)";
+            ctx.stroke();
             ctx.restore();
           }
         },
@@ -189,13 +215,23 @@ const TimeseriesLineChart = forwardRef(
         ) : (
           <>
             {data?.datasets?.length > 0 && locationsOptions?.length ? (
-              <Line
-                plugins={plugins}
-                ref={ref}
-                data={data}
-                options={options}
-                type="line"
-              />
+              type === "line" ? (
+                <Line
+                  plugins={plugins}
+                  ref={ref}
+                  data={data}
+                  options={options}
+                  type={type}
+                />
+              ) : (
+                <Bar
+                  plugins={plugins}
+                  ref={ref}
+                  data={data}
+                  options={options}
+                  type={type}
+                />
+              )
             ) : (
               <Typography>No Data Available</Typography>
             )}

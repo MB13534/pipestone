@@ -156,9 +156,9 @@ const TimeseriesFlowVsStage = () => {
       //mutate data for chartJS to use
       const defaultStyle = {
         fill: false,
-        pointStyle: "line",
+        pointStyle: "point",
         pointRadius: 0,
-        pointHoverRadius: 0,
+        pointHoverRadius: 4,
       };
       const graphData = {
         labels: filteredData.map((item) => item.collect_timestamp),

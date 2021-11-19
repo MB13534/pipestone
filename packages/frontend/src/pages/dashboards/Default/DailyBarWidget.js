@@ -33,6 +33,7 @@ const DailyBarWidget = ({ data, measurementType }) => {
         alert: filterData.map((item) => item.alert),
         units: filterData[0].unit_desc,
         fill: true,
+        // borderColor: filterData.map((item, i) => lineColors[i]),
         borderColor: filterData.map((item) =>
           item.alert === "GOOD"
             ? lineColors.blue

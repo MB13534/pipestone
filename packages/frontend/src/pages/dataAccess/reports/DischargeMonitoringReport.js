@@ -41,7 +41,7 @@ const DischargeMonitoringReport = ({ tableHeight = "100%" }) => {
         console.error(err);
       }
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true, refetchOnWindowFocus: false }
   );
 
   if (error) return "An error has occurred: " + error.message;

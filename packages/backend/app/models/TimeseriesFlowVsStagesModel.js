@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultScope: {
         order: [['collect_timestamp', 'asc']],
       },
-      schema: 'web',
+      schema: 'client_telluride',
       timestamps: false,
       paranoid: true,
       freezeTableName: true,

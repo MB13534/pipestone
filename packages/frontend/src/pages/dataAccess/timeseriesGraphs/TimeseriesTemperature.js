@@ -123,7 +123,7 @@ const TimeseriesTemperature = () => {
         console.error(err);
       }
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true, refetchOnWindowFocus: false }
   );
 
   //locations to show up in picker
@@ -223,6 +223,7 @@ const TimeseriesTemperature = () => {
             pointStyle: "point",
             pointHoverRadius: 4,
             ...defaultStyle,
+            spanGaps: true,
           },
           // {
           //   label: "Measured",

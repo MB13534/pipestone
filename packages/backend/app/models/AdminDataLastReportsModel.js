@@ -1,5 +1,3 @@
-const {Op} = require('sequelize');
-const {SELECTED_CLIENTS} = require('../../constants');
 module.exports = (sequelize, DataTypes) => {
   const {INTEGER, TEXT, DATE, REAL} = DataTypes;
   const AdminDataLastReports = sequelize.define(
@@ -53,14 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      defaultScope: {
-        where: {
-          client_ndx: {
-            [Op.in]: SELECTED_CLIENTS,
-          },
-        },
-      },
-      schema: 'web',
+      schema: 'client_telluride',
       timestamps: false,
       paranoid: true,
       freezeTableName: true,

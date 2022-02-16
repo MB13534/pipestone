@@ -90,7 +90,7 @@ function CrudViewPage({ config, width, modelName }) {
         return { data: generateEmptyFields() };
       }
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true, refetchOnWindowFocus: false }
   );
 
   const generateEmptyFields = () => {

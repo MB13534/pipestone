@@ -209,8 +209,8 @@ const lightVariant = merge(defaultVariant, {
     background: "#FFF",
   },
   scrollbar: {
-    track: darken(customDark[300], 0.05),
-    thumb: customDark[500],
+    thumb: darken(customGrey[300], 0.05),
+    track: customGrey[500],
   },
 });
 

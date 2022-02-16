@@ -63,7 +63,7 @@ const Map = () => {
         console.error(err);
       }
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true, refetchOnWindowFocus: false }
   );
 
   useEffect(() => {

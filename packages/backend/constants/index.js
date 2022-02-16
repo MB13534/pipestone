@@ -1,6 +1,1 @@
-const SELECTED_CLIENTS = [2];
-const SELECTED_LOCATIONS = [15, 12, 20];
-module.exports = {
-  SELECTED_CLIENTS,
-  SELECTED_LOCATIONS,
-};
+module.exports = {};

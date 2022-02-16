@@ -1,5 +1,3 @@
-const {Op} = require('sequelize');
-const {SELECTED_LOCATIONS} = require('../../constants');
 module.exports = (sequelize, DataTypes) => {
   const {INTEGER, TEXT} = DataTypes;
   const DropdownMeasurementsFFS = sequelize.define(
@@ -20,15 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      defaultScope: {
-        where: {
-          location_ndx: {
-            [Op.in]: SELECTED_LOCATIONS,
-          },
-        },
-      },
       timestamps: false,
-      schema: 'web',
+      schema: 'client_telluride',
       freezeTableName: true,
       paranoid: true,
     }

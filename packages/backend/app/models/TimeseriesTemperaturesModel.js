@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      schema: 'web',
+      schema: 'client_telluride',
       timestamps: false,
       paranoid: true,
       freezeTableName: true,

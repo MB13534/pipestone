@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      schema: 'accounting_reporting',
+      schema: 'client_telluride',
       timestamps: false,
       paranoid: true,
       freezeTableName: true,

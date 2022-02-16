@@ -47,7 +47,7 @@ const DailyBarWidgets = () => {
         console.error(err);
       }
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true, refetchOnWindowFocus: false }
   );
 
   if (error) return "An error has occurred: " + error.message;

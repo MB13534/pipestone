@@ -164,6 +164,8 @@ const TimeseriesLineChart = forwardRef(
         },
 
         yL: {
+          // suggestedMin: 6,
+          // suggestedMax: 7,
           position: "left",
           display: true,
           title: {

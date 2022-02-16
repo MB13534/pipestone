@@ -106,7 +106,7 @@ function EditFormDropdown({
         }
       }
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true, refetchOnWindowFocus: false }
   );
 
   const getValueByKey = (key) => {

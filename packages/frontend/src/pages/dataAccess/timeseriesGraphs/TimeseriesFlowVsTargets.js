@@ -111,7 +111,7 @@ const TimeseriesFlowVsTargets = () => {
         console.error(err);
       }
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true, refetchOnWindowFocus: false }
   );
 
   //locations to show up in picker

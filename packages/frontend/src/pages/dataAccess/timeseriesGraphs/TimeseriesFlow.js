@@ -99,7 +99,7 @@ const TimeseriesFlow = () => {
         console.error(err);
       }
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true, refetchOnWindowFocus: false }
   );
 
   //locations to show up in picker
@@ -172,7 +172,7 @@ const TimeseriesFlow = () => {
               data: filteredData
                 .filter((row) => location === row.location_name)
                 .map((row) => row.flow_cfs),
-              tension: 0.5,
+              // tension: 0.5,
             };
           }),
         ][0],

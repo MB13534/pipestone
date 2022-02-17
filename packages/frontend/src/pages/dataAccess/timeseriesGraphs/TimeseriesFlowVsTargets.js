@@ -94,7 +94,6 @@ const TimeseriesFlowVsTargets = () => {
     { title: "Rating Curve", field: "rating_curve_applied" },
     { title: "Stream Depth, Ft", field: "daily_avg_depth_ft" },
     { title: "Shift, Ft", field: "shift_applied_ft" },
-    { title: "Measured Flow Point", field: "measured_flow_cfs" },
   ];
 
   const service = useService({ toast: false });

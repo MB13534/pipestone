@@ -54,7 +54,7 @@ function Default() {
         </Grid>
         <Grid item xs={12} lg={7}>
           <Panel>
-            <SystemWatcherTable tableHeight="388px" />
+            <SystemWatcherTable />
           </Panel>
         </Grid>
       </Grid>

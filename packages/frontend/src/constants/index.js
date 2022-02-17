@@ -13,6 +13,12 @@ export const CRUD_MODELS = [
   },
 ];
 
+export const EDIT_CRUD_TABLES_DISABLED = [];
+
+export const DELETE_CRUD_TABLES_DISABLED = [];
+
+export const CREATE_NEW_CRUD_TABLES_DISABLED = [];
+
 export const CRUD_LOOKUP_TABLES = [
   "dropdown_measurements",
   "dropdown_ffs_calc_types",

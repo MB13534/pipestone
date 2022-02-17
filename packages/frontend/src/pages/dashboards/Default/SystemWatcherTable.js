@@ -152,9 +152,9 @@ const SystemWatcherTable = ({ tableHeight = "100%" }) => {
                         </StyledTableRow>
                       </TableHead>
                       <TableBody>
-                        {filteredData.map((row) => {
+                        {filteredData.map((row, index) => {
                           return (
-                            <StyledTableRow key={row.name}>
+                            <StyledTableRow key={index}>
                               <StyledTableCell component="th" scope="row">
                                 {row.measurement_desc}
                               </StyledTableCell>

@@ -27,6 +27,7 @@ const TimeseriesLineChart = forwardRef(
       yRLLabel = null,
       type = "line",
       theme,
+      suggestedMin = null,
     },
     ref
   ) => {
@@ -117,10 +118,11 @@ const TimeseriesLineChart = forwardRef(
         zoom: {
           pan: {
             enabled: true,
-            mode: "x",
+            mode: "xy",
           },
           zoom: {
-            mode: "x",
+            mode: "xy",
+            overScaleMode: "y",
             wheel: {
               enabled: false,
             },
@@ -164,7 +166,7 @@ const TimeseriesLineChart = forwardRef(
         },
 
         yL: {
-          // suggestedMin: 6,
+          suggestedMin: suggestedMin,
           // suggestedMax: 7,
           position: "left",
           display: true,

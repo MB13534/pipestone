@@ -319,6 +319,7 @@ const TimeseriesFlowVsTargets = () => {
                       yLLabel="CFS"
                       reverseLegend={false}
                       ref={saveRef}
+                      suggestedMin={0}
                     />
                   </TableWrapper>
                 </TimeseriesContainer>

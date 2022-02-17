@@ -131,7 +131,7 @@ const SystemWatcherTable = ({ tableHeight = "100%" }) => {
                 selectedOption={selectedYear}
                 setSelectedOption={setSelectedYear}
                 options={yearsOptions}
-                label="Year"
+                label="Calendar Year"
               />
             </Grid>
 

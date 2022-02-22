@@ -16,20 +16,20 @@ import { spacing } from "@material-ui/system";
 import useService from "../../../hooks/useService";
 import { useApp } from "../../../AppProvider";
 import { findRawRecords } from "../../../services/crudService";
-import { dateFormatter, lineColors } from "../../../utils";
+import { dateFormatter, lineColors, removeDuplicates } from "../../../utils";
 
 import Panel from "../../../components/panels/Panel";
 import Map from "../../../components/map/Map";
 import TimeseriesFilters from "../../../components/filters/TimeseriesFilters";
 import SaveGraphButton from "../../../components/graphs/SaveGraphButton";
-import OptionsPicker from "../../../components/pickers/OptionsPicker";
 import Table from "../../../components/Table";
 import TimeseriesLineChart from "../../../components/graphs/TimeseriesLineChart";
+import { Select } from "@lrewater/lre-react";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
-  height: calc(100% - 84px);
+  height: calc(100% - 92px);
   width: 100%;
 `;
 const FiltersContainer = styled.div`
@@ -118,14 +118,19 @@ const TimeseriesFlowVsTargets = () => {
   const [locationsOptions, setLocationsOptions] = useState([]);
   //locations in picker that are selected by user
   const [selectedLocation, setSelectedLocation] = useState("");
+  const handleLocationsChange = (event) => {
+    setSelectedLocation(event.target.value);
+  };
   useEffect(() => {
     if (data?.length > 0) {
-      //creates a unique set of locations to be used in picker
-      const distinctLocationsNames = [
-        ...new Set(data.map((item) => item.location_name)),
-      ];
+      const distinctLocations = removeDuplicates(data, "measurement_ndx");
 
-      setLocationsOptions(distinctLocationsNames);
+      //creates a unique set of locations to be used in picker
+      const distinctLocationsNames = distinctLocations.map(
+        (location) => location.location_name
+      );
+
+      setLocationsOptions(distinctLocations);
       //selects every location by default
       setSelectedLocation(distinctLocationsNames[0] ?? "");
     }
@@ -294,12 +299,27 @@ const TimeseriesFlowVsTargets = () => {
                       item
                       style={{ flexGrow: 1, maxWidth: "calc(100% - 54px)" }}
                     >
-                      <OptionsPicker
-                        selectedOption={selectedLocation}
-                        setSelectedOption={setSelectedLocation}
-                        options={locationsOptions}
+                      <Select
+                        name="locations"
                         label="Locations"
+                        variant="outlined"
+                        valueField="location_name"
+                        displayField="location_name"
+                        outlineColor="primary"
+                        labelColor="primary"
+                        size="medium"
+                        margin="normal"
+                        data={locationsOptions}
+                        value={selectedLocation}
+                        onChange={handleLocationsChange}
+                        fullWidth
                       />
+                      {/*<OptionsPicker*/}
+                      {/*  selectedOption={selectedLocation}*/}
+                      {/*  setSelectedOption={setSelectedLocation}*/}
+                      {/*  options={locationsOptions}*/}
+                      {/*  label="Locations"*/}
+                      {/*/>*/}
                     </Grid>
                     <Grid item style={{ width: "53px" }}>
                       <SaveGraphButton
@@ -315,7 +335,7 @@ const TimeseriesFlowVsTargets = () => {
                       error={error}
                       isLoading={isLoading}
                       filterValues={filterValues}
-                      locationsOptions={locationsOptions}
+                      locationsOptions={["not null"]}
                       yLLabel="CFS"
                       reverseLegend={false}
                       ref={saveRef}

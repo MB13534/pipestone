@@ -7,7 +7,7 @@ import async from "../components/Async";
 
 import {
   Activity,
-  BookOpen,
+  // BookOpen,
   Database,
   FileText,
   Home,
@@ -29,15 +29,15 @@ import Blank from "../pages/pages/Blank";
 import Changelog from "../pages/docs/Changelog";
 import Landing from "../pages/presentation/Landing";
 import ProtectedPage from "../pages/protected/ProtectedPage";
-import Introduction from "../pages/docs/Introduction";
-import Support from "../pages/docs/Support";
+// import Introduction from "../pages/docs/Introduction";
+// import Support from "../pages/docs/Support";
 import { DocumentationProvider } from "../pages/docs/DocumentationProvider";
 import * as inflector from "inflected";
-import GettingStarted from "../pages/docs/GettingStarted";
+// import GettingStarted from "../pages/docs/GettingStarted";
 import Default from "../pages/dashboards/Default";
 import { CrudProvider } from "../CrudProvider";
-import CRUD from "../pages/docs/CRUD";
-import Deploy from "../pages/docs/Deploy";
+// import CRUD from "../pages/docs/CRUD";
+// import Deploy from "../pages/docs/Deploy";
 import AdminLastReport from "../pages/dataAccess/reports/AdminLastReport";
 import TimeseriesFlow from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlow";
 import TimeseriesFlowVsTargets from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsTargets";
@@ -184,52 +184,52 @@ const pageRoutes = {
   ],
 };
 
-const documentationRoutes = {
-  id: "Documentation",
-  path: ROUTES.PAGE_DOCUMENTATION,
-  icon: <BookOpen />,
-  provider: DocumentationProvider,
-  children: [
-    {
-      path: ROUTES.PAGE_DOCS_INTRODUCTION,
-      name: "Introduction",
-      component: Introduction,
-      guard: AdminGuard,
-    },
-    {
-      path: ROUTES.PAGE_DOCS_GETTING_STARTED,
-      name: "Getting Started",
-      component: GettingStarted,
-      guard: AdminGuard,
-    },
-    {
-      path: ROUTES.PAGE_DOCS_CRUD,
-      name: "CRUD",
-      component: CRUD,
-      guard: AdminGuard,
-    },
-    {
-      path: ROUTES.PAGE_DOCS_DEPLOY,
-      name: "Deploy",
-      component: Deploy,
-      guard: AdminGuard,
-    },
-    {
-      path: ROUTES.PAGE_DOCS_SUPPORT,
-      name: "Support",
-      component: Support,
-      guard: AdminGuard,
-    },
-    {
-      path: ROUTES.PAGE_CHANGELOG,
-      name: "Changelog",
-      component: Changelog,
-    },
-  ],
-  component: null,
-  guard: AdminGuard,
-  visibilityFilter: AdminVisibilityFilter,
-};
+// const documentationRoutes = {
+//   id: "Documentation",
+//   path: ROUTES.PAGE_DOCUMENTATION,
+//   icon: <BookOpen />,
+//   provider: DocumentationProvider,
+//   children: [
+//     {
+//       path: ROUTES.PAGE_DOCS_INTRODUCTION,
+//       name: "Introduction",
+//       component: Introduction,
+//       guard: AdminGuard,
+//     },
+//     {
+//       path: ROUTES.PAGE_DOCS_GETTING_STARTED,
+//       name: "Getting Started",
+//       component: GettingStarted,
+//       guard: AdminGuard,
+//     },
+//     {
+//       path: ROUTES.PAGE_DOCS_CRUD,
+//       name: "CRUD",
+//       component: CRUD,
+//       guard: AdminGuard,
+//     },
+//     {
+//       path: ROUTES.PAGE_DOCS_DEPLOY,
+//       name: "Deploy",
+//       component: Deploy,
+//       guard: AdminGuard,
+//     },
+//     {
+//       path: ROUTES.PAGE_DOCS_SUPPORT,
+//       name: "Support",
+//       component: Support,
+//       guard: AdminGuard,
+//     },
+//     {
+//       path: ROUTES.PAGE_CHANGELOG,
+//       name: "Changelog",
+//       component: Changelog,
+//     },
+//   ],
+//   component: null,
+//   guard: AdminGuard,
+//   visibilityFilter: AdminVisibilityFilter,
+// };
 
 // const slugify = (str) => {
 //   return dasherize(underscore(str));
@@ -276,32 +276,32 @@ const protectedPageRoutes = {
   guard: AuthGuard,
 };
 
-const adminRoutes = {
-  id: "Users",
-  header: "Administration",
-  path: "/admin/users",
-  icon: <Users />,
-  component: Blank,
-  children: [
-    {
-      path: "/admin/users",
-      name: "Users",
-      component: Blank,
-    },
-    {
-      path: "/admin/roles",
-      name: "Roles",
-      component: Blank,
-    },
-    {
-      path: "/admin/permissions",
-      name: "Permissions",
-      component: Blank,
-    },
-  ],
-  guard: AdminGuard,
-  visibilityFilter: AdminVisibilityFilter,
-};
+// const adminRoutes = {
+//   id: "Users",
+//   header: "Administration",
+//   path: "/admin/users",
+//   icon: <Users />,
+//   component: Blank,
+//   children: [
+//     {
+//       path: "/admin/users",
+//       name: "Users",
+//       component: Blank,
+//     },
+//     {
+//       path: "/admin/roles",
+//       name: "Roles",
+//       component: Blank,
+//     },
+//     {
+//       path: "/admin/permissions",
+//       name: "Permissions",
+//       component: Blank,
+//     },
+//   ],
+//   guard: AdminGuard,
+//   visibilityFilter: AdminVisibilityFilter,
+// };
 
 const timeseriesRoutes = {
   id: "Time Series",
@@ -389,9 +389,9 @@ export const dashboardLayoutRoutes = [
   clientDocsRoutes,
   adminDocsRoutes,
   accountRoutes,
-  documentationRoutes,
+  // documentationRoutes,
   // componentsRoutes,
-  adminRoutes,
+  // adminRoutes,
 ];
 
 export const dashboardMaxContentLayoutRoutes = [
@@ -417,7 +417,7 @@ export const sidebarRoutes = [
   clientDocsRoutes,
   adminDocsRoutes,
   ...crudSidebarMenu,
-  adminRoutes,
+  // adminRoutes,
   // componentsRoutes,
-  documentationRoutes,
+  // documentationRoutes,
 ];

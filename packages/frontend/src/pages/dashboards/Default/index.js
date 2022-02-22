@@ -11,7 +11,6 @@ import {
 
 import { spacing } from "@material-ui/system";
 
-import Actions from "./Actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import Map from "../../../components/map/Map";
 import Panel from "../../../components/panels/Panel";
@@ -39,9 +38,7 @@ function Default() {
           </Typography>
         </Grid>
 
-        <Grid item>
-          <Actions />
-        </Grid>
+        <Grid item />
       </Grid>
 
       <Divider my={6} />

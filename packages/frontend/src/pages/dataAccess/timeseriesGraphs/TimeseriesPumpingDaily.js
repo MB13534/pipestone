@@ -96,8 +96,6 @@ const TimeseriesPumpingDaily = () => {
     ["TimeseriesPumpingDailies", currentUser],
     async () => {
       try {
-        //filters out users that should be excluded
-        // return filterDataByUser(response, currentUser);
         return await service([findRawRecords, ["TimeseriesPumpingDailies"]]);
       } catch (err) {
         console.error(err);

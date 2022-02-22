@@ -92,8 +92,6 @@ const TimeseriesFlow = () => {
     ["TimeseriesFlows"],
     async () => {
       try {
-        //filters out users that should be excluded
-        // return filterDataByUser(response, currentUser);
         return await service([findRawRecords, ["TimeseriesFlows"]]);
       } catch (err) {
         console.error(err);

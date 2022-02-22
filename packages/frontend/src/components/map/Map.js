@@ -7,7 +7,6 @@ import { findRawRecords } from "../../services/crudService";
 import ResetZoomControl from "./ResetZoomControl";
 import { STARTING_LOCATION } from "../../constants";
 import { useApp } from "../../AppProvider";
-import { filterDataByUser } from "../../utils";
 import ToggleBasemapControl from "./ToggleBasemapControl";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -57,8 +56,7 @@ const Map = () => {
     async () => {
       try {
         const response = await service([findRawRecords, ["DropdownLocations"]]);
-        const data = filterDataByUser(response, currentUser);
-        return data.filter((location) => location.location_geometry);
+        return response.filter((location) => location.location_geometry);
       } catch (err) {
         console.error(err);
       }

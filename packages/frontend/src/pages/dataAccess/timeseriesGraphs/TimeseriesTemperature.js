@@ -116,8 +116,6 @@ const TimeseriesTemperature = () => {
     ["TimeseriesTemperatures", currentUser],
     async () => {
       try {
-        //filters out users that should be excluded
-        // return filterDataByUser(response, currentUser);
         return await service([findRawRecords, ["TimeseriesTemperatures"]]);
       } catch (err) {
         console.error(err);

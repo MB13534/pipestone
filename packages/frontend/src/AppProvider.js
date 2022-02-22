@@ -17,7 +17,7 @@ export const AppProvider = ({ children }) => {
       const roles = myUser[`${process.env.REACT_APP_AUDIENCE}/roles`];
 
       // TODO: dkulak: make this use real users once user section is done
-      myUser.id = "af400afa-6247-4313-9d8a-738a3633db83";
+      // myUser.id = "af400afa-6247-4313-9d8a-738a3633db83";
 
       if (roles && roles.filter((x) => x === "Administrator").length > 0) {
         myUser.isAdmin = true;
@@ -58,8 +58,10 @@ export const AppProvider = ({ children }) => {
 
       setLookupTableCache(myLookupTableCache);
     }
-    loadModels();
-  }, []); // eslint-disable-line
+    if (user) {
+      loadModels();
+    }
+  }, [user]); // eslint-disable-line
 
   // Toast
   const [toastOpen, setToastOpen] = useState(false);

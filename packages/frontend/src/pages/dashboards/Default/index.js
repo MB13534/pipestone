@@ -11,7 +11,6 @@ import {
 
 import { spacing } from "@material-ui/system";
 
-import Actions from "./Actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import Map from "../../../components/map/Map";
 import Panel from "../../../components/panels/Panel";
@@ -28,7 +27,7 @@ function Default() {
 
   return (
     <React.Fragment>
-      <Helmet title="Default Dashboard" />
+      <Helmet title="Landing Dashboard" />
       <Grid justify="space-between" container spacing={6}>
         <Grid item>
           <Typography variant="h3" gutterBottom>
@@ -39,9 +38,7 @@ function Default() {
           </Typography>
         </Grid>
 
-        <Grid item>
-          <Actions />
-        </Grid>
+        <Grid item />
       </Grid>
 
       <Divider my={6} />
@@ -54,7 +51,7 @@ function Default() {
         </Grid>
         <Grid item xs={12} lg={7}>
           <Panel>
-            <SystemWatcherTable tableHeight="388px" />
+            <SystemWatcherTable />
           </Panel>
         </Grid>
       </Grid>

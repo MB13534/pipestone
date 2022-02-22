@@ -1,4 +1,4 @@
-// import React, { useState, useEffect } from "react";
+// import React, { useState } from "react";
 //
 // import {
 //   Accordion,
@@ -6,7 +6,7 @@
 //   Grid,
 //   Tab,
 //   Tabs as MuiTabs,
-//   Typography as MuiTypography,
+//   Typography,
 // } from "@material-ui/core";
 //
 // import { add } from "date-fns";
@@ -14,24 +14,22 @@
 // import styled from "styled-components/macro";
 //
 // import { spacing } from "@material-ui/system";
-// import TimeseriesTemperature from "./TimeseriesTemperature";
-// import TimeseriesFlow from "./TimeseriesFlow";
-// import TimeseriesFlowVsStage from "./TimeseriesFlowVsStage";
-// import Panel from "../../../components/Panels/Panel";
-// import Map from "./Map";
+// import TimeseriesTemperature from "../TimeseriesTemperature";
+// import TimeseriesFlow from "../TimeseriesFlow";
+// import Panel from "../../../../components/panels/Panel";
+// import { useApp } from "../../../../AppProvider";
+// import { EXCLUDED_USERS } from "../../../../constants";
+// import Map from "../../../../components/map/Map";
 // import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 // import AccordionSummary from "@material-ui/core/AccordionSummary";
-// import TimeseriesFlowVsTargets from "./TimeseriesFlowVsTargets";
+// import TimeseriesFlowVsTargets from "../TimeseriesFlowVsTargets";
 // import { TimeseriesFilters } from "./TimeseriesFilters";
-// import TimeseriesPumpingDaily from "./TimeseriesPumpingDaily";
-// import Table from "./Table";
 //
 // const TableWrapper = styled.div`
 //   overflow-y: auto;
 //   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
 //   max-height: calc(100% - 48px);
 //   height: 100%;
-//   width: 100%;
 // `;
 //
 // const FiltersContainer = styled.div`
@@ -43,8 +41,6 @@
 //   width: 100%;
 // `;
 //
-// const Typography = styled(MuiTypography)(spacing);
-//
 // const Tabs = styled(MuiTabs)(spacing);
 //
 // function a11yProps(index) {
@@ -55,57 +51,26 @@
 // }
 //
 // const GraphTabs = () => {
-//   const defaultFilterValues = {
-//     previousDays: 7,
-//     startDate: add(new Date(), { days: -7 }),
-//     endDate: new Date(),
-//     checked: true,
-//   };
-//
-//   const [filterValues, setFilterValues] = useState(defaultFilterValues);
-//
-//   const changeFilterValues = (name, value) => {
-//     setFilterValues((prevState) => {
-//       let newFilterValues = { ...prevState };
-//
-//       newFilterValues[name] = value;
-//
-//       return newFilterValues;
-//     });
-//   };
-//
 //   const [activeTab, setActiveTab] = useState(0);
+//   const [previousDays, setPreviousDays] = useState(7);
+//   const [startDate, setStartDate] = useState(add(new Date(), { days: -7 }));
+//   const [endDate, setEndDate] = useState(new Date());
+//   const [checked, setChecked] = useState(true);
 //
-//   useEffect(() => {
-//     console.log(tabInfo[activeTab]);
-//   }, [activeTab]);
+//   const { currentUser } = useApp();
+//
+//   const tabInfo =
+//     currentUser?.sub === EXCLUDED_USERS
+//       ? [{ label: "Flow Vs Targets" }]
+//       : [
+//           { label: "Streamflow" },
+//           { label: "Flow Vs Targets" },
+//           { label: "Temperature" },
+//         ];
 //
 //   const handleTabChange = (event, newValue) => {
 //     setActiveTab(newValue);
 //   };
-//
-//   const tabInfo = [
-//     {
-//       label: "Streamflow",
-//       component: <TimeseriesFlow filterValues={filterValues} />,
-//     },
-//     {
-//       label: "Flow Vs Targets",
-//       component: <TimeseriesFlowVsTargets filterValues={filterValues} />,
-//     },
-//     {
-//       label: "Flow Vs Stage",
-//       component: <TimeseriesFlowVsStage filterValues={filterValues} />,
-//     },
-//     {
-//       label: "Temperature",
-//       component: <TimeseriesTemperature filterValues={filterValues} />,
-//     },
-//     {
-//       label: "Pumping",
-//       component: <TimeseriesPumpingDaily filterValues={filterValues} />,
-//     },
-//   ];
 //
 //   const TabPanel = ({ children, value, index, ...other }) => {
 //     return (
@@ -132,9 +97,7 @@
 //               aria-controls="map-content"
 //               id="map-header"
 //             >
-//               <Typography variant="subtitle1" ml={2}>
-//                 Map
-//               </Typography>
+//               <Typography variant="subtitle1">Map</Typography>
 //             </AccordionSummary>
 //
 //             <AccordionDetails>
@@ -151,16 +114,20 @@
 //               aria-controls="filter-controls"
 //               id="filter-controls"
 //             >
-//               <Typography variant="subtitle1" ml={2}>
-//                 Date Filters
-//               </Typography>
+//               <Typography variant="subtitle1">Date Filters</Typography>
 //             </AccordionSummary>
 //             <Panel>
 //               <AccordionDetails>
 //                 <FiltersContainer>
 //                   <TimeseriesFilters
-//                     filterValues={filterValues}
-//                     changeFilterValues={changeFilterValues}
+//                     inputPickerValue={previousDays}
+//                     inputPickerValueSetter={setPreviousDays}
+//                     endDate={endDate}
+//                     setEndDate={setEndDate}
+//                     startDate={startDate}
+//                     setStartDate={setStartDate}
+//                     checked={checked}
+//                     setChecked={setChecked}
 //                   />
 //                 </FiltersContainer>
 //               </AccordionDetails>
@@ -186,43 +153,39 @@
 //             </Tabs>
 //
 //             <TableWrapper>
-//               {typeof filterValues?.previousDays !== "undefined" &&
-//                 tabInfo.map((tab, i) => (
-//                   <TabPanel value={activeTab} index={i} key={tab.label}>
-//                     {tab.component}
-//                   </TabPanel>
-//                 ))}
+//               {currentUser?.sub !== EXCLUDED_USERS && (
+//                 <TabPanel value={activeTab} index={0}>
+//                   <TimeseriesFlow
+//                     inputPickerValue={previousDays}
+//                     endDate={endDate}
+//                     startDate={startDate}
+//                     checked={checked}
+//                   />
+//                 </TabPanel>
+//               )}
+//               <TabPanel
+//                 value={activeTab}
+//                 index={currentUser?.sub !== EXCLUDED_USERS ? 1 : 0}
+//               >
+//                 <TimeseriesFlowVsTargets
+//                   inputPickerValue={previousDays}
+//                   endDate={endDate}
+//                   startDate={startDate}
+//                   checked={checked}
+//                 />
+//               </TabPanel>
+//               {currentUser?.sub !== EXCLUDED_USERS && (
+//                 <TabPanel value={activeTab} index={2}>
+//                   <TimeseriesTemperature
+//                     inputPickerValue={previousDays}
+//                     endDate={endDate}
+//                     startDate={startDate}
+//                     checked={checked}
+//                   />
+//                 </TabPanel>
+//               )}
 //             </TableWrapper>
 //           </Panel>
-//         </Grid>
-//       </Grid>
-//
-//       <Grid container spacing={6}>
-//         <Grid item xs={12}>
-//           <Accordion>
-//             <AccordionSummary
-//               expandIcon={<ExpandMoreIcon />}
-//               aria-controls="table-content"
-//               id="table-header"
-//             >
-//               <Typography variant="subtitle1" ml={2}>
-//                 Table
-//               </Typography>
-//             </AccordionSummary>
-//             <Panel>
-//               <AccordionDetails>
-//                 <TableWrapper>
-//                   <Table
-//                   // isLoading={isTimeseriesLoading}
-//                   // label="This will be the label"
-//                   // columns={columns}
-//                   // data={tableData}
-//                   // height="100%"
-//                   />
-//                 </TableWrapper>
-//               </AccordionDetails>
-//             </Panel>
-//           </Accordion>
 //         </Grid>
 //       </Grid>
 //     </>

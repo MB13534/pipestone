@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         // },
       },
       timestamps: false,
-      schema: 'web',
+      schema: 'up_common',
       freezeTableName: true,
       paranoid: true,
     }

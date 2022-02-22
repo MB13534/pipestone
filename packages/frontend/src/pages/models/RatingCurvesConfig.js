@@ -1,6 +1,10 @@
+import React from "react";
 import { Renderers } from "../../components/crud/ResultsRenderers";
 
 import { CRUD_FIELD_TYPES } from "../../constants";
+import { Grid, Tooltip, Typography } from "@material-ui/core";
+import Divider from "@material-ui/core/Divider";
+import { HelpOutline } from "@material-ui/icons";
 
 export const displayName = (row) => {
   return `${row.ffs_desc}`;
@@ -23,19 +27,6 @@ export function columns(modelName) {
       },
     },
     {
-      field: "content_node_statuses.name",
-      renderHeader: Renderers.StatusHelpIconRenderer,
-      width: 20,
-      sortable: false,
-      disableColumnMenu: true,
-      disableReorder: true,
-      filterable: false,
-      resizeable: false,
-      align: "center",
-      renderCell: Renderers.StatusDotRenderer,
-    },
-
-    {
       field: "ffs_desc",
       headerName: "Description",
       width: 350,
@@ -55,11 +46,15 @@ export function columns(modelName) {
       field: "ffs_low_stage",
       headerName: "From Stage",
       width: 175,
+      renderCell: (params) =>
+        params.value === -999 ? "No low limit." : params.value,
     },
     {
       field: "ffs_high_stage",
       headerName: "To Stage",
       width: 175,
+      renderCell: (params) =>
+        params.value === 999 ? "No high limit." : params.value,
     },
     {
       field: "ffs_calc_type_ndx",
@@ -72,22 +67,22 @@ export function columns(modelName) {
     },
     {
       field: "ffs_a",
-      headerName: "A",
-      width: 150,
+      headerName: "Constant (C)",
+      width: 180,
       renderCell: (params) => params.value ?? 1,
     },
     {
       field: "ffs_b",
-      headerName: "B",
-      width: 150,
+      headerName: "Power Variable (u)",
+      width: 220,
       renderCell: (params) => params.value ?? 1,
     },
-    {
-      field: "ffs_c",
-      headerName: "C",
-      width: 150,
-      renderCell: (params) => params.value ?? 0,
-    },
+    // {
+    //   field: "ffs_c",
+    //   headerName: "C",
+    //   width: 150,
+    //   renderCell: (params) => params.value ?? 0,
+    // },
     {
       field: "ffs_shift",
       headerName: "Shift",
@@ -133,6 +128,39 @@ export function columns(modelName) {
 
 export const fields = [
   {
+    type: CRUD_FIELD_TYPES.CUSTOM,
+    component: () => (
+      <Grid item xs={12}>
+        <Tooltip
+          arrow={false}
+          title={
+            <ul>
+              <li>
+                <Typography variant={"subtitle2"}>
+                  Use names with date formats YYYY-MM-DD to YYYY-MM-DD so
+                  records sort correctly.
+                </Typography>
+              </li>
+              <li>
+                <Typography variant={"subtitle2"}>
+                  IMPORTANT - Precede rating curve names that are NOT Current
+                  with a space. (By doing this, the Current curves will sort to
+                  the very top, and the rest will sort in descending order
+                  below.)
+                </Typography>
+              </li>
+            </ul>
+          }
+        >
+          <Typography variant={"h4"}>
+            <HelpOutline style={{ fill: "#008FBA" }} /> Rating Curve Names
+          </Typography>
+        </Tooltip>
+        <Divider mt={2} />
+      </Grid>
+    ),
+  },
+  {
     name: "Rating Curve Description",
     key: "ffs_desc",
     required: true,
@@ -158,7 +186,7 @@ export const fields = [
     name: "Effective Date/Time",
     key: "ffs_effective_ts",
     required: true,
-    type: CRUD_FIELD_TYPES.TEXT,
+    type: CRUD_FIELD_TYPES.DATETIME,
     cols: 4,
     isOpen: true,
   },
@@ -167,7 +195,7 @@ export const fields = [
     title: "Applies to Stage Values (FT)",
   },
   {
-    name: "Low Stage",
+    name: "Low Stage (use -999 for no low limit)",
     key: "ffs_low_stage",
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
@@ -180,7 +208,7 @@ export const fields = [
     isOpen: true,
   },
   {
-    name: "High Stage",
+    name: "High Stage (use 999 for no high limit)",
     key: "ffs_high_stage",
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
@@ -218,42 +246,42 @@ export const fields = [
     typeConfig: {
       decimalScale: 14,
     },
-    cols: 3,
+    cols: 4,
     isOpen: true,
   },
   {
-    name: "A",
+    name: "Constant (C)",
     key: "ffs_a",
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
     typeConfig: {
       decimalScale: 14,
     },
-    cols: 3,
+    cols: 4,
     isOpen: true,
   },
   {
-    name: "B",
+    name: "Power Variable (u)",
     key: "ffs_b",
     required: true,
     type: CRUD_FIELD_TYPES.NUMBER,
     typeConfig: {
       decimalScale: 14,
     },
-    cols: 3,
+    cols: 4,
     isOpen: true,
   },
-  {
-    name: "C",
-    key: "ffs_c",
-    required: true,
-    type: CRUD_FIELD_TYPES.NUMBER,
-    typeConfig: {
-      decimalScale: 14,
-    },
-    cols: 3,
-    isOpen: true,
-  },
+  // {
+  //   name: "C",
+  //   key: "ffs_c",
+  //   required: true,
+  //   type: CRUD_FIELD_TYPES.NUMBER,
+  //   typeConfig: {
+  //     decimalScale: 14,
+  //   },
+  //   cols: 3,
+  //   isOpen: true,
+  // },
   // {
   //   name: "Index",
   //   key: "ffs_ndx",

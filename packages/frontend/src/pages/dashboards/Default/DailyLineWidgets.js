@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { useQuery } from "react-query";
 import { findRawRecords } from "../../../services/crudService";
@@ -8,9 +8,8 @@ import { Grid } from "@material-ui/core";
 import Panel from "../../../components/panels/Panel";
 import styled from "styled-components/macro";
 import Loader from "../../../components/Loader";
-import { useApp } from "../../../AppProvider";
-import { filterDataByUser } from "../../../utils";
 import DailyLineWidget from "./DailyLineWidget";
+import { groupByValue } from "../../../utils";
 
 const PadRight = styled.div`
   padding-right: 6px;
@@ -19,11 +18,12 @@ const PadRight = styled.div`
 const DailyLineWidgets = () => {
   const service = useService({ toast: false });
 
-  const { currentUser } = useApp();
-
-  const [distinctMeasurementTypes, setDistinctMeasurementTypes] = useState([]);
-  const { data, isLoading, error } = useQuery(
-    ["CurrentLastFewWidgets", currentUser],
+  const {
+    data: groupedData,
+    isLoading,
+    error,
+  } = useQuery(
+    ["CurrentLastFewWidgets"],
     async () => {
       try {
         const response = await service([
@@ -31,17 +31,14 @@ const DailyLineWidgets = () => {
           ["CurrentLastFewWidgets"],
         ]);
 
-        const data = filterDataByUser(response, currentUser);
+        const data = groupByValue(response, "measurement_type_ndx");
 
-        setDistinctMeasurementTypes([
-          ...new Set(data.map((item) => item.measurement_type_desc)),
-        ]);
         return data;
       } catch (err) {
         console.error(err);
       }
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true, refetchOnWindowFocus: false }
   );
 
   if (error) return "An error has occurred: " + error.message;
@@ -59,13 +56,23 @@ const DailyLineWidgets = () => {
             </Panel>
           </Grid>
         </Grid>
-      ) : data?.length === 0 || distinctMeasurementTypes.length === 0 ? null : (
+      ) : groupedData?.length === 0 ? null : (
         <Grid container spacing={6}>
-          {distinctMeasurementTypes.map((type) => (
-            <Grid item xs={12} md={12} lg={6} key={type}>
-              <Panel title={type} height="200px" overflowY={"auto"}>
+          {groupedData.map((measurementTypeData) => (
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={6}
+              key={measurementTypeData[0].measurement_type_ndx}
+            >
+              <Panel
+                title={measurementTypeData[0].measurement_type_desc}
+                height="200px"
+                overflowY={"auto"}
+              >
                 <PadRight>
-                  <DailyLineWidget data={data} measurementType={type} />
+                  <DailyLineWidget data={measurementTypeData} />
                 </PadRight>
               </Panel>
             </Grid>

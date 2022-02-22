@@ -7,7 +7,7 @@ import async from "../components/Async";
 
 import {
   Activity,
-  BookOpen,
+  // BookOpen,
   Database,
   FileText,
   Home,
@@ -29,21 +29,19 @@ import Blank from "../pages/pages/Blank";
 import Changelog from "../pages/docs/Changelog";
 import Landing from "../pages/presentation/Landing";
 import ProtectedPage from "../pages/protected/ProtectedPage";
-import Introduction from "../pages/docs/Introduction";
-import Support from "../pages/docs/Support";
+// import Introduction from "../pages/docs/Introduction";
+// import Support from "../pages/docs/Support";
 import { DocumentationProvider } from "../pages/docs/DocumentationProvider";
 import * as inflector from "inflected";
-import GettingStarted from "../pages/docs/GettingStarted";
+// import GettingStarted from "../pages/docs/GettingStarted";
 import Default from "../pages/dashboards/Default";
 import { CrudProvider } from "../CrudProvider";
-import CRUD from "../pages/docs/CRUD";
-import Deploy from "../pages/docs/Deploy";
+// import CRUD from "../pages/docs/CRUD";
+// import Deploy from "../pages/docs/Deploy";
 import AdminLastReport from "../pages/dataAccess/reports/AdminLastReport";
 import TimeseriesFlow from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlow";
 import TimeseriesFlowVsTargets from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsTargets";
-import TimeseriesFlowVsStage from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsStage";
 import TimeseriesTemperature from "../pages/dataAccess/timeseriesGraphs/TimeseriesTemperature";
-import TimeseriesPumpingDaily from "../pages/dataAccess/timeseriesGraphs/TimeseriesPumpingDaily";
 import PublicFiles from "../pages/documents/PublicFiles";
 import ClientDocs from "../pages/documents/ClientDocs";
 import AdminDocs from "../pages/documents/AdminDocs";
@@ -186,52 +184,52 @@ const pageRoutes = {
   ],
 };
 
-const documentationRoutes = {
-  id: "Documentation",
-  path: ROUTES.PAGE_DOCUMENTATION,
-  icon: <BookOpen />,
-  provider: DocumentationProvider,
-  children: [
-    {
-      path: ROUTES.PAGE_DOCS_INTRODUCTION,
-      name: "Introduction",
-      component: Introduction,
-      guard: AdminGuard,
-    },
-    {
-      path: ROUTES.PAGE_DOCS_GETTING_STARTED,
-      name: "Getting Started",
-      component: GettingStarted,
-      guard: AdminGuard,
-    },
-    {
-      path: ROUTES.PAGE_DOCS_CRUD,
-      name: "CRUD",
-      component: CRUD,
-      guard: AdminGuard,
-    },
-    {
-      path: ROUTES.PAGE_DOCS_DEPLOY,
-      name: "Deploy",
-      component: Deploy,
-      guard: AdminGuard,
-    },
-    {
-      path: ROUTES.PAGE_DOCS_SUPPORT,
-      name: "Support",
-      component: Support,
-      guard: AdminGuard,
-    },
-    {
-      path: ROUTES.PAGE_CHANGELOG,
-      name: "Changelog",
-      component: Changelog,
-    },
-  ],
-  component: null,
-  guard: AdminGuard,
-  visibilityFilter: AdminVisibilityFilter,
-};
+// const documentationRoutes = {
+//   id: "Documentation",
+//   path: ROUTES.PAGE_DOCUMENTATION,
+//   icon: <BookOpen />,
+//   provider: DocumentationProvider,
+//   children: [
+//     {
+//       path: ROUTES.PAGE_DOCS_INTRODUCTION,
+//       name: "Introduction",
+//       component: Introduction,
+//       guard: AdminGuard,
+//     },
+//     {
+//       path: ROUTES.PAGE_DOCS_GETTING_STARTED,
+//       name: "Getting Started",
+//       component: GettingStarted,
+//       guard: AdminGuard,
+//     },
+//     {
+//       path: ROUTES.PAGE_DOCS_CRUD,
+//       name: "CRUD",
+//       component: CRUD,
+//       guard: AdminGuard,
+//     },
+//     {
+//       path: ROUTES.PAGE_DOCS_DEPLOY,
+//       name: "Deploy",
+//       component: Deploy,
+//       guard: AdminGuard,
+//     },
+//     {
+//       path: ROUTES.PAGE_DOCS_SUPPORT,
+//       name: "Support",
+//       component: Support,
+//       guard: AdminGuard,
+//     },
+//     {
+//       path: ROUTES.PAGE_CHANGELOG,
+//       name: "Changelog",
+//       component: Changelog,
+//     },
+//   ],
+//   component: null,
+//   guard: AdminGuard,
+//   visibilityFilter: AdminVisibilityFilter,
+// };
 
 // const slugify = (str) => {
 //   return dasherize(underscore(str));
@@ -278,32 +276,32 @@ const protectedPageRoutes = {
   guard: AuthGuard,
 };
 
-const adminRoutes = {
-  id: "Users",
-  header: "Administration",
-  path: "/admin/users",
-  icon: <Users />,
-  component: Blank,
-  children: [
-    {
-      path: "/admin/users",
-      name: "Users",
-      component: Blank,
-    },
-    {
-      path: "/admin/roles",
-      name: "Roles",
-      component: Blank,
-    },
-    {
-      path: "/admin/permissions",
-      name: "Permissions",
-      component: Blank,
-    },
-  ],
-  guard: AdminGuard,
-  visibilityFilter: AdminVisibilityFilter,
-};
+// const adminRoutes = {
+//   id: "Users",
+//   header: "Administration",
+//   path: "/admin/users",
+//   icon: <Users />,
+//   component: Blank,
+//   children: [
+//     {
+//       path: "/admin/users",
+//       name: "Users",
+//       component: Blank,
+//     },
+//     {
+//       path: "/admin/roles",
+//       name: "Roles",
+//       component: Blank,
+//     },
+//     {
+//       path: "/admin/permissions",
+//       name: "Permissions",
+//       component: Blank,
+//     },
+//   ],
+//   guard: AdminGuard,
+//   visibilityFilter: AdminVisibilityFilter,
+// };
 
 const timeseriesRoutes = {
   id: "Time Series",
@@ -314,6 +312,8 @@ const timeseriesRoutes = {
       path: "/data-access/graphs/streamflow",
       name: "Streamflow",
       component: TimeseriesFlow,
+      guard: UserGuard,
+      visibilityFilter: UserVisibilityFilter,
     },
     {
       path: "/data-access/graphs/flow-vs-targets",
@@ -321,19 +321,11 @@ const timeseriesRoutes = {
       component: TimeseriesFlowVsTargets,
     },
     {
-      path: "/data-access/graphs/flow-vs-stage",
-      name: "Flow vs Stage",
-      component: TimeseriesFlowVsStage,
-    },
-    {
       path: "/data-access/graphs/temperature",
       name: "Temperature",
       component: TimeseriesTemperature,
-    },
-    {
-      path: "/data-access/graphs/pumping",
-      name: "Pumping",
-      component: TimeseriesPumpingDaily,
+      guard: UserGuard,
+      visibilityFilter: UserVisibilityFilter,
     },
   ],
 };
@@ -397,9 +389,9 @@ export const dashboardLayoutRoutes = [
   clientDocsRoutes,
   adminDocsRoutes,
   accountRoutes,
-  documentationRoutes,
+  // documentationRoutes,
   // componentsRoutes,
-  adminRoutes,
+  // adminRoutes,
 ];
 
 export const dashboardMaxContentLayoutRoutes = [
@@ -425,7 +417,7 @@ export const sidebarRoutes = [
   clientDocsRoutes,
   adminDocsRoutes,
   ...crudSidebarMenu,
-  adminRoutes,
+  // adminRoutes,
   // componentsRoutes,
-  documentationRoutes,
+  // documentationRoutes,
 ];

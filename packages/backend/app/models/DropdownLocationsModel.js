@@ -24,9 +24,9 @@ module.exports = (sequelize, DataTypes) => {
       location_geometry: {
         type: GEOMETRY,
       },
-      // exclude_auth0_user_id: {
-      //   type: TEXT,
-      // },
+      exclude_auth0_user_id: {
+        type: TEXT,
+      },
     },
     {
       defaultScope: {
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       timestamps: false,
-      schema: 'web',
+      schema: 'up_common',
       freezeTableName: true,
       paranoid: true,
     }

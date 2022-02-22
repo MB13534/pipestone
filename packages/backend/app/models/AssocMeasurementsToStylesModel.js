@@ -1,29 +1,29 @@
 module.exports = (sequelize, DataTypes) => {
-  const {INTEGER, TEXT} = DataTypes;
-  const DropdownMeasurementsFFS = sequelize.define(
-    'dropdown_measurements_ffs',
+  const {INTEGER, TEXT, REAL} = DataTypes;
+  const AssocMeasurementsToStyles = sequelize.define(
+    'assoc_measurements_to_styles',
     {
       measurement_ndx: {
         type: INTEGER,
         primaryKey: true,
       },
-      measurement_name: {
+      measurement_type_ndx: {
         type: TEXT,
       },
-      location_name: {
+      style_ndx: {
         type: TEXT,
       },
-      location_ndx: {
-        type: INTEGER,
+      notes: {
+        type: REAL,
       },
     },
     {
       timestamps: false,
-      schema: 'client_telluride',
+      schema: 'up_common',
       freezeTableName: true,
       paranoid: true,
     }
   );
 
-  return DropdownMeasurementsFFS;
+  return AssocMeasurementsToStyles;
 };

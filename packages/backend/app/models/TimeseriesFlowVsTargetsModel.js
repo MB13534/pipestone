@@ -31,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
       native_flow_cfs: {
         type: REAL,
       },
+      native_flow_est_cfs: {
+        type: REAL,
+      },
       below_target_cfs: {
         type: REAL,
       },
@@ -57,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultScope: {
         order: [['collect_timestamp', 'asc']],
       },
-      schema: 'web',
+      schema: 'client_telluride',
       timestamps: false,
       paranoid: true,
       freezeTableName: true,

@@ -66,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultScope: {
         order: [['created_at', 'asc']],
       },
-      schema: 'calcs',
+      schema: 'client_telluride',
       paranoid: true,
       tableName: 'flow_from_stage',
     }

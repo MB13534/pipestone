@@ -63,12 +63,32 @@ export const lineColors = {
   olive: "#808000",
   tan: "#ffd8b1",
   royalBlue: "#000075",
+  lightBlue: "#cfe2f3",
   gray: "#8D9093",
+  medGray: "#efefef",
   lightGray: "#eee",
   darkGray: "#222",
   white: "#fff",
   black: "#000000",
 };
+
+export const groupByValue = (array, key) => {
+  return Object.values(
+    array.reduce((acc, curr) => {
+      if (!acc[curr[key]]) acc[curr[key]] = [];
+      acc[curr[key]].push(curr);
+      return acc;
+    }, {})
+  );
+};
+
+export function removeDuplicates(array, key) {
+  let lookup = {};
+  array.forEach((element) => {
+    lookup[element[key]] = element;
+  });
+  return Object.keys(lookup).map((key) => lookup[key]);
+}
 
 export const dateFormatter = (date, format) => {
   return moment(date).format(format);

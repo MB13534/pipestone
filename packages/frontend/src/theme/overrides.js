@@ -13,6 +13,30 @@ const overrides = {
       background: "none",
     },
   },
+  PrivateNotchedOutline: {
+    legendLabelled: {
+      fontSize: ".92em",
+    },
+  },
+  MuiInputLabel: {
+    shrink: {
+      fontSize: "16px",
+      color: "black",
+    },
+    root: {
+      color: "black",
+    },
+  },
+  MuiInputBase: {
+    root: {
+      color: "rgba(0,0,0,1)",
+    },
+  },
+  MuiFormLabel: {
+    root: {
+      color: "black",
+    },
+  },
   MuiCardHeader: {
     action: {
       marginTop: "-4px",
@@ -116,8 +140,9 @@ const overrides = {
         webkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.00)",
       },
       "*::-webkit-scrollbar-thumb": {
-        backgroundColor: "rgba(255,255,255,.2)",
-        border: "none",
+        // backgroundColor: "rgba(255,255,255,.2)",
+        backgroundColor: "rgb(178,178,178)",
+        border: "none !important",
         borderRadius: "8px",
       },
     },

@@ -14,7 +14,7 @@ import {
   withWidth,
 } from "@material-ui/core";
 import { ChevronLeft } from "@material-ui/icons";
-import SplitSaveButton from "./SplitSaveButton";
+// import SplitSaveButton from "./SplitSaveButton";
 import {
   CRUD_FORM_SUBMIT_TYPES,
   CRUD_VIEW_MODES,
@@ -203,19 +203,19 @@ function ViewAppBar({
               triggerQueryReload();
             }}
           />
-          <SplitSaveButton
-            numMismatches={numMismatches}
-            formIsDirty={formIsDirty}
-            formIsSubmitting={submitFormMode === modes.SAVE && formIsSubmitting}
-            isFetching={isFetching}
-            onClick={() => prepareSubmit(modes.SAVE, afterClick)}
-            onCloseClick={() => prepareSubmit(modes.SAVE, afterCloseClick)}
-            onNewClick={() => prepareSubmit(modes.SAVE, afterNewClick)}
-            style={{
-              marginRight: theme.spacing(2),
-              width: isWidthDown("xs", width) ? "100%" : "auto",
-            }}
-          />
+          {/*<SplitSaveButton*/}
+          {/*  numMismatches={numMismatches}*/}
+          {/*  formIsDirty={formIsDirty}*/}
+          {/*  formIsSubmitting={submitFormMode === modes.SAVE && formIsSubmitting}*/}
+          {/*  isFetching={isFetching}*/}
+          {/*  onClick={() => prepareSubmit(modes.SAVE, afterClick)}*/}
+          {/*  onCloseClick={() => prepareSubmit(modes.SAVE, afterCloseClick)}*/}
+          {/*  onNewClick={() => prepareSubmit(modes.SAVE, afterNewClick)}*/}
+          {/*  style={{*/}
+          {/*    marginRight: theme.spacing(2),*/}
+          {/*    width: isWidthDown("xs", width) ? "100%" : "auto",*/}
+          {/*  }}*/}
+          {/*/>*/}
           <SplitPublishButton
             formIsDirty={formIsDirty}
             formIsSubmitting={

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const {INTEGER, TEXT, REAL} = DataTypes;
+  const {INTEGER, TEXT} = DataTypes;
   const DropdownMeasurementsTemperatures = sequelize.define(
     'dropdown_measurements_temperature',
     {
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-      schema: 'web',
+      schema: 'client_telluride',
       freezeTableName: true,
       paranoid: true,
     }

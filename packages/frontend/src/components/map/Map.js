@@ -176,9 +176,10 @@ const Map = () => {
   if (error) return "An error has occurred: " + error.message;
 
   return (
-    <MapContainer ref={mapContainer}>
+    <>
+      <MapContainer ref={mapContainer} />
       <Coordinates ref={coordinates} />
-    </MapContainer>
+    </>
   );
 };
 

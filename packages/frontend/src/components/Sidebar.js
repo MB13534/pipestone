@@ -72,9 +72,9 @@ const Brand = styled(ListItem)`
   }
 `;
 
-const BrandIcon = styled.img`
-  margin-right: ${(props) => props.theme.spacing(2)}px;
-`;
+// const BrandIcon = styled.img`
+//   margin-right: ${(props) => props.theme.spacing(2)}px;
+// `;
 
 const Category = styled(ListItem)`
   padding-top: ${(props) => props.theme.spacing(3)}px;
@@ -330,12 +330,12 @@ const Sidebar = ({
           pointerEvents: "all",
         }}
       >
-        <BrandIcon
-          src={`/static/img/telluride-logo-square.svg`}
-          width="32"
-          height="32"
-          alt="LRE Icon"
-        />{" "}
+        {/*<BrandIcon*/}
+        {/*  src={`/static/img/telluride-logo-square.svg`}*/}
+        {/*  width="32"*/}
+        {/*  height="32"*/}
+        {/*  alt="LRE Icon"*/}
+        {/*/>{" "}*/}
         <Box ml={1} style={{ fontSize: "0.9rem", display: "flex" }}>
           Monitoring Dashboard{" "}
         </Box>

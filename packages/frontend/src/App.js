@@ -32,8 +32,8 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <HelmetProvider>
           <Helmet
-            titleTemplate="%s | Telluride"
-            defaultTitle="Telluride Monitoring Dashboard"
+            titleTemplate="%s | Pipestone"
+            defaultTitle="Pipestone Monitoring Dashboard"
           />
           <StylesProvider jss={jss}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>

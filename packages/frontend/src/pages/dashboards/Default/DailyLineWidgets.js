@@ -23,12 +23,12 @@ const DailyLineWidgets = () => {
     isLoading,
     error,
   } = useQuery(
-    ["CurrentLastFewWidgets"],
+    ["CurrentLastFewWidgetsViews"],
     async () => {
       try {
         const response = await service([
           findRawRecords,
-          ["CurrentLastFewWidgets"],
+          ["CurrentLastFewWidgetsViews"],
         ]);
 
         const data = groupByValue(response, "measurement_type_ndx");

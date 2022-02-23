@@ -1,6 +1,6 @@
 const express = require('express');
 const {checkAccessToken} = require('../../core/middleware/auth.js');
-const {current_conditions_widgets: model} = require('../../core/models');
+const {current_conditions_widgets_views: model} = require('../../core/models');
 
 const router = express.Router();
 

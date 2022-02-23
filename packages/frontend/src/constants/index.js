@@ -138,7 +138,7 @@ export const THEMES = {
 
 export const THEME_SELECTED = "THEME_SELECTED";
 
-export const STARTING_LOCATION = [-107.85129441664017, 37.949747156874196];
+export const STARTING_LOCATION = [-96.31770411993897, 44.00627895867081];
 
 // Redux Actions
 export const ACTIONS = {

@@ -15,7 +15,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Map from "../../../components/map/Map";
 import Panel from "../../../components/panels/Panel";
 import DailyBarWidgets from "./DailyBarWidgets";
-import SystemWatcherTable from "./SystemWatcherTable";
+// import SystemWatcherTable from "./SystemWatcherTable";
 import DailyLineWidgets from "./DailyLineWidgets";
 
 const Divider = styled(MuiDivider)(spacing);
@@ -44,16 +44,16 @@ function Default() {
       <Divider my={6} />
 
       <Grid container spacing={6}>
-        <Grid item xs={12} lg={5}>
-          <Panel minHeight="300px">
+        <Grid item xs={12}>
+          <Panel minHeight="60vh">
             <Map />
           </Panel>
         </Grid>
-        <Grid item xs={12} lg={7}>
-          <Panel>
-            <SystemWatcherTable />
-          </Panel>
-        </Grid>
+        {/*<Grid item xs={12} lg={7}>*/}
+        {/*  <Panel>*/}
+        {/*    <SystemWatcherTable />*/}
+        {/*  </Panel>*/}
+        {/*</Grid>*/}
       </Grid>
 
       <Grid container spacing={6}>

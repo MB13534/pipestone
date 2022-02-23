@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const {INTEGER, TEXT, DATE, REAL} = DataTypes;
-  const CurrentLastFewWidgets = sequelize.define(
-    'current_lastfew_widgets',
+  const CurrentConditionsWidgetsViews = sequelize.define(
+    'current_conditions_widgets_views',
     {
       client: {
         type: TEXT,
@@ -12,10 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       location_name: {
         type: TEXT,
       },
-      collect_timestamp: {
+      last_collected: {
         type: DATE,
       },
-      measured_value: {
+      last_value: {
         type: REAL,
       },
       unit_desc: {
@@ -42,12 +42,12 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      schema: 'client_telluride',
+      schema: 'client_pipestone',
       timestamps: false,
       paranoid: true,
       freezeTableName: true,
     }
   );
 
-  return CurrentLastFewWidgets;
+  return CurrentConditionsWidgetsViews;
 };

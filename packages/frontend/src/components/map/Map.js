@@ -8,8 +8,18 @@ import ResetZoomControl from "./ResetZoomControl";
 import { STARTING_LOCATION } from "../../constants";
 import { useApp } from "../../AppProvider";
 import ToggleBasemapControl from "./ToggleBasemapControl";
+import debounce from "lodash.debounce";
+
+import pipestoneMarker from "./pipestone-marker.png";
+import { lineColors } from "../../utils";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+
+const Root = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
 
 const MapContainer = styled.div`
   position: relative;
@@ -38,8 +48,8 @@ const Map = () => {
   const mapContainer = useRef(null); // create a reference to the map container
   const coordinates = useRef(null);
   const DUMMY_BASEMAP_LAYERS = [
-    { url: "streets-v11", icon: "commute" },
     { url: "outdoors-v11", icon: "park" },
+    { url: "streets-v11", icon: "commute" },
     { url: "satellite-streets-v11", icon: "satellite_alt" },
   ];
 
@@ -69,7 +79,7 @@ const Map = () => {
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/" + DUMMY_BASEMAP_LAYERS[0].url,
       center: STARTING_LOCATION,
-      zoom: 11,
+      zoom: 12,
     });
 
     map.addControl(new mapboxgl.NavigationControl(), "top-left");
@@ -93,93 +103,139 @@ const Map = () => {
       return map.addControl(new ToggleBasemapControl(layer.url, layer.icon));
     });
 
-    map.on("render", () => {
-      map.resize();
-    });
     map.on("load", () => {
       setMapIsLoaded(true);
-      map.resize();
       setMap(map);
     });
   }, []); // eslint-disable-line
 
+  //resizes map when mapContainerRef dimensions changes (sidebar toggle)
+  useEffect(() => {
+    if (map) {
+      const resizer = new ResizeObserver(debounce(() => map.resize(), 100));
+      resizer.observe(mapContainer.current);
+      return () => {
+        resizer.disconnect();
+      };
+    }
+  }, [map]);
+
   useEffect(() => {
     if (mapIsLoaded && data?.length > 0 && typeof map != "undefined") {
-      if (!map.getSource("locations")) {
-        map.addSource("locations", {
-          // This GeoJSON contains features that include an "icon"
-          // property. The value of the "icon" property corresponds
-          // to an image in the Mapbox Streets style's sprite.
-          type: "geojson",
-          data: {
-            type: "FeatureCollection",
-            features: data.map((location) => {
-              return {
-                type: "Feature",
-                properties: {
-                  description: location.location_name,
-                },
-                geometry: {
-                  type: location.location_geometry.type,
-                  coordinates: location.location_geometry.coordinates,
-                },
-              };
-            }),
-          },
-        });
-        // Add a layer showing the places.
-        map.addLayer({
-          id: "locations",
-          type: "circle",
-          source: "locations",
-          paint: {
-            "circle-radius": 6,
-            "circle-color": "#B42222",
-          },
-        });
+      map.loadImage(pipestoneMarker, (error, image) => {
+        if (error) throw error;
+        // Add the image to the map style.
+        map.addImage("pipestoneMarker", image);
+        if (!map.getSource("locations")) {
+          map.addSource("locations", {
+            // This GeoJSON contains features that include an "icon"
+            // property. The value of the "icon" property corresponds
+            // to an image in the Mapbox Streets style's sprite.
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: data.map((location) => {
+                return {
+                  type: "Feature",
+                  properties: {
+                    description: location.location_name,
+                  },
+                  geometry: {
+                    type: location.location_geometry.type,
+                    coordinates: location.location_geometry.coordinates,
+                  },
+                };
+              }),
+            },
+          });
+          // Add a layer showing the places.
+          map.addLayer({
+            id: "locationsCircles",
+            type: "circle",
+            source: "locations",
+            paint: {
+              "circle-radius": 4,
+              "circle-color": lineColors.black,
+              "circle-stroke-width": 8,
+              "circle-stroke-color": lineColors.lightGreen,
+            },
+          });
 
-        // When a click event occurs on a feature in the places layer, open a popup at the
-        // location of the feature, with description HTML from its properties.
-        map.on("click", "locations", (e) => {
-          // Copy coordinates array.
-          const coordinates = e.features[0].geometry.coordinates.slice();
-          const description = e.features[0].properties.description;
+          map.addLayer({
+            id: "locationsMarkers",
+            type: "symbol",
+            source: "locations",
+            layout: {
+              "icon-image": "pipestoneMarker", // reference the image
+              "icon-size": 0.75,
+              "icon-allow-overlap": true,
+            },
+          });
 
-          // Ensure that if the map is zoomed out such that multiple
-          // copies of the feature are visible, the popup appears
-          // over the copy being pointed to.
-          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-          }
+          map.addLayer({
+            id: "locations-labels",
+            type: "symbol",
+            source: "locations",
+            // minzoom: 12,
+            layout: {
+              "text-field": ["get", "description"],
+              "text-offset": [0, -1.5],
+              "text-size": 14,
+              "text-font": [
+                "literal",
+                ["Roboto Black", "Arial Unicode MS Bold"],
+              ],
+            },
+            paint: {
+              "text-color": "rgb(49,49,49)",
+              "text-halo-color": "rgba(255,255,255,1)",
+              "text-halo-width": 3,
+            },
+          });
 
-          new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(description)
-            .addTo(map);
-        });
+          // When a click event occurs on a feature in the places layer, open a popup at the
+          // location of the feature, with description HTML from its properties.
+          map.on("click", "locationsCircles", (e) => {
+            // Copy coordinates array.
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const description = e.features[0].properties.description;
 
-        map.on("click", "locations", onPointClick);
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
 
-        // Change the cursor to a pointer when the mouse is over the places layer.
-        map.on("mouseenter", "locations", () => {
-          map.getCanvas().style.cursor = "pointer";
-        });
+            new mapboxgl.Popup()
+              .setLngLat(coordinates)
+              .setHTML(description)
+              .addTo(map);
+          });
 
-        // Change it back to a pointer when it leaves.
-        map.on("mouseleave", "locations", () => {
-          map.getCanvas().style.cursor = "";
-        });
-      }
+          map.on("click", "locations", onPointClick);
+
+          // Change the cursor to a pointer when the mouse is over the places layer.
+          map.on("mouseenter", "locations", () => {
+            map.getCanvas().style.cursor = "pointer";
+          });
+
+          // Change it back to a pointer when it leaves.
+          map.on("mouseleave", "locations", () => {
+            map.getCanvas().style.cursor = "";
+          });
+        }
+      });
     }
   }, [isLoading, mapIsLoaded, map, data]);
 
   if (error) return "An error has occurred: " + error.message;
 
   return (
-    <>
+    <Root>
       <MapContainer ref={mapContainer} />
       <Coordinates ref={coordinates} />
-    </>
+    </Root>
   );
 };
 

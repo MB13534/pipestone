@@ -64,6 +64,7 @@ export const lineColors = {
   tan: "#ffd8b1",
   royalBlue: "#000075",
   lightBlue: "#cfe2f3",
+  lightGreen: "#00FF00",
   gray: "#8D9093",
   medGray: "#efefef",
   lightGray: "#eee",

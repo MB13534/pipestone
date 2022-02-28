@@ -9,21 +9,21 @@ import {
   Activity,
   // BookOpen,
   Database,
-  FileText,
+  // FileText,
   Home,
   List,
   Monitor,
   Users,
   Archive,
-  Folder,
+  // Folder,
   Briefcase,
 } from "react-feather";
 
 import AuthGuard from "../components/AuthGuard";
 import AdminGuard from "../components/AdminGuard";
 import AdminVisibilityFilter from "../components/AdminVisibilityFilter";
-import UserVisibilityFilter from "../components/UserVisibilityFilter";
-import UserGuard from "../components/UserGuard";
+// import UserVisibilityFilter from "../components/UserVisibilityFilter";
+// import UserGuard from "../components/UserGuard";
 
 import Blank from "../pages/pages/Blank";
 import Changelog from "../pages/docs/Changelog";
@@ -38,19 +38,22 @@ import Default from "../pages/dashboards/Default";
 import { CrudProvider } from "../CrudProvider";
 // import CRUD from "../pages/docs/CRUD";
 // import Deploy from "../pages/docs/Deploy";
-import AdminLastReport from "../pages/dataAccess/reports/AdminLastReport";
-import TimeseriesFlow from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlow";
-import TimeseriesFlowVsTargets from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsTargets";
-import TimeseriesTemperature from "../pages/dataAccess/timeseriesGraphs/TimeseriesTemperature";
+// import AdminLastReport from "../pages/dataAccess/reports/AdminLastReport";
+// import TimeseriesFlow from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlow";
+// import TimeseriesFlowVsTargets from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsTargets";
+// import TimeseriesTemperature from "../pages/dataAccess/timeseriesGraphs/TimeseriesTemperature";
 import PublicFiles from "../pages/documents/PublicFiles";
-import ClientDocs from "../pages/documents/ClientDocs";
+// import ClientDocs from "../pages/documents/ClientDocs";
 import AdminDocs from "../pages/documents/AdminDocs";
-import DischargeMonitoringReport from "../pages/dataAccess/reports/DischargeMonitoringReport";
+// import DischargeMonitoringReport from "../pages/dataAccess/reports/DischargeMonitoringReport";
+// import TimeseriesFlowVsStage from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsStage";
+import GroundwaterLevelVsPumping from "../pages/dataAccess/timeseriesGraphs/GroundwaterLevelVsPumping";
+import GroundwaterLevelVsPrecipitation from "../pages/dataAccess/timeseriesGraphs/GroundwaterLevelVsPrecipitation";
 const Account = async(() => import("../pages/pages/Account"));
 const Profile = async(() => import("../pages/pages/Profile"));
 
 const CrudIndexPage = async(() => import("../components/crud/CrudIndexPage"));
-const CrudViewPage = async(() => import("../components/crud/CrudViewPage"));
+// const CrudViewPage = async(() => import("../components/crud/CrudViewPage"));
 
 const getSidebarMenu = (list) => {
   return list.map((item) => {
@@ -71,42 +74,42 @@ const getSidebarMenu = (list) => {
   });
 };
 
-const getCrudRoutes = (list) => {
-  return list.map((item) => {
-    const config = require(`../pages/models/${item.name}Config`);
-    const slug = inflector.dasherize(inflector.underscore(item.name));
-
-    return {
-      id: inflector.titleize(item.name),
-      path: `/models/${slug}`,
-      model: inflector.singularize(item.name),
-      component: CrudIndexPage,
-      provider: CrudProvider,
-      config,
-      crud: [
-        {
-          path: `/models/${slug}/:id`,
-          name: `View ${inflector.titleize(inflector.singularize(item.name))}`,
-          component: CrudViewPage,
-          provider: CrudProvider,
-          model: inflector.singularize(item.name),
-          config,
-        },
-        {
-          path: `/models/${slug}/add`,
-          name: `Add ${inflector.titleize(inflector.singularize(item.name))}`,
-          component: CrudViewPage,
-          provider: CrudProvider,
-          model: inflector.singularize(item.name),
-          config,
-        },
-      ],
-    };
-  });
-};
+// const getCrudRoutes = (list) => {
+//   return list.map((item) => {
+//     const config = require(`../pages/models/${item.name}Config`);
+//     const slug = inflector.dasherize(inflector.underscore(item.name));
+//
+//     return {
+//       id: inflector.titleize(item.name),
+//       path: `/models/${slug}`,
+//       model: inflector.singularize(item.name),
+//       component: CrudIndexPage,
+//       provider: CrudProvider,
+//       config,
+//       crud: [
+//         {
+//           path: `/models/${slug}/:id`,
+//           name: `View ${inflector.titleize(inflector.singularize(item.name))}`,
+//           component: CrudViewPage,
+//           provider: CrudProvider,
+//           model: inflector.singularize(item.name),
+//           config,
+//         },
+//         {
+//           path: `/models/${slug}/add`,
+//           name: `Add ${inflector.titleize(inflector.singularize(item.name))}`,
+//           component: CrudViewPage,
+//           provider: CrudProvider,
+//           model: inflector.singularize(item.name),
+//           config,
+//         },
+//       ],
+//     };
+//   });
+// };
 
 const crudSidebarMenu = [...getSidebarMenu(CRUD_MODELS)];
-const modelCrudRoutes = [...getCrudRoutes(CRUD_MODELS)];
+// const modelCrudRoutes = [...getCrudRoutes(CRUD_MODELS)];
 
 const accountRoutes = {
   id: "Account",
@@ -308,46 +311,57 @@ const timeseriesRoutes = {
   header: "Data Access",
   icon: <Activity />,
   children: [
+    // {
+    //   path: "/data-access/graphs/streamflow",
+    //   name: "Streamflow",
+    //   component: TimeseriesFlow,
+    //   guard: UserGuard,
+    //   visibilityFilter: UserVisibilityFilter,
+    // },
+    // {
+    //   path: "/data-access/graphs/flow-vs-targets",
+    //   name: "Flow vs Targets",
+    //   component: TimeseriesFlowVsTargets,
+    // },
+    // {
+    //   path: "/data-access/graphs/temperature",
+    //   name: "Temperature",
+    //   component: TimeseriesTemperature,
+    //   guard: UserGuard,
+    //   visibilityFilter: UserVisibilityFilter,
+    // },
+    //test
     {
-      path: "/data-access/graphs/streamflow",
-      name: "Streamflow",
-      component: TimeseriesFlow,
-      guard: UserGuard,
-      visibilityFilter: UserVisibilityFilter,
+      path: "/data-access/graphs/groundwater-level-vs-pumping",
+      name: "Groundwater Level vs Pumping",
+      component: GroundwaterLevelVsPumping,
     },
     {
-      path: "/data-access/graphs/flow-vs-targets",
-      name: "Flow vs Targets",
-      component: TimeseriesFlowVsTargets,
-    },
-    {
-      path: "/data-access/graphs/temperature",
-      name: "Temperature",
-      component: TimeseriesTemperature,
-      guard: UserGuard,
-      visibilityFilter: UserVisibilityFilter,
+      path: "/data-access/graphs/groundwater-level-vs-precipitation",
+      name: "Groundwater Level vs Precipitation & Barometric Pressure",
+      component: GroundwaterLevelVsPrecipitation,
     },
   ],
 };
 
-const reportsRoutes = {
-  id: "Reports",
-  icon: <FileText />,
-  children: [
-    {
-      path: "/data-access/reports/admin-last-report",
-      name: "Admin",
-      component: AdminLastReport,
-    },
-    {
-      path: "/data-access/reports/discharge-monitoring-report",
-      name: "Discharge Monitoring",
-      component: DischargeMonitoringReport,
-    },
-  ],
-  guard: AdminGuard,
-  visibilityFilter: AdminVisibilityFilter,
-};
+// const reportsRoutes = {
+//   id: "Reports",
+//   icon: <FileText />,
+//   children: [
+//     {
+//       path: "/data-access/reports/admin-last-report",
+//       name: "Admin",
+//       component: AdminLastReport,
+//     },
+//     {
+//       path: "/data-access/reports/discharge-monitoring-report",
+//       name: "Discharge Monitoring",
+//       component: DischargeMonitoringReport,
+//     },
+//   ],
+//   guard: AdminGuard,
+//   visibilityFilter: AdminVisibilityFilter,
+// };
 
 const publicFilesRoutes = {
   id: "Public Files",
@@ -357,16 +371,16 @@ const publicFilesRoutes = {
   name: "Public Files",
   component: PublicFiles,
 };
-
-const clientDocsRoutes = {
-  id: "Client Docs",
-  icon: <Folder />,
-  path: "/data-access/documents/client-docs",
-  name: "Client Documents",
-  component: ClientDocs,
-  guard: UserGuard,
-  visibilityFilter: UserVisibilityFilter,
-};
+//
+// const clientDocsRoutes = {
+//   id: "Client Docs",
+//   icon: <Folder />,
+//   path: "/data-access/documents/client-docs",
+//   name: "Client Documents",
+//   component: ClientDocs,
+//   guard: UserGuard,
+//   visibilityFilter: UserVisibilityFilter,
+// };
 
 const adminDocsRoutes = {
   id: "Admin Docs",
@@ -384,9 +398,9 @@ export const dashboardLayoutRoutes = [
   mainRoutes,
   changelogRoutes,
   timeseriesRoutes,
-  reportsRoutes,
+  // reportsRoutes,
   publicFilesRoutes,
-  clientDocsRoutes,
+  // clientDocsRoutes,
   adminDocsRoutes,
   accountRoutes,
   // documentationRoutes,
@@ -396,7 +410,7 @@ export const dashboardLayoutRoutes = [
 
 export const dashboardMaxContentLayoutRoutes = [
   ...crudSidebarMenu,
-  ...modelCrudRoutes,
+  // ...modelCrudRoutes,
 ];
 
 // Routes using the Auth layout
@@ -412,11 +426,11 @@ export const protectedRoutes = [protectedPageRoutes];
 export const sidebarRoutes = [
   mainRoutes,
   timeseriesRoutes,
-  reportsRoutes,
+  // reportsRoutes,
   publicFilesRoutes,
-  clientDocsRoutes,
+  // clientDocsRoutes,
   adminDocsRoutes,
-  ...crudSidebarMenu,
+  // ...crudSidebarMenu,
   // adminRoutes,
   // componentsRoutes,
   // documentationRoutes,

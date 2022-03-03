@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const {INTEGER, TEXT, DATE, REAL} = DataTypes;
-  const CurrentConditionsWidgetsViews = sequelize.define(
-    'current_conditions_widgets_views',
+  const CurrentLastfewWidgets = sequelize.define(
+    'current_lastfew_widgets',
     {
       client: {
         type: TEXT,
@@ -12,10 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       location_name: {
         type: TEXT,
       },
-      last_collected: {
+      collect_timestamp: {
         type: DATE,
       },
-      last_value: {
+      measured_value: {
         type: REAL,
       },
       unit_desc: {
@@ -49,5 +49,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  return CurrentConditionsWidgetsViews;
+  return CurrentLastfewWidgets;
 };

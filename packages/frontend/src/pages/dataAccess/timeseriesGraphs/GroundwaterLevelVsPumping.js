@@ -18,6 +18,7 @@ import { spacing } from "@material-ui/system";
 
 import {
   dateFormatter,
+  groupByValue,
   lineColors as lineColor,
   lineColors,
 } from "../../../utils";
@@ -72,6 +73,8 @@ const GroundwaterLevelVsPumping = () => {
     endDate: new Date(),
     checked: true,
     parameter: "Pumping Rate",
+    yL: "Depth to Groundwater",
+    yR: "Pumping Rate",
   };
   const [filterValues, setFilterValues] = useState(defaultFilterValues);
   const changeFilterValues = (name, value) => {
@@ -86,6 +89,7 @@ const GroundwaterLevelVsPumping = () => {
   const tableColumns = [
     { title: "Location", field: "location_name", width: "100%" },
     { title: "Parameter", field: "parameter", width: "100%" },
+    { title: "Units", field: "units" },
     {
       title: "Last Report",
       field: "collect_timestamp",
@@ -94,11 +98,8 @@ const GroundwaterLevelVsPumping = () => {
       },
     },
     { title: "Measured Value", field: "measured_value" },
-    { title: "Measurement Index", field: "measurement_ndx" },
     { title: "Location Index", field: "location_ndx" },
-    { title: "Client Index", field: "client_ndx" },
-    { title: "Exclude Auth0 User Ids", field: "exclude_auth0_user_id" },
-    { title: "Measurement Type Index", field: "measurement_type_ndx" },
+    { title: "Max Pumping Rate", field: "max_pumping_rate" },
   ];
 
   const locationsOptions = [
@@ -137,16 +138,24 @@ const GroundwaterLevelVsPumping = () => {
     setSelectedLocation(event.target.value);
   };
 
+  const [graphData, setGraphData] = useState();
   const { isLoading, error, data } = useQuery(
-    ["timeseries-dtw-v-precip-or-baro-or-pumps", selectedLocation],
+    ["timeseries-final-elevation-v-gpm", selectedLocation],
     async () => {
       try {
         const token = await getAccessTokenSilently();
         const headers = { Authorization: `Bearer ${token}` };
         const { data } = await axios.get(
-          `${process.env.REACT_APP_ENDPOINT}/api/timeseries-dtw-v-precip-or-baro-or-pumps/${filterValues.parameter}/${selectedLocation}`,
+          `${process.env.REACT_APP_ENDPOINT}/api/timeseries-final-elevation-v-gpm/${filterValues.parameter}/${selectedLocation}`,
           { headers }
         );
+        const groupedDataArray = groupByValue(data, "parameter");
+        const groupedDataObj = {};
+        groupedDataArray.forEach(
+          (item) => (groupedDataObj[item[0].parameter] = item)
+        );
+        setGraphData(groupedDataObj);
+
         return data;
       } catch (err) {
         console.error(err);
@@ -163,7 +172,7 @@ const GroundwaterLevelVsPumping = () => {
   //it also filters by date
   const [filteredTableData, setFilteredTableData] = useState([]);
   useEffect(() => {
-    if (data) {
+    if (data && graphData) {
       const tableFilterData =
         //if there is no value in the input, yield every record
         filterValues.previousDays === ""
@@ -191,37 +200,51 @@ const GroundwaterLevelVsPumping = () => {
         pointRadius: 0,
         pointHoverRadius: 4,
       };
-      const graphData = {
-        labels: [...new Set(data.map((item) => item.collect_timestamp))],
+      const mutatedGraphData = {
+        labels: graphData[filterValues["yL"]].map(
+          (item) => item.collect_timestamp
+        ),
         datasets: [
           {
-            label: "Pumping",
+            label: "Max Allowable",
             yAxisID: "yR",
-            borderColor: lineColor.darkGray,
-            backgroundColor: lineColor.darkGray,
-            data: data
-              .filter((item) => item.parameter === "Pumping Rate")
-              .map((item) => item.measured_value),
-            borderWidth: 4,
+            fill: false,
+            borderColor: lineColors.maroon,
+            backgroundColor: lineColors.maroon,
+            data: graphData[filterValues["yR"]]?.map(
+              (item) => item.max_pumping_rate
+            ),
+            borderWidth: 3,
             ...defaultStyle,
           },
           {
-            label: "Water Level",
+            label: filterValues["yR"],
+            yAxisID: "yR",
+            borderColor: lineColor.darkGray,
+            backgroundColor: lineColor.darkGray,
+            data: graphData[filterValues["yR"]]?.map(
+              (item) => item.measured_value
+            ),
+            borderWidth: 2,
+            ...defaultStyle,
+          },
+          {
+            label: filterValues["yL"],
             yAxisID: "yL",
             fill: true,
             borderColor: lineColors.lightBlue,
             backgroundColor: lineColors.lightBlue + "4D",
-            data: data
-              .filter((item) => item.parameter === "Depth to Groundwater")
-              .map((item) => item.measured_value),
-            borderWidth: 2,
+            data: graphData[filterValues["yL"]]?.map(
+              (item) => item.measured_value
+            ),
+            borderWidth: 3,
             ...defaultStyle,
           },
         ],
       };
-      setFilteredMutatedGraphData(graphData);
+      setFilteredMutatedGraphData(mutatedGraphData);
     }
-  }, [data, filterValues, selectedLocation]);
+  }, [data, graphData, filterValues, selectedLocation]);
 
   return (
     <>
@@ -332,17 +355,32 @@ const GroundwaterLevelVsPumping = () => {
                   </Grid>
 
                   <TableWrapper>
-                    <TimeseriesLineChart
-                      data={filteredMutatedGraphData}
-                      error={error}
-                      isLoading={isLoading}
-                      filterValues={filterValues}
-                      locationsOptions={locationsOptions}
-                      yLLabel="Water Level (feet above pump)"
-                      yRLLabel="Pumping (GPM)"
-                      ref={saveRef}
-                      min={0}
-                    />
+                    {graphData && (
+                      <TimeseriesLineChart
+                        data={filteredMutatedGraphData}
+                        error={error}
+                        isLoading={isLoading}
+                        filterValues={filterValues}
+                        locationsOptions={locationsOptions}
+                        yLLabel={
+                          graphData[filterValues["yL"]] &&
+                          `${graphData[filterValues["yL"]][0]?.parameter} (${
+                            graphData[filterValues["yL"]][0]?.units
+                          })`
+                        }
+                        yRLLabel={
+                          graphData[filterValues["yR"]] &&
+                          `${graphData[filterValues["yR"]][0]?.parameter} (${
+                            graphData[filterValues["yR"]][0]?.units
+                          })`
+                        }
+                        ref={saveRef}
+                        minL={1200}
+                        maxL={1800}
+                        minR={0}
+                        maxR={650}
+                      />
+                    )}
                   </TableWrapper>
                 </TimeseriesContainer>
               </AccordionDetails>

@@ -43,6 +43,16 @@ export const downloadChartImage = (title, extension, ref) => {
   downloadLink.click();
 };
 
+export const groupByValue = (array, key) => {
+  return Object.values(
+    array.reduce((acc, curr) => {
+      if (!acc[curr[key]]) acc[curr[key]] = [];
+      acc[curr[key]].push(curr);
+      return acc;
+    }, {})
+  );
+};
+
 export const lineColors = {
   red: "#e6194b",
   green: "#3cb44b",
@@ -71,16 +81,6 @@ export const lineColors = {
   darkGray: "#222",
   white: "#fff",
   black: "#000000",
-};
-
-export const groupByValue = (array, key) => {
-  return Object.values(
-    array.reduce((acc, curr) => {
-      if (!acc[curr[key]]) acc[curr[key]] = [];
-      acc[curr[key]].push(curr);
-      return acc;
-    }, {})
-  );
 };
 
 export function removeDuplicates(array, key) {

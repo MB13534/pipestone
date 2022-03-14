@@ -28,7 +28,10 @@ const TimeseriesLineChart = forwardRef(
       type = "line",
       theme,
       suggestedMin = null,
-      min = null,
+      minL = null,
+      maxL = null,
+      minR = null,
+      maxR = null,
     },
     ref
   ) => {
@@ -167,7 +170,8 @@ const TimeseriesLineChart = forwardRef(
         },
 
         yL: {
-          min: min,
+          min: minL,
+          max: maxL,
           suggestedMin: suggestedMin,
           // suggestedMax: 7,
           position: "left",
@@ -188,7 +192,8 @@ const TimeseriesLineChart = forwardRef(
           },
         },
         yR: {
-          min: min,
+          min: minR,
+          max: maxR,
           suggestedMin: suggestedMin,
           position: "right",
           display: !!yRLLabel,

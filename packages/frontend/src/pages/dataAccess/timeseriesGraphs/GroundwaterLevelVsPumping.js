@@ -69,10 +69,9 @@ const GroundwaterLevelVsPumping = () => {
   //date filter defaults
   const defaultFilterValues = {
     previousDays: "",
-    startDate: add(new Date().getTime(), { days: -365 }),
+    startDate: null,
     endDate: new Date(),
     checked: true,
-    parameter: "Pumping Rate",
     yL: "Depth to Groundwater",
     yR: "Pumping Rate",
   };
@@ -146,7 +145,7 @@ const GroundwaterLevelVsPumping = () => {
         const token = await getAccessTokenSilently();
         const headers = { Authorization: `Bearer ${token}` };
         const { data } = await axios.get(
-          `${process.env.REACT_APP_ENDPOINT}/api/timeseries-final-elevation-v-gpm/${filterValues.parameter}/${selectedLocation}`,
+          `${process.env.REACT_APP_ENDPOINT}/api/timeseries-final-elevation-v-gpm/${selectedLocation}`,
           { headers }
         );
         const groupedDataArray = groupByValue(data, "parameter");
@@ -206,7 +205,10 @@ const GroundwaterLevelVsPumping = () => {
         ),
         datasets: [
           {
-            label: "Max Allowable",
+            label: "Permitted Maximum",
+            units: graphData[filterValues["yR"]]
+              ? graphData[filterValues["yR"]][0].units
+              : null,
             yAxisID: "yR",
             fill: false,
             borderColor: lineColors.maroon,
@@ -219,6 +221,9 @@ const GroundwaterLevelVsPumping = () => {
           },
           {
             label: filterValues["yR"],
+            units: graphData[filterValues["yR"]]
+              ? graphData[filterValues["yR"]][0].units
+              : null,
             yAxisID: "yR",
             borderColor: lineColor.darkGray,
             backgroundColor: lineColor.darkGray,
@@ -230,6 +235,9 @@ const GroundwaterLevelVsPumping = () => {
           },
           {
             label: filterValues["yL"],
+            units: graphData[filterValues["yL"]]
+              ? graphData[filterValues["yL"]][0].units
+              : null,
             yAxisID: "yL",
             fill: true,
             borderColor: lineColors.lightBlue,
@@ -379,6 +387,7 @@ const GroundwaterLevelVsPumping = () => {
                         maxL={1800}
                         minR={0}
                         maxR={650}
+                        tooltipFormat="MM-DD-YYYY"
                       />
                     )}
                   </TableWrapper>

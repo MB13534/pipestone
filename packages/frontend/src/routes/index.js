@@ -48,7 +48,6 @@ import AdminDocs from "../pages/documents/AdminDocs";
 // import DischargeMonitoringReport from "../pages/dataAccess/reports/DischargeMonitoringReport";
 // import TimeseriesFlowVsStage from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsStage";
 import GroundwaterLevelVsPumping from "../pages/dataAccess/timeseriesGraphs/GroundwaterLevelVsPumping";
-import GroundwaterLevelVsPrecipitation from "../pages/dataAccess/timeseriesGraphs/GroundwaterLevelVsPrecipitation";
 const Account = async(() => import("../pages/pages/Account"));
 const Profile = async(() => import("../pages/pages/Profile"));
 
@@ -333,14 +332,14 @@ const timeseriesRoutes = {
     //test
     {
       path: "/data-access/graphs/groundwater-level-vs-pumping",
-      name: "Groundwater Level vs Pumping",
+      name: "Groundwater Elevation vs Pumping",
       component: GroundwaterLevelVsPumping,
     },
-    {
-      path: "/data-access/graphs/groundwater-level-vs-precipitation",
-      name: "Groundwater Level vs Precipitation & Barometric Pressure",
-      component: GroundwaterLevelVsPrecipitation,
-    },
+    // {
+    //   path: "/data-access/graphs/groundwater-level-vs-precipitation",
+    //   name: "Groundwater Level vs Precipitation & Barometric Pressure",
+    //   component: GroundwaterLevelVsPrecipitation,
+    // },
   ],
 };
 

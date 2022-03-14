@@ -106,6 +106,9 @@ const TimeseriesLineChart = forwardRef(
                 tooltipItems[0].dataset.popupInfo[tooltipItems[0].dataIndex]
               );
             },
+            label: function (tooltipItems) {
+              return `${tooltipItems.dataset.label}: ${tooltipItems.formattedValue} ${tooltipItems.dataset.units}`;
+            },
           },
           footerAlign: "center",
           //TODO

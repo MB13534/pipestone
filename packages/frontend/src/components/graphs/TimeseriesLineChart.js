@@ -32,6 +32,7 @@ const TimeseriesLineChart = forwardRef(
       maxL = null,
       minR = null,
       maxR = null,
+      footerLabel = null,
     },
     ref
   ) => {
@@ -101,10 +102,13 @@ const TimeseriesLineChart = forwardRef(
         tooltip: {
           callbacks: {
             footer: (tooltipItems) => {
-              return (
-                tooltipItems[0].dataset.popupInfo &&
-                tooltipItems[0].dataset.popupInfo[tooltipItems[0].dataIndex]
-              );
+              const footerValue = tooltipItems.filter(
+                (item) => item.dataset?.popupInfo
+              ).length
+                ? tooltipItems.filter((item) => item.dataset?.popupInfo)[0]
+                    .dataset?.popupInfo[tooltipItems[0]?.dataIndex]
+                : null;
+              return footerValue !== null && `${footerLabel}: ` + footerValue;
             },
             label: function (tooltipItems) {
               return `${tooltipItems.dataset.label}: ${tooltipItems.formattedValue} ${tooltipItems.dataset.units}`;

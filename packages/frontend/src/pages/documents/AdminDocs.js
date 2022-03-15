@@ -38,7 +38,7 @@ const AdminDocs = () => {
       <Divider my={6} />
       <Container>
         <iframe
-          // src="#"
+          src="https://drive.google.com/embeddedfolderview?id=1hYIGB__pOU_74mDLQo7vYp5xj6VTFP8H#grid"
           width="100%"
           height="100%"
           frameBorder="1"

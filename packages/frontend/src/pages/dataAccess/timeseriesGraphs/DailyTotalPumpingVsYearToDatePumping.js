@@ -16,12 +16,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import styled from "styled-components/macro";
 import { spacing } from "@material-ui/system";
 
-import {
-  dateFormatter,
-  groupByValue,
-  lineColors as lineColor,
-  lineColors,
-} from "../../../utils";
+import { dateFormatter, groupByValue, lineColors } from "../../../utils";
 
 import Panel from "../../../components/panels/Panel";
 import Map from "../../../components/map/Map";
@@ -29,7 +24,7 @@ import TimeseriesFilters from "../../../components/filters/TimeseriesFilters";
 import SaveGraphButton from "../../../components/graphs/SaveGraphButton";
 import Table from "../../../components/Table";
 import TimeseriesLineChart from "../../../components/graphs/TimeseriesLineChart";
-import { Select } from "@lrewater/lre-react";
+import { MultiSelect } from "@lrewater/lre-react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
@@ -62,7 +57,7 @@ const Divider = styled(MuiDivider)(spacing);
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
-const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
+const DailyTotalPumpingVsYearToDatePumping = () => {
   const { getAccessTokenSilently } = useAuth0();
   const saveRef = useRef(null);
 
@@ -72,8 +67,8 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
     startDate: null,
     endDate: new Date(),
     checked: true,
-    yL: "Total Daily Pumped",
-    yR: "Avg Daily Pumping Rate",
+    yL: "Total Daily Pumped by Well",
+    yR: "Year to Date Pumped All Wells",
   };
   const [filterValues, setFilterValues] = useState(defaultFilterValues);
   const changeFilterValues = (name, value) => {
@@ -86,7 +81,14 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
 
   //columns and fields to render on table
   const tableColumns = [
-    { title: "Location", field: "location_name", width: "100%" },
+    {
+      title: "Location",
+      field: "location_name",
+      width: "100%",
+      render: (rowData) => {
+        return rowData.location_name ? rowData.location_name : "Totals";
+      },
+    },
     { title: "Parameter", field: "parameter", width: "100%" },
     { title: "Units", field: "units" },
     {
@@ -97,9 +99,8 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
       },
     },
     { title: "Measured Value", field: "measured_value" },
+    { title: "Measurement Index", field: "measurement_ndx" },
     { title: "Location Index", field: "location_ndx" },
-    { title: "Max Pumping Rate", field: "max_pumping_rate" },
-    { title: "Hours Pumped", field: "hours_pumped" },
   ];
 
   const locationsOptions = [
@@ -126,49 +127,55 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
   ];
 
   //locations in picker that are selected by user
-  const [selectedLocation, setSelectedLocation] = useState(
-    locationsOptions[0].ndx
-  );
+  const [selectedLocations, setSelectedLocations] = useState([
+    locationsOptions[0].ndx,
+    locationsOptions[1].ndx,
+    locationsOptions[2].ndx,
+    locationsOptions[3].ndx,
+    locationsOptions[4].ndx,
+  ]);
 
   const handleFilter = (event) => {
-    setSelectedLocation(event.target.value);
+    setSelectedLocations(event.target.value);
   };
 
-  const [graphData, setGraphData] = useState();
+  const [graphData, setGraphData] = useState([]);
   const { isFetching, error, data } = useQuery(
-    ["timeseries-final-elevation-v-gpm", selectedLocation],
+    ["timeseries-final-daily-v-yeartodate-pumped", selectedLocations],
     async () => {
-      try {
-        const token = await getAccessTokenSilently();
-        const headers = { Authorization: `Bearer ${token}` };
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_ENDPOINT}/api/timeseries-final-totalpumped-v-gpm/${selectedLocation}`,
-          { headers }
-        );
-        const groupedDataArray = groupByValue(data, "parameter");
-        const groupedDataObj = {};
-        groupedDataArray.forEach(
-          (item) => (groupedDataObj[item[0].parameter] = item)
-        );
-        setGraphData(groupedDataObj);
-
-        return data;
-      } catch (err) {
-        console.error(err);
+      if (selectedLocations.length) {
+        try {
+          const token = await getAccessTokenSilently();
+          const headers = { Authorization: `Bearer ${token}` };
+          const { data } = await axios.get(
+            `${process.env.REACT_APP_ENDPOINT}/api/timeseries-final-daily-v-yeartodate-pumped/${selectedLocations}`,
+            { headers }
+          );
+          const groupedDataArray = groupByValue(data, "location_name");
+          setGraphData(groupedDataArray);
+          return data;
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        setFilteredMutatedGraphData(null);
+        setFilteredTableData([]);
+        setGraphData(null);
+        return null;
       }
     },
     { keepPreviousData: true, refetchOnWindowFocus: false }
   );
 
+  const [filteredMutatedGraphData, setFilteredMutatedGraphData] = useState([]);
   //filtered data for graph, it filters selected locations
   //it keeps every date so the graph can still be panned and zoomed
   //it also mutates the data to be consumed by chartsJS
-  const [filteredMutatedGraphData, setFilteredMutatedGraphData] = useState([]);
   //filtered data for table. if filters selected locations
   //it also filters by date
   const [filteredTableData, setFilteredTableData] = useState([]);
   useEffect(() => {
-    if (data && graphData) {
+    if (data && graphData?.length && selectedLocations.length) {
       const tableFilterData =
         //if there is no value in the input, yield every record
         filterValues.previousDays === ""
@@ -197,77 +204,60 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
         pointHoverRadius: 4,
       };
       const mutatedGraphData = {
-        labels: graphData[filterValues["yL"]].map(
-          (item) => item.collect_timestamp
-        ),
+        labels: graphData[0].map((item) => item.collect_timestamp),
         datasets: [
-          {
-            label: "Permitted Maximum",
-            units: graphData[filterValues["yR"]]
-              ? graphData[filterValues["yR"]][0].units
-              : null,
-            yAxisID: "yR",
-            fill: false,
-            borderColor: lineColors.maroon,
-            backgroundColor: lineColors.maroon,
-            data: graphData[filterValues["yR"]]?.map(
-              (item) => item.max_pumping_rate
-            ),
-            borderWidth: 3,
-            ...defaultStyle,
-          },
-          {
-            label: filterValues["yR"],
-            units: graphData[filterValues["yR"]]
-              ? graphData[filterValues["yR"]][0].units
-              : null,
-            yAxisID: "yR",
-            borderColor: lineColor.darkGray,
-            backgroundColor: lineColor.darkGray,
-            data: graphData[filterValues["yR"]]?.map(
-              (item) => item.measured_value
-            ),
-            borderWidth: 2,
-            ...defaultStyle,
-          },
-          {
-            label: filterValues["yL"],
-            units: graphData[filterValues["yL"]]
-              ? graphData[filterValues["yL"]][0].units
-              : null,
-            yAxisID: "yL",
-            fill: true,
-            borderColor: lineColors.lightBlue,
-            backgroundColor: lineColors.lightBlue + "4D",
-            data: graphData[filterValues["yL"]]?.map(
-              (item) => item.measured_value
-            ),
-            popupInfo: graphData[filterValues["yL"]]?.map(
-              (item) => item.hours_pumped
-            ),
-            borderWidth: 3,
-            ...defaultStyle,
-          },
+          ...graphData
+            .filter((item) => !item[0].location_name)
+            .map((location) => {
+              return {
+                units: location[0].units,
+                label: "All Wells",
+                yAxisID: "yR",
+                // fill: true,
+                borderColor: lineColors.maroon,
+                backgroundColor: lineColors.maroon,
+                data: location.map((item) => item.measured_value ?? 0),
+                // borderWidth: 1,
+                // barPercentage: 1,
+                // categoryPercentage: 1,
+                ...defaultStyle,
+              };
+            }),
+          ...graphData
+            .filter((item) => item[0].location_name)
+            .map((location, i) => {
+              return {
+                type: "bar",
+                units: location[0].units,
+                label: location[0].location_name,
+                yAxisID: "yL",
+                borderColor: Object.values(lineColors)[i],
+                backgroundColor: Object.values(lineColors)[i],
+                data: location.map((item) => item.measured_value),
+                // borderWidth: 1,
+                // barPercentage: 1,
+                // categoryPercentage: 1,
+                ...defaultStyle,
+              };
+            }),
         ],
       };
       setFilteredMutatedGraphData(mutatedGraphData);
     }
-  }, [data, graphData, filterValues, selectedLocation]);
+  }, [data, graphData, filterValues, selectedLocations]); //eslint-disable-line
 
   return (
     <>
-      <Helmet title="Groundwater Level vs Pumping" />
+      <Helmet title="Groundwater Level vs Precipitation & Barometric Pressure" />
       <Typography variant="h3" gutterBottom display="inline">
-        Daily Total Pumping vs Average Daily Pumping Rates
+        Daily Total Pumping vs Year to Date Pumping
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/dashboard">
           Dashboard
         </Link>
-        <Typography>
-          Daily Total Pumping vs Average Daily Pumping Rates
-        </Typography>
+        <Typography>Daily Total Pumping vs Year to Date Pumping</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />
@@ -330,12 +320,17 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
             <Panel>
               <AccordionDetails>
                 <TimeseriesContainer>
-                  <Grid container pb={6} mt={2}>
+                  <Grid
+                    container
+                    pb={6}
+                    mt={2}
+                    style={{ justifyContent: "space-between" }}
+                  >
                     <Grid
                       item
                       style={{ flexGrow: 1, maxWidth: "calc(100% - 54px)" }}
                     >
-                      <Select
+                      <MultiSelect
                         name="locations"
                         label="Locations"
                         variant="outlined"
@@ -344,11 +339,20 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
                         valueField="ndx"
                         displayField="name"
                         data={locationsOptions}
-                        value={selectedLocation}
+                        value={selectedLocations}
                         onChange={handleFilter}
                         fullWidth
                       />
                     </Grid>
+                    <Grid
+                      item
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginLeft: "6px",
+                      }}
+                    />
                     <Grid
                       item
                       style={{
@@ -359,11 +363,10 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
                     >
                       <SaveGraphButton
                         ref={saveRef}
-                        title="Groundwater Level vs Pumping Timeseries Graph"
+                        title="Groundwater Level vs Precipitation Timeseries Graph"
                       />
                     </Grid>
                   </Grid>
-
                   <TableWrapper>
                     <TimeseriesLineChart
                       data={filteredMutatedGraphData}
@@ -371,23 +374,11 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
                       isLoading={isFetching}
                       filterValues={filterValues}
                       locationsOptions={locationsOptions}
-                      yLLabel={
-                        graphData &&
-                        graphData[filterValues["yL"]] &&
-                        `${graphData[filterValues["yL"]][0]?.parameter} (${
-                          graphData[filterValues["yL"]][0]?.units
-                        })`
-                      }
-                      yRLLabel={
-                        graphData &&
-                        graphData[filterValues["yR"]] &&
-                        `${graphData[filterValues["yR"]][0]?.parameter} (${
-                          graphData[filterValues["yR"]][0]?.units
-                        })`
-                      }
+                      yLLabel="Total Daily Pumped by Well (KGal)"
+                      yRLLabel="Year to Date Pumped All Wells (KGal"
                       ref={saveRef}
                       tooltipFormat="MM-DD-YYYY"
-                      footerLabel="Hours Pumped"
+                      stacked={true}
                     />
                   </TableWrapper>
                 </TimeseriesContainer>
@@ -414,7 +405,7 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
                 <TableWrapper>
                   <Table
                     // isLoading={isLoading}
-                    label="Groundwater Level vs Pumping Timeseries Table"
+                    label="Groundwater Level vs Precipitation Timeseries Table"
                     columns={tableColumns}
                     data={filteredTableData}
                     height="600px"
@@ -429,4 +420,4 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
   );
 };
 
-export default DailyTotalPumpingVsAvgDailyPumpingRates;
+export default DailyTotalPumpingVsYearToDatePumping;

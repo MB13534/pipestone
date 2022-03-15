@@ -49,6 +49,7 @@ import AdminDocs from "../pages/documents/AdminDocs";
 // import TimeseriesFlowVsStage from "../pages/dataAccess/timeseriesGraphs/TimeseriesFlowVsStage";
 import GroundwaterLevelVsPumping from "../pages/dataAccess/timeseriesGraphs/GroundwaterLevelVsPumping";
 import DailyTotalPumpingVsAvgDailyPumpingRates from "../pages/dataAccess/timeseriesGraphs/DailyTotalPumpingVsAvgDailyPumpingRates";
+import DailyTotalPumpingVsYearToDatePumping from "../pages/dataAccess/timeseriesGraphs/DailyTotalPumpingVsYearToDatePumping";
 const Account = async(() => import("../pages/pages/Account"));
 const Profile = async(() => import("../pages/pages/Profile"));
 
@@ -340,6 +341,11 @@ const timeseriesRoutes = {
       path: "/data-access/graphs/daily-pumping-vs-avg-pumping",
       name: "Daily Total Pumping vs Average Daily Pumping Rates",
       component: DailyTotalPumpingVsAvgDailyPumpingRates,
+    },
+    {
+      path: "/data-access/graphs/daily-pumping-vs-ytd-pumping",
+      name: "Daily Total Pumping vs Year to Date Pumping",
+      component: DailyTotalPumpingVsYearToDatePumping,
     },
     // {
     //   path: "/data-access/graphs/groundwater-level-vs-precipitation",

@@ -16,7 +16,7 @@ const TimeseriesLineChart = forwardRef(
     {
       data,
       error,
-      isLoading,
+      isLoading = true,
       filterValues,
       locationsOptions,
       yLLabel,
@@ -33,6 +33,7 @@ const TimeseriesLineChart = forwardRef(
       minR = null,
       maxR = null,
       footerLabel = null,
+      stacked = false,
     },
     ref
   ) => {
@@ -147,6 +148,7 @@ const TimeseriesLineChart = forwardRef(
 
       scales: {
         x: {
+          stacked: stacked,
           type: "time",
           min:
             filterValues.previousDays === ""
@@ -177,6 +179,7 @@ const TimeseriesLineChart = forwardRef(
         },
 
         yL: {
+          stacked: stacked,
           min: minL,
           max: maxL,
           suggestedMin: suggestedMin,

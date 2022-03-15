@@ -52,7 +52,7 @@ const MapContainer = styled.div`
 `;
 const TimeseriesContainer = styled.div`
   height: 600px;
-  overflow-y: auto;
+  // overflow-y: auto;
   width: 100%;
 `;
 const Grid = styled(MuiGrid)(spacing);
@@ -111,7 +111,7 @@ const GroundwaterLevelVsPumping = () => {
       ndx: 6,
     },
     {
-      name: "Well No. 3",
+      name: "Well No. 4",
       ndx: 7,
     },
     {
@@ -138,7 +138,7 @@ const GroundwaterLevelVsPumping = () => {
   };
 
   const [graphData, setGraphData] = useState();
-  const { isLoading, error, data } = useQuery(
+  const { isFetching, error, data } = useQuery(
     ["timeseries-final-elevation-v-gpm", selectedLocation],
     async () => {
       try {
@@ -363,33 +363,33 @@ const GroundwaterLevelVsPumping = () => {
                   </Grid>
 
                   <TableWrapper>
-                    {graphData && (
-                      <TimeseriesLineChart
-                        data={filteredMutatedGraphData}
-                        error={error}
-                        isLoading={isLoading}
-                        filterValues={filterValues}
-                        locationsOptions={locationsOptions}
-                        yLLabel={
-                          graphData[filterValues["yL"]] &&
-                          `${graphData[filterValues["yL"]][0]?.parameter} (${
-                            graphData[filterValues["yL"]][0]?.units
-                          })`
-                        }
-                        yRLLabel={
-                          graphData[filterValues["yR"]] &&
-                          `${graphData[filterValues["yR"]][0]?.parameter} (${
-                            graphData[filterValues["yR"]][0]?.units
-                          })`
-                        }
-                        ref={saveRef}
-                        minL={1200}
-                        maxL={1800}
-                        minR={0}
-                        maxR={650}
-                        tooltipFormat="MM-DD-YYYY"
-                      />
-                    )}
+                    <TimeseriesLineChart
+                      data={filteredMutatedGraphData}
+                      error={error}
+                      isLoading={isFetching}
+                      filterValues={filterValues}
+                      locationsOptions={locationsOptions}
+                      yLLabel={
+                        graphData &&
+                        graphData[filterValues["yL"]] &&
+                        `${graphData[filterValues["yL"]][0]?.parameter} (${
+                          graphData[filterValues["yL"]][0]?.units
+                        })`
+                      }
+                      yRLLabel={
+                        graphData &&
+                        graphData[filterValues["yR"]] &&
+                        `${graphData[filterValues["yR"]][0]?.parameter} (${
+                          graphData[filterValues["yR"]][0]?.units
+                        })`
+                      }
+                      ref={saveRef}
+                      minL={1200}
+                      maxL={1800}
+                      minR={0}
+                      maxR={650}
+                      tooltipFormat="MM-DD-YYYY"
+                    />
                   </TableWrapper>
                 </TimeseriesContainer>
               </AccordionDetails>

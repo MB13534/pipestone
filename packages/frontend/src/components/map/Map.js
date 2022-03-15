@@ -12,8 +12,21 @@ import debounce from "lodash.debounce";
 
 import pipestoneMarker from "./pipestone-marker.png";
 import { lineColors } from "../../utils";
+import ReactDOM from "react-dom";
+import { jssPreset, StylesProvider } from "@material-ui/core/styles";
+import { MuiThemeProvider } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
+import createTheme from "../../theme";
+import { create } from "jss";
+import { useSelector } from "react-redux";
+import Popup from "./popup";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+
+const jss = create({
+  ...jssPreset(),
+  insertionPoint: document.getElementById("jss-insertion-point"),
+});
 
 const Root = styled.div`
   position: relative;
@@ -43,14 +56,25 @@ const Coordinates = styled.pre`
 `;
 
 const Map = () => {
+  const theme = useSelector((state) => state.themeReducer);
   const [mapIsLoaded, setMapIsLoaded] = useState(false);
   const [map, setMap] = useState();
+
+  const popUpRef = useRef(
+    new mapboxgl.Popup({
+      maxWidth: "400px",
+      maxHeight: "200px",
+      offset: 15,
+      focusAfterOpen: false,
+    })
+  );
+
   const mapContainer = useRef(null); // create a reference to the map container
   const coordinates = useRef(null);
   const DUMMY_BASEMAP_LAYERS = [
+    { url: "satellite-streets-v11", icon: "satellite_alt" },
     { url: "outdoors-v11", icon: "park" },
     { url: "streets-v11", icon: "commute" },
-    { url: "satellite-streets-v11", icon: "satellite_alt" },
   ];
 
   function onPointClick(e) {
@@ -135,10 +159,13 @@ const Map = () => {
             data: {
               type: "FeatureCollection",
               features: data.map((location) => {
+                // console.log(location);
                 return {
                   type: "Feature",
                   properties: {
                     description: location.location_name,
+                    popup: location.popup_info,
+                    style: location.style_ndx,
                   },
                   geometry: {
                     type: location.location_geometry.type,
@@ -148,6 +175,19 @@ const Map = () => {
               }),
             },
           });
+
+          map.addLayer({
+            id: "locationsOutlines",
+            type: "circle",
+            source: "locations",
+            paint: {
+              "circle-radius": 11,
+              "circle-opacity": 0,
+              "circle-stroke-width": 3,
+              "circle-stroke-color": "white",
+            },
+          });
+
           // Add a layer showing the places.
           map.addLayer({
             id: "locationsCircles",
@@ -157,20 +197,25 @@ const Map = () => {
               "circle-radius": 4,
               "circle-color": lineColors.black,
               "circle-stroke-width": 8,
-              "circle-stroke-color": lineColors.lightGreen,
+              "circle-stroke-color": [
+                "case",
+                ["==", ["get", "style"], 7],
+                lineColors.red,
+                lineColors.green,
+              ],
             },
           });
 
-          map.addLayer({
-            id: "locationsMarkers",
-            type: "symbol",
-            source: "locations",
-            layout: {
-              "icon-image": "pipestoneMarker", // reference the image
-              "icon-size": 0.75,
-              "icon-allow-overlap": true,
-            },
-          });
+          // map.addLayer({
+          //   id: "locationsMarkers",
+          //   type: "symbol",
+          //   source: "locations",
+          //   layout: {
+          //     "icon-image": "pipestoneMarker", // reference the image
+          //     "icon-size": 0.75,
+          //     "icon-allow-overlap": true,
+          //   },
+          // });
 
           map.addLayer({
             id: "locations-labels",
@@ -198,7 +243,7 @@ const Map = () => {
           map.on("click", "locationsCircles", (e) => {
             // Copy coordinates array.
             const coordinates = e.features[0].geometry.coordinates.slice();
-            const description = e.features[0].properties.description;
+            const feature = e.features[0];
 
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
@@ -207,27 +252,40 @@ const Map = () => {
               coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
 
-            new mapboxgl.Popup()
+            // create popup node
+            const popupNode = document.createElement("div");
+            ReactDOM.render(
+              //MJB adding style providers to the popup
+              <StylesProvider jss={jss}>
+                <MuiThemeProvider theme={createTheme(theme.currentTheme)}>
+                  <ThemeProvider theme={createTheme(theme.currentTheme)}>
+                    <Popup feature={feature} />
+                  </ThemeProvider>
+                </MuiThemeProvider>
+              </StylesProvider>,
+              popupNode
+            );
+            popUpRef.current
               .setLngLat(coordinates)
-              .setHTML(description)
+              .setDOMContent(popupNode)
               .addTo(map);
           });
 
-          map.on("click", "locations", onPointClick);
+          map.on("click", "locationsCircles", onPointClick);
 
           // Change the cursor to a pointer when the mouse is over the places layer.
-          map.on("mouseenter", "locations", () => {
+          map.on("mouseenter", "locationsCircles", () => {
             map.getCanvas().style.cursor = "pointer";
           });
 
           // Change it back to a pointer when it leaves.
-          map.on("mouseleave", "locations", () => {
+          map.on("mouseleave", "locationsCircles", () => {
             map.getCanvas().style.cursor = "";
           });
         }
       });
     }
-  }, [isLoading, mapIsLoaded, map, data]);
+  }, [isLoading, mapIsLoaded, map, data, theme.currentTheme]);
 
   if (error) return "An error has occurred: " + error.message;
 

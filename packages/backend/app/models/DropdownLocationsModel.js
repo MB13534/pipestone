@@ -27,6 +27,12 @@ module.exports = (sequelize, DataTypes) => {
       exclude_auth0_user_id: {
         type: TEXT,
       },
+      popup_info: {
+        type: TEXT,
+      },
+      style_ndx: {
+        type: INTEGER,
+      },
     },
     {
       defaultScope: {

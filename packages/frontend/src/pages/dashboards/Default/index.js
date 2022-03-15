@@ -31,7 +31,7 @@ function Default() {
       <Grid justify="space-between" container spacing={6}>
         <Grid item>
           <Typography variant="h3" gutterBottom>
-            Dashboard
+            Current Conditions Dashboard
           </Typography>
           <Typography variant="subtitle1">
             Welcome back, {user?.name}!

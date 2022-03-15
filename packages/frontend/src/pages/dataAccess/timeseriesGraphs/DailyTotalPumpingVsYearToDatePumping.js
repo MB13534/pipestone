@@ -151,8 +151,21 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
             `${process.env.REACT_APP_ENDPOINT}/api/timeseries-final-daily-v-yeartodate-pumped/${selectedLocations}`,
             { headers }
           );
-          const groupedDataArray = groupByValue(data, "location_name");
-          setGraphData(groupedDataArray);
+
+          const groupedDataArray = groupByValue(data, "location_ndx");
+
+          const sortedGroupedDataArray = groupedDataArray.sort((a, b) => {
+            if (a[0].location_ndx > b[0].location_ndx) {
+              return -1;
+            }
+            if (a[0].location_ndx < b[0].location_ndx) {
+              return 1;
+            }
+            return 0;
+          });
+
+          setGraphData(sortedGroupedDataArray);
+
           return data;
         } catch (err) {
           console.error(err);
@@ -211,12 +224,13 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
             .map((location) => {
               return {
                 units: location[0].units,
-                label: "All Wells",
+                label: "Year-to-Date",
                 yAxisID: "yR",
-                borderColor: lineColors.maroon,
-                backgroundColor: lineColors.maroon,
-                data: location.map((item) => item.measured_value ?? 0),
-                borderWidth: 3,
+                borderColor: lineColors.black,
+                backgroundColor: lineColors.black,
+                data: location.map((item) => item.measured_value),
+                borderWidth: 4,
+                spanGaps: true,
                 ...defaultStyle,
               };
             }),

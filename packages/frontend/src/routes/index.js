@@ -146,7 +146,7 @@ const landingRoutes = {
 };
 
 const mainRoutes = {
-  id: "Dashboard",
+  id: "Current Conditions Dashboard",
   path: "/dashboard",
   icon: <Home />,
   component: Default,

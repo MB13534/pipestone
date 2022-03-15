@@ -34,6 +34,7 @@ const TimeseriesLineChart = forwardRef(
       maxR = null,
       footerLabel = null,
       stacked = false,
+      interactionMode = "index",
     },
     ref
   ) => {
@@ -94,7 +95,7 @@ const TimeseriesLineChart = forwardRef(
       maintainAspectRatio: false,
       interaction: {
         intersect: false,
-        mode: "index",
+        mode: interactionMode,
       },
       plugins: {
         filler: {

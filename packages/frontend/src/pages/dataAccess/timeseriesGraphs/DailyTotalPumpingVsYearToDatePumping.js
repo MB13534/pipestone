@@ -213,13 +213,10 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
                 units: location[0].units,
                 label: "All Wells",
                 yAxisID: "yR",
-                // fill: true,
                 borderColor: lineColors.maroon,
                 backgroundColor: lineColors.maroon,
                 data: location.map((item) => item.measured_value ?? 0),
-                // borderWidth: 1,
-                // barPercentage: 1,
-                // categoryPercentage: 1,
+                borderWidth: 3,
                 ...defaultStyle,
               };
             }),
@@ -234,9 +231,8 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
                 borderColor: Object.values(lineColors)[i],
                 backgroundColor: Object.values(lineColors)[i],
                 data: location.map((item) => item.measured_value),
-                // borderWidth: 1,
-                // barPercentage: 1,
-                // categoryPercentage: 1,
+                barPercentage: 0.95,
+                categoryPercentage: 0.95,
                 ...defaultStyle,
               };
             }),
@@ -379,6 +375,8 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
                       ref={saveRef}
                       tooltipFormat="MM-DD-YYYY"
                       stacked={true}
+                      // reverseLegend={false}
+                      // interactionMode="nearest"
                     />
                   </TableWrapper>
                 </TimeseriesContainer>

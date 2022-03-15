@@ -102,6 +102,7 @@ const TimeseriesLineChart = forwardRef(
           propagate: false,
         },
         tooltip: {
+          reverse: reverseLegend,
           callbacks: {
             footer: (tooltipItems) => {
               const footerValue = tooltipItems.filter(

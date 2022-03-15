@@ -34,6 +34,18 @@ module.exports = (sequelize, DataTypes) => {
       fill: {
         type: BOOLEAN,
       },
+      outline_opacity: {
+        type: REAL,
+      },
+      outline_radius: {
+        type: INTEGER,
+      },
+      outline_border_width: {
+        type: INTEGER,
+      },
+      outline_color: {
+        type: TEXT,
+      },
     },
     {
       timestamps: false,

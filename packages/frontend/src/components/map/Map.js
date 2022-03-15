@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import useService from "../../hooks/useService";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import styled from "styled-components/macro";
@@ -11,7 +11,6 @@ import ToggleBasemapControl from "./ToggleBasemapControl";
 import debounce from "lodash.debounce";
 
 import pipestoneMarker from "./pipestone-marker.png";
-import { lineColors } from "../../utils";
 import ReactDOM from "react-dom";
 import { jssPreset, StylesProvider } from "@material-ui/core/styles";
 import { MuiThemeProvider } from "@material-ui/core";
@@ -56,6 +55,7 @@ const Coordinates = styled.pre`
 `;
 
 const Map = () => {
+  const { lookupTableCache } = useApp();
   const theme = useSelector((state) => state.themeReducer);
   const [mapIsLoaded, setMapIsLoaded] = useState(false);
   const [map, setMap] = useState();
@@ -97,6 +97,26 @@ const Map = () => {
     },
     { keepPreviousData: true, refetchOnWindowFocus: false }
   );
+
+  const distinctMeasurementNdx = useMemo(() => {
+    if (data && Object.keys(lookupTableCache).length) {
+      return [...new Set(data.map((item) => item.style_ndx))];
+    }
+  }, [data, lookupTableCache]);
+
+  const cachedStyles = useMemo(() => {
+    let converted = {};
+    if (distinctMeasurementNdx?.length) {
+      distinctMeasurementNdx.forEach((ndx) => {
+        converted[ndx] = lookupTableCache["list_styles"].find(
+          (x) => x.style_ndx === ndx
+        );
+      });
+    } else {
+      converted = [];
+    }
+    return converted;
+  }, [distinctMeasurementNdx, lookupTableCache]);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -159,13 +179,12 @@ const Map = () => {
             data: {
               type: "FeatureCollection",
               features: data.map((location) => {
-                // console.log(location);
                 return {
                   type: "Feature",
                   properties: {
                     description: location.location_name,
                     popup: location.popup_info,
-                    style: location.style_ndx,
+                    ...{ ...cachedStyles[location.style_ndx] },
                   },
                   geometry: {
                     type: location.location_geometry.type,
@@ -181,10 +200,18 @@ const Map = () => {
             type: "circle",
             source: "locations",
             paint: {
-              "circle-radius": 11,
-              "circle-opacity": 0,
-              "circle-stroke-width": 3,
-              "circle-stroke-color": "white",
+              "circle-radius": ["coalesce", ["get", "outline_radius"], 11],
+              "circle-opacity": ["coalesce", ["get", "outline_opacity"], 0],
+              "circle-stroke-width": [
+                "coalesce",
+                ["get", "outline_border_width"],
+                3,
+              ],
+              "circle-stroke-color": [
+                "coalesce",
+                ["get", "outline_color"],
+                "white",
+              ],
             },
           });
 
@@ -194,14 +221,17 @@ const Map = () => {
             type: "circle",
             source: "locations",
             paint: {
-              "circle-radius": 4,
-              "circle-color": lineColors.black,
-              "circle-stroke-width": 8,
+              "circle-radius": ["coalesce", ["get", "point_radius"], 4],
+              "circle-color": [
+                "coalesce",
+                ["get", "background_color"],
+                "white",
+              ],
+              "circle-stroke-width": ["coalesce", ["get", "border_width"], 8],
               "circle-stroke-color": [
-                "case",
-                ["==", ["get", "style"], 7],
-                lineColors.red,
-                lineColors.green,
+                "coalesce",
+                ["get", "border_color"],
+                "blue",
               ],
             },
           });
@@ -251,7 +281,6 @@ const Map = () => {
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
               coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
-
             // create popup node
             const popupNode = document.createElement("div");
             ReactDOM.render(
@@ -285,7 +314,7 @@ const Map = () => {
         }
       });
     }
-  }, [isLoading, mapIsLoaded, map, data, theme.currentTheme]);
+  }, [isLoading, mapIsLoaded, map, data, theme.currentTheme, cachedStyles]);
 
   if (error) return "An error has occurred: " + error.message;
 

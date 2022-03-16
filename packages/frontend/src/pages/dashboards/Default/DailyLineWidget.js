@@ -68,8 +68,8 @@ const DailyLineWidget = ({ data }) => {
             return {
               pointStyle: "points",
               fill: false,
-              borderDash: [5, (distinctMeasurementNdx.length - 1) * 5],
-              borderDashOffset: i * 5,
+              // borderDash: [5, (distinctMeasurementNdx.length - 1) * 5],
+              // borderDashOffset: i * 5,
               borderWidth: cachedStyles[location]?.border_width || 3,
               pointRadius: cachedStyles[location]?.point_radius || 0,
               pointHoverRadius: cachedStyles[location]?.point_hover_radius || 6,

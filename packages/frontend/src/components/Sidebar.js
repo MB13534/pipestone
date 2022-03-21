@@ -4,12 +4,10 @@ import { darken, rgba } from "polished";
 import { NavLink, withRouter } from "react-router-dom";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "../vendor/perfect-scrollbar.css";
-import { spacing } from "@material-ui/system";
 
 import {
   Avatar,
   Badge,
-  Box as MuiBox,
   Chip,
   Collapse,
   Drawer as MuiDrawer,
@@ -26,8 +24,6 @@ import { sidebarRoutes as routes } from "../routes/index";
 import { useAuth0 } from "@auth0/auth0-react";
 import UserDropdown from "./UserDropdown";
 import { customSecondary } from "../theme/variants";
-
-const Box = styled(MuiBox)(spacing);
 
 const Drawer = styled(MuiDrawer)`
   border-right: 0;
@@ -72,9 +68,9 @@ const Brand = styled(ListItem)`
   }
 `;
 
-// const BrandIcon = styled.img`
-//   margin-right: ${(props) => props.theme.spacing(2)}px;
-// `;
+const BrandIcon = styled.img`
+  margin-right: ${(props) => props.theme.spacing(2)}px;
+`;
 
 const Category = styled(ListItem)`
   padding-top: ${(props) => props.theme.spacing(3)}px;
@@ -330,15 +326,11 @@ const Sidebar = ({
           pointerEvents: "all",
         }}
       >
-        {/*<BrandIcon*/}
-        {/*  src={`/static/img/telluride-logo-square.svg`}*/}
-        {/*  width="32"*/}
-        {/*  height="32"*/}
-        {/*  alt="LRE Icon"*/}
-        {/*/>{" "}*/}
-        <Box ml={1} style={{ fontSize: "0.9rem", display: "flex" }}>
-          Monitoring Dashboard{" "}
-        </Box>
+        <BrandIcon
+          src={`/static/img/pipestone-logo-full-2.png`}
+          width="220"
+          alt="Pipestone Logo"
+        />
       </Brand>
       <Scrollbar
         style={{

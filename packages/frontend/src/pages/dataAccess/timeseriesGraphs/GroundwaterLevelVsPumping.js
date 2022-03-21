@@ -36,6 +36,11 @@ import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import { NavLink } from "react-router-dom";
 
+const BoldSelect = styled(Select)`
+  & .MuiInputBase-root {
+    font-weight: 900;
+  }
+`;
 const TableWrapper = styled.div`
   overflow-y: auto;
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
@@ -333,7 +338,7 @@ const GroundwaterLevelVsPumping = () => {
                       item
                       style={{ flexGrow: 1, maxWidth: "calc(100% - 54px)" }}
                     >
-                      <Select
+                      <BoldSelect
                         name="locations"
                         label="Locations"
                         variant="outlined"
@@ -384,8 +389,8 @@ const GroundwaterLevelVsPumping = () => {
                         })`
                       }
                       ref={saveRef}
-                      minL={1200}
-                      maxL={1800}
+                      minL={1400}
+                      maxL={1700}
                       minR={0}
                       maxR={650}
                       tooltipFormat="MM-DD-YYYY"

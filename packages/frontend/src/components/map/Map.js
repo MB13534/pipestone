@@ -119,39 +119,44 @@ const Map = () => {
   }, [distinctMeasurementNdx, lookupTableCache]);
 
   useEffect(() => {
-    const map = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/" + DUMMY_BASEMAP_LAYERS[0].url,
-      center: STARTING_LOCATION,
-      zoom: 12,
-    });
+    if (
+      Object.entries(lookupTableCache).length &&
+      !Array.isArray(cachedStyles)
+    ) {
+      const map = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/" + DUMMY_BASEMAP_LAYERS[0].url,
+        center: STARTING_LOCATION,
+        zoom: 12,
+      });
 
-    map.addControl(new mapboxgl.NavigationControl(), "top-left");
-    map.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        // When active the map will receive updates to the device's location as it changes.
-        trackUserLocation: true,
-        // Draw an arrow next to the location dot to indicate which direction the device is heading.
-        showUserHeading: true,
-      }),
-      "top-left"
-    );
-    map.addControl(new mapboxgl.FullscreenControl());
-    // Add locate control to the map.
-    map.addControl(new ResetZoomControl(), "top-left");
+      map.addControl(new mapboxgl.NavigationControl(), "top-left");
+      map.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          // When active the map will receive updates to the device's location as it changes.
+          trackUserLocation: true,
+          // Draw an arrow next to the location dot to indicate which direction the device is heading.
+          showUserHeading: true,
+        }),
+        "top-left"
+      );
+      map.addControl(new mapboxgl.FullscreenControl());
+      // Add locate control to the map.
+      map.addControl(new ResetZoomControl(), "top-left");
 
-    DUMMY_BASEMAP_LAYERS.forEach((layer) => {
-      return map.addControl(new ToggleBasemapControl(layer.url, layer.icon));
-    });
+      DUMMY_BASEMAP_LAYERS.forEach((layer) => {
+        return map.addControl(new ToggleBasemapControl(layer.url, layer.icon));
+      });
 
-    map.on("load", () => {
-      setMapIsLoaded(true);
-      setMap(map);
-    });
-  }, []); // eslint-disable-line
+      map.on("load", () => {
+        setMapIsLoaded(true);
+        setMap(map);
+      });
+    }
+  }, [cachedStyles]); // eslint-disable-line
 
   //resizes map when mapContainerRef dimensions changes (sidebar toggle)
   useEffect(() => {
@@ -222,12 +227,12 @@ const Map = () => {
           source: "locations",
           paint: {
             "circle-radius": ["coalesce", ["get", "point_radius"], 4],
-            "circle-color": ["coalesce", ["get", "background_color"], "white"],
+            "circle-color": ["coalesce", ["get", "background_color"], "black"],
             "circle-stroke-width": ["coalesce", ["get", "border_width"], 8],
             "circle-stroke-color": [
               "coalesce",
               ["get", "border_color"],
-              "blue",
+              "green",
             ],
           },
         });

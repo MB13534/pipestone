@@ -22,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       location_ndx: {
         type: INTEGER,
       },
+      permitted_max: {
+        type: INTEGER,
+      },
     },
     {
       defaultScope: {

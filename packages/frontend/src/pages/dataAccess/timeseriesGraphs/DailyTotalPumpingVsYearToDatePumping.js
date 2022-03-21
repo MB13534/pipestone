@@ -31,6 +31,11 @@ import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import { NavLink } from "react-router-dom";
 
+const BoldMultiSelect = styled(MultiSelect)`
+  & .MuiInputBase-root {
+    font-weight: 900;
+  }
+`;
 const TableWrapper = styled.div`
   overflow-y: auto;
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
@@ -224,6 +229,21 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
             .map((location) => {
               return {
                 units: location[0].units,
+                label: "Permit 1964-1182 (210 MGY)",
+                yAxisID: "yR",
+                fill: false,
+                borderColor: lineColors.maroon,
+                backgroundColor: lineColors.maroon,
+                data: location.map((item) => item.permitted_max),
+                borderWidth: 3,
+                ...defaultStyle,
+              };
+            }),
+          ...graphData
+            .filter((item) => !item[0].location_name)
+            .map((location) => {
+              return {
+                units: location[0].units,
                 label: "Year-to-Date",
                 yAxisID: "yR",
                 borderColor: lineColors.black,
@@ -338,9 +358,12 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
                   >
                     <Grid
                       item
-                      style={{ flexGrow: 1, maxWidth: "calc(100% - 54px)" }}
+                      style={{
+                        flexGrow: 1,
+                        maxWidth: "calc(100% - 54px)",
+                      }}
                     >
-                      <MultiSelect
+                      <BoldMultiSelect
                         name="locations"
                         label="Locations"
                         variant="outlined"
@@ -385,7 +408,7 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
                       filterValues={filterValues}
                       locationsOptions={locationsOptions}
                       yLLabel="Total Daily Pumped by Well (KGal)"
-                      yRLLabel="Year to Date Pumped All Wells (KGal"
+                      yRLLabel="Year to Date Pumped All Wells (MGal)"
                       ref={saveRef}
                       tooltipFormat="MM-DD-YYYY"
                       stacked={true}

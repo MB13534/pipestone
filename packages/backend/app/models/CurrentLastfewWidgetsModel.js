@@ -40,8 +40,17 @@ module.exports = (sequelize, DataTypes) => {
       exclude_auth0_user_id: {
         type: TEXT,
       },
+      display_order: {
+        type: INTEGER,
+      },
     },
     {
+      defaultScope: {
+        order: [
+          ['display_order', 'asc'],
+          ['collect_timestamp', 'asc'],
+        ],
+      },
       schema: 'client_pipestone',
       timestamps: false,
       paranoid: true,

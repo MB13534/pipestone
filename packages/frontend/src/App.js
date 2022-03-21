@@ -33,7 +33,7 @@ function App() {
         <HelmetProvider>
           <Helmet
             titleTemplate="%s | Pipestone"
-            defaultTitle="Pipestone Monitoring Dashboard"
+            defaultTitle="Pipestone Dashboard"
           />
           <StylesProvider jss={jss}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>

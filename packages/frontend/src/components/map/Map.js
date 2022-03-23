@@ -54,7 +54,7 @@ const Coordinates = styled.pre`
   display: none;
 `;
 
-const Map = () => {
+const Map = ({ locationsToInclude = null }) => {
   const { lookupTableCache } = useApp();
   const theme = useSelector((state) => state.themeReducer);
   const [mapIsLoaded, setMapIsLoaded] = useState(false);
@@ -90,7 +90,15 @@ const Map = () => {
     async () => {
       try {
         const response = await service([findRawRecords, ["DropdownLocations"]]);
-        return response.filter((location) => location.location_geometry);
+        return response.filter(
+          (location) =>
+            location.location_geometry &&
+            (locationsToInclude
+              ? locationsToInclude.includes(location.location_name)
+              : true)
+        );
+
+        // return response.filter((location) => location.location_geometry);
       } catch (err) {
         console.error(err);
       }

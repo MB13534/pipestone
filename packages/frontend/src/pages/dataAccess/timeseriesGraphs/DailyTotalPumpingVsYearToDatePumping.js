@@ -104,7 +104,7 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
       },
     },
     { title: "Measured Value", field: "measured_value" },
-    { title: "Measurement Index", field: "measurement_ndx" },
+    { title: "Permitted Max", field: "permitted_max" },
     { title: "Location Index", field: "location_ndx" },
   ];
 
@@ -305,7 +305,11 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
             </AccordionSummary>
             <AccordionDetails>
               <MapContainer>
-                <Map />
+                <Map
+                  locationsToInclude={locationsOptions.map(
+                    (location) => location.name
+                  )}
+                />
               </MapContainer>
             </AccordionDetails>
           </Accordion>

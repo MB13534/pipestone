@@ -288,7 +288,11 @@ const GroundwaterLevelVsPumping = () => {
             </AccordionSummary>
             <AccordionDetails>
               <MapContainer>
-                <Map />
+                <Map
+                  locationsToInclude={locationsOptions.map(
+                    (location) => location.name
+                  )}
+                />
               </MapContainer>
             </AccordionDetails>
           </Accordion>

@@ -50,6 +50,7 @@ import AdminDocs from "../pages/documents/AdminDocs";
 import GroundwaterLevelVsPumping from "../pages/dataAccess/timeseriesGraphs/GroundwaterLevelVsPumping";
 import DailyTotalPumpingVsAvgDailyPumpingRates from "../pages/dataAccess/timeseriesGraphs/DailyTotalPumpingVsAvgDailyPumpingRates";
 import DailyTotalPumpingVsYearToDatePumping from "../pages/dataAccess/timeseriesGraphs/DailyTotalPumpingVsYearToDatePumping";
+import TimeseriesHourlyElevations from "../pages/dataAccess/timeseriesGraphs/TimeseriesHourlyElevations";
 const Account = async(() => import("../pages/pages/Account"));
 const Profile = async(() => import("../pages/pages/Profile"));
 
@@ -312,26 +313,6 @@ const timeseriesRoutes = {
   header: "Data Access",
   icon: <Activity />,
   children: [
-    // {
-    //   path: "/data-access/graphs/streamflow",
-    //   name: "Streamflow",
-    //   component: TimeseriesFlow,
-    //   guard: UserGuard,
-    //   visibilityFilter: UserVisibilityFilter,
-    // },
-    // {
-    //   path: "/data-access/graphs/flow-vs-targets",
-    //   name: "Flow vs Targets",
-    //   component: TimeseriesFlowVsTargets,
-    // },
-    // {
-    //   path: "/data-access/graphs/temperature",
-    //   name: "Temperature",
-    //   component: TimeseriesTemperature,
-    //   guard: UserGuard,
-    //   visibilityFilter: UserVisibilityFilter,
-    // },
-    //test
     {
       path: "/data-access/graphs/groundwater-elevation-vs-pumping",
       name: "Groundwater Elevation vs Pumping",
@@ -339,7 +320,7 @@ const timeseriesRoutes = {
     },
     {
       path: "/data-access/graphs/daily-pumping-vs-avg-pumping",
-      name: "Daily Total Pumping vs Average Daily Pumping Rates",
+      name: "Daily Total Pumping vs Average Daily Pumping",
       component: DailyTotalPumpingVsAvgDailyPumpingRates,
     },
     {
@@ -347,11 +328,11 @@ const timeseriesRoutes = {
       name: "Daily Total Pumping vs Year to Date Pumping",
       component: DailyTotalPumpingVsYearToDatePumping,
     },
-    // {
-    //   path: "/data-access/graphs/groundwater-level-vs-precipitation",
-    //   name: "Groundwater Level vs Precipitation & Barometric Pressure",
-    //   component: GroundwaterLevelVsPrecipitation,
-    // },
+    {
+      path: "/data-access/graphs/hourly-elevations",
+      name: "Hourly Elevations",
+      component: TimeseriesHourlyElevations,
+    },
   ],
 };
 

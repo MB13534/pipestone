@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { add } from "date-fns";
 
@@ -16,12 +16,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import styled from "styled-components/macro";
 import { spacing } from "@material-ui/system";
 
-import {
-  dateFormatter,
-  groupByValue,
-  lineColors as lineColor,
-  lineColors,
-} from "../../../utils";
+import { dateFormatter, groupByValue, lineColors } from "../../../utils";
 
 import Panel from "../../../components/panels/Panel";
 import Map from "../../../components/map/Map";
@@ -29,18 +24,12 @@ import TimeseriesFilters from "../../../components/filters/TimeseriesFilters";
 import SaveGraphButton from "../../../components/graphs/SaveGraphButton";
 import Table from "../../../components/Table";
 import TimeseriesLineChart from "../../../components/graphs/TimeseriesLineChart";
-import { Select } from "@lrewater/lre-react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import { NavLink } from "react-router-dom";
 
-const BoldSelect = styled(Select)`
-  & .MuiInputBase-root {
-    font-weight: 900;
-  }
-`;
 const TableWrapper = styled.div`
   overflow-y: auto;
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
@@ -67,7 +56,7 @@ const Divider = styled(MuiDivider)(spacing);
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
-const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
+const TimeseriesHourlyElevations = () => {
   const { getAccessTokenSilently } = useAuth0();
   const saveRef = useRef(null);
 
@@ -77,8 +66,6 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
     startDate: null,
     endDate: new Date(),
     checked: true,
-    yL: "Total Daily Pumped",
-    yR: "Avg Daily Pumping Rate",
   };
   const [filterValues, setFilterValues] = useState(defaultFilterValues);
   const changeFilterValues = (name, value) => {
@@ -91,7 +78,14 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
 
   //columns and fields to render on table
   const tableColumns = [
-    { title: "Location", field: "location_name", width: "100%" },
+    {
+      title: "Location",
+      field: "location_name",
+      width: "100%",
+      render: (rowData) => {
+        return rowData.location_name ? rowData.location_name : "Totals";
+      },
+    },
     { title: "Parameter", field: "parameter", width: "100%" },
     { title: "Units", field: "units" },
     {
@@ -103,59 +97,22 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
     },
     { title: "Measured Value", field: "measured_value" },
     { title: "Location Index", field: "location_ndx" },
-    { title: "Max Pumping Rate", field: "max_pumping_rate" },
-    { title: "Hours Pumped", field: "hours_pumped" },
   ];
 
-  const locationsOptions = [
-    {
-      name: "Well No. 1",
-      ndx: 5,
-    },
-    {
-      name: "Well No. 2",
-      ndx: 6,
-    },
-    {
-      name: "Well No. 4",
-      ndx: 7,
-    },
-    {
-      name: "Well No. 5",
-      ndx: 8,
-    },
-    {
-      name: "Well No. 6",
-      ndx: 9,
-    },
-  ];
-
-  //locations in picker that are selected by user
-  const [selectedLocation, setSelectedLocation] = useState(
-    locationsOptions[0].ndx
-  );
-
-  const handleFilter = (event) => {
-    setSelectedLocation(event.target.value);
-  };
-
-  const [graphData, setGraphData] = useState();
+  const [graphData, setGraphData] = useState([]);
   const { isFetching, error, data } = useQuery(
-    ["timeseries-final-elevation-v-gpm", selectedLocation],
+    ["timeseries-final-elevation-hourly"],
     async () => {
       try {
         const token = await getAccessTokenSilently();
         const headers = { Authorization: `Bearer ${token}` };
         const { data } = await axios.get(
-          `${process.env.REACT_APP_ENDPOINT}/api/timeseries-final-totalpumped-v-gpm/${selectedLocation}`,
+          `${process.env.REACT_APP_ENDPOINT}/api/timeseries-final-elevation-hourly/`,
           { headers }
         );
-        const groupedDataArray = groupByValue(data, "parameter");
-        const groupedDataObj = {};
-        groupedDataArray.forEach(
-          (item) => (groupedDataObj[item[0].parameter] = item)
-        );
-        setGraphData(groupedDataObj);
+        const groupedDataArray = groupByValue(data, "collect_timestamp");
+
+        setGraphData(groupedDataArray);
 
         return data;
       } catch (err) {
@@ -165,21 +122,34 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
     { keepPreviousData: true, refetchOnWindowFocus: false }
   );
 
+  const uniqueLocations = useMemo(() => {
+    if (data?.length) {
+      const uniqueItemNames = [
+        ...new Set(
+          data.map((item) => {
+            return item.location_name;
+          })
+        ),
+      ];
+      return uniqueItemNames;
+    }
+  }, [data]);
+
+  const [filteredMutatedGraphData, setFilteredMutatedGraphData] = useState([]);
   //filtered data for graph, it filters selected locations
   //it keeps every date so the graph can still be panned and zoomed
   //it also mutates the data to be consumed by chartsJS
-  const [filteredMutatedGraphData, setFilteredMutatedGraphData] = useState([]);
   //filtered data for table. if filters selected locations
   //it also filters by date
   const [filteredTableData, setFilteredTableData] = useState([]);
   useEffect(() => {
-    if (data && graphData) {
+    if (data && graphData?.length) {
       const tableFilterData =
         //if there is no value in the input, yield every record
-        filterValues.previousDays === ""
+        filterValues.checked && filterValues.previousDays === ""
           ? data
           : //if the toggle is checked, yield x days
-          filterValues.checked
+          filterValues.checked && filterValues.previousDays !== ""
           ? data.filter(
               (item) =>
                 new Date(item.collect_timestamp) >=
@@ -197,82 +167,50 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
 
       //mutate data for chartJS to use
       const defaultStyle = {
-        pointStyle: "point",
         pointRadius: 0,
-        pointHoverRadius: 4,
+        pointHoverRadius: 0,
+        spanGaps: false,
+        yAxisID: "yL",
+        borderWidth: 2,
+        tension: 0.75,
       };
       const mutatedGraphData = {
-        labels: graphData[filterValues["yL"]].map(
-          (item) => item.collect_timestamp
-        ),
+        labels: graphData.map((item) => item[0].collect_timestamp),
+        units: graphData[0][0]?.units,
+        parameter: graphData[0][0]?.parameter,
         datasets: [
-          {
-            label: "Permitted Maximum",
-            units: graphData[filterValues["yR"]]
-              ? graphData[filterValues["yR"]][0].units
-              : null,
-            yAxisID: "yR",
-            fill: false,
-            borderColor: lineColors.maroon,
-            backgroundColor: lineColors.maroon,
-            data: graphData[filterValues["yR"]]?.map(
-              (item) => item.max_pumping_rate
-            ),
-            borderWidth: 3,
-            ...defaultStyle,
-          },
-          {
-            label: filterValues["yR"],
-            units: graphData[filterValues["yR"]]
-              ? graphData[filterValues["yR"]][0].units
-              : null,
-            yAxisID: "yR",
-            borderColor: lineColor.darkGray,
-            backgroundColor: lineColor.darkGray,
-            data: graphData[filterValues["yR"]]?.map(
-              (item) => item.measured_value
-            ),
-            borderWidth: 2,
-            ...defaultStyle,
-          },
-          {
-            label: filterValues["yL"],
-            units: graphData[filterValues["yL"]]
-              ? graphData[filterValues["yL"]][0].units
-              : null,
-            yAxisID: "yL",
-            fill: true,
-            borderColor: lineColors.lightBlue,
-            backgroundColor: lineColors.lightBlue + "4D",
-            data: graphData[filterValues["yL"]]?.map(
-              (item) => item.measured_value
-            ),
-            popupInfo: graphData[filterValues["yL"]]?.map(
-              (item) => item.hours_pumped
-            ),
-            borderWidth: 3,
-            ...defaultStyle,
-          },
+          ...uniqueLocations.map((location, i) => {
+            return {
+              units: graphData[0][0]?.units,
+              label: location,
+              borderColor: Object.entries(lineColors)[i],
+              backgroundColor: Object.entries(lineColors)[i],
+              data: graphData.map(
+                (item) =>
+                  item.filter((arr) => arr.location_name === location)[0]
+                    ?.measured_value ?? null
+              ),
+              ...defaultStyle,
+            };
+          }),
         ],
       };
       setFilteredMutatedGraphData(mutatedGraphData);
     }
-  }, [data, graphData, filterValues, selectedLocation]);
+  }, [data, graphData, filterValues]); //eslint-disable-line
 
   return (
     <>
-      <Helmet title="Groundwater Level vs Pumping" />
+      <Helmet title="Hourly Elevations vs Lake Elevation" />
       <Typography variant="h3" gutterBottom display="inline">
-        Daily Total Pumping vs Average Daily Pumping Rates
+        Hourly Elevations vs Lake Elevation
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/dashboard">
           Dashboard
         </Link>
-        <Typography>
-          Daily Total Pumping vs Average Daily Pumping Rates
-        </Typography>
+        <Typography>Hourly Elevations vs Lake Elevation</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />
@@ -290,11 +228,9 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
             </AccordionSummary>
             <AccordionDetails>
               <MapContainer>
-                <Map
-                  locationsToInclude={locationsOptions.map(
-                    (location) => location.name
-                  )}
-                />
+                {uniqueLocations && (
+                  <Map locationsToInclude={uniqueLocations} />
+                )}
               </MapContainer>
             </AccordionDetails>
           </Accordion>
@@ -339,25 +275,28 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
             <Panel>
               <AccordionDetails>
                 <TimeseriesContainer>
-                  <Grid container pb={6} mt={2}>
+                  <Grid
+                    container
+                    pb={6}
+                    mt={2}
+                    style={{ justifyContent: "space-between" }}
+                  >
                     <Grid
                       item
-                      style={{ flexGrow: 1, maxWidth: "calc(100% - 54px)" }}
-                    >
-                      <BoldSelect
-                        name="locations"
-                        label="Locations"
-                        variant="outlined"
-                        outlineColor="primary"
-                        labelColor="primary"
-                        valueField="ndx"
-                        displayField="name"
-                        data={locationsOptions}
-                        value={selectedLocation}
-                        onChange={handleFilter}
-                        fullWidth
-                      />
-                    </Grid>
+                      style={{
+                        flexGrow: 1,
+                        maxWidth: "calc(100% - 54px)",
+                      }}
+                    />
+                    <Grid
+                      item
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginLeft: "6px",
+                      }}
+                    />
                     <Grid
                       item
                       style={{
@@ -368,35 +307,23 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
                     >
                       <SaveGraphButton
                         ref={saveRef}
-                        title="Groundwater Level vs Pumping Timeseries Graph"
+                        title="Hourly Elevations vs Lake Elevation Timeseries Graph"
                       />
                     </Grid>
                   </Grid>
-
                   <TableWrapper>
                     <TimeseriesLineChart
                       data={filteredMutatedGraphData}
                       error={error}
                       isLoading={isFetching}
                       filterValues={filterValues}
-                      locationsOptions={locationsOptions}
-                      yLLabel={
-                        graphData &&
-                        graphData[filterValues["yL"]] &&
-                        `${graphData[filterValues["yL"]][0]?.parameter} (${
-                          graphData[filterValues["yL"]][0]?.units
-                        })`
-                      }
-                      yRLLabel={
-                        graphData &&
-                        graphData[filterValues["yR"]] &&
-                        `${graphData[filterValues["yR"]][0]?.parameter} (${
-                          graphData[filterValues["yR"]][0]?.units
-                        })`
-                      }
+                      yLLabel={`${filteredMutatedGraphData.parameter} (${filteredMutatedGraphData.units})`}
+                      yRLLabel="Lake Elevation"
                       ref={saveRef}
-                      tooltipFormat="MM-DD-YYYY"
-                      footerLabel="Hours Pumped"
+                      // tooltipFormat="MM-DD-YYYY"
+                      xLabelFormat="MM-DD-YYYY"
+                      // reverseLegend={false}
+                      // interactionMode="nearest"
                     />
                   </TableWrapper>
                 </TimeseriesContainer>
@@ -423,7 +350,7 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
                 <TableWrapper>
                   <Table
                     // isLoading={isLoading}
-                    label="Groundwater Level vs Pumping Timeseries Table"
+                    label="Hourly Elevations vs Lake Elevation Timeseries Table"
                     columns={tableColumns}
                     data={filteredTableData}
                     height="600px"
@@ -438,4 +365,4 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
   );
 };
 
-export default DailyTotalPumpingVsAvgDailyPumpingRates;
+export default TimeseriesHourlyElevations;

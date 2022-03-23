@@ -18,7 +18,7 @@ const TimeseriesLineChart = forwardRef(
       error,
       isLoading = true,
       filterValues,
-      locationsOptions,
+      locationsOptions = [true],
       yLLabel,
       reverseLegend = true,
       xLabelUnit = "day",
@@ -153,15 +153,15 @@ const TimeseriesLineChart = forwardRef(
           stacked: stacked,
           type: "time",
           min:
-            filterValues.previousDays === ""
+            filterValues.previousDays === "" && filterValues.checked
               ? null
-              : filterValues.checked
+              : filterValues.checked && filterValues.previousDays !== ""
               ? add(new Date().getTime(), { days: -filterValues.previousDays })
               : filterValues.startDate,
           max:
-            filterValues.previousDays === ""
+            filterValues.previousDays === "" && filterValues.checked
               ? null
-              : filterValues.checked
+              : filterValues.checked && filterValues.previousDays !== ""
               ? new Date()
               : filterValues.endDate,
           time: {

@@ -248,7 +248,7 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
               (item) => item.measured_value
             ),
             popupInfo: graphData[filterValues["yL"]]?.map(
-              (item) => item.hours_pumped
+              (item) => item.hours_pumped || 0
             ),
             borderWidth: 3,
             ...defaultStyle,

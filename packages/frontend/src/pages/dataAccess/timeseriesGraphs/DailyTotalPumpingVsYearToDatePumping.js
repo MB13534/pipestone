@@ -24,18 +24,12 @@ import TimeseriesFilters from "../../../components/filters/TimeseriesFilters";
 import SaveGraphButton from "../../../components/graphs/SaveGraphButton";
 import Table from "../../../components/Table";
 import TimeseriesLineChart from "../../../components/graphs/TimeseriesLineChart";
-import { MultiSelect } from "@lrewater/lre-react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import { NavLink } from "react-router-dom";
 
-const BoldMultiSelect = styled(MultiSelect)`
-  & .MuiInputBase-root {
-    font-weight: 900;
-  }
-`;
 const TableWrapper = styled.div`
   overflow-y: auto;
   max-width: calc(100vw - ${(props) => props.theme.spacing(12)}px);
@@ -111,75 +105,50 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
   const locationsOptions = [
     {
       name: "Well No. 1",
-      ndx: 5,
     },
     {
       name: "Well No. 2",
-      ndx: 6,
     },
     {
       name: "Well No. 4",
-      ndx: 7,
     },
     {
       name: "Well No. 5",
-      ndx: 8,
     },
     {
       name: "Well No. 6",
-      ndx: 9,
     },
   ];
 
-  //locations in picker that are selected by user
-  const [selectedLocations, setSelectedLocations] = useState([
-    locationsOptions[0].ndx,
-    locationsOptions[1].ndx,
-    locationsOptions[2].ndx,
-    locationsOptions[3].ndx,
-    locationsOptions[4].ndx,
-  ]);
-
-  const handleFilter = (event) => {
-    setSelectedLocations(event.target.value);
-  };
-
   const [graphData, setGraphData] = useState([]);
   const { isFetching, error, data } = useQuery(
-    ["timeseries-final-daily-v-yeartodate-pumped", selectedLocations],
+    ["timeseries-final-daily-v-yeartodate-pumped"],
     async () => {
-      if (selectedLocations.length) {
-        try {
-          const token = await getAccessTokenSilently();
-          const headers = { Authorization: `Bearer ${token}` };
-          const { data } = await axios.get(
-            `${process.env.REACT_APP_ENDPOINT}/api/timeseries-final-daily-v-yeartodate-pumped/${selectedLocations}`,
-            { headers }
-          );
+      try {
+        const token = await getAccessTokenSilently();
+        const headers = { Authorization: `Bearer ${token}` };
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_ENDPOINT}/api/timeseries-final-daily-v-yeartodate-pumped/`,
+          { headers }
+        );
 
-          const groupedDataArray = groupByValue(data, "location_ndx");
+        const groupedDataArray = groupByValue(data, "location_ndx");
 
-          const sortedGroupedDataArray = groupedDataArray.sort((a, b) => {
-            if (a[0].location_ndx > b[0].location_ndx) {
-              return -1;
-            }
-            if (a[0].location_ndx < b[0].location_ndx) {
-              return 1;
-            }
-            return 0;
-          });
+        const sortedGroupedDataArray = groupedDataArray.sort((a, b) => {
+          if (a[0].location_ndx > b[0].location_ndx) {
+            return -1;
+          }
+          if (a[0].location_ndx < b[0].location_ndx) {
+            return 1;
+          }
+          return 0;
+        });
 
-          setGraphData(sortedGroupedDataArray);
+        setGraphData(sortedGroupedDataArray);
 
-          return data;
-        } catch (err) {
-          console.error(err);
-        }
-      } else {
-        setFilteredMutatedGraphData(null);
-        setFilteredTableData([]);
-        setGraphData(null);
-        return null;
+        return data;
+      } catch (err) {
+        console.error(err);
       }
     },
     { keepPreviousData: true, refetchOnWindowFocus: false }
@@ -193,7 +162,7 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
   //it also filters by date
   const [filteredTableData, setFilteredTableData] = useState([]);
   useEffect(() => {
-    if (data && graphData?.length && selectedLocations.length) {
+    if (data && graphData?.length) {
       const tableFilterData =
         //if there is no value in the input, yield every record
         filterValues.previousDays === ""
@@ -268,13 +237,18 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
                 barPercentage: 0.95,
                 categoryPercentage: 0.95,
                 ...defaultStyle,
+                popupInfo: "total",
+                excludedTooltipTotal: [
+                  "Permit 1964-1182 (210 MGY)",
+                  "Year-to-Date",
+                ],
               };
             }),
         ],
       };
       setFilteredMutatedGraphData(mutatedGraphData);
     }
-  }, [data, graphData, filterValues, selectedLocations]); //eslint-disable-line
+  }, [data, graphData, filterValues]); //eslint-disable-line
 
   return (
     <>
@@ -366,21 +340,7 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
                         flexGrow: 1,
                         maxWidth: "calc(100% - 54px)",
                       }}
-                    >
-                      <BoldMultiSelect
-                        name="locations"
-                        label="Locations"
-                        variant="outlined"
-                        outlineColor="primary"
-                        labelColor="primary"
-                        valueField="ndx"
-                        displayField="name"
-                        data={locationsOptions}
-                        value={selectedLocations}
-                        onChange={handleFilter}
-                        fullWidth
-                      />
-                    </Grid>
+                    />
                     <Grid
                       item
                       style={{
@@ -410,12 +370,12 @@ const DailyTotalPumpingVsYearToDatePumping = () => {
                       error={error}
                       isLoading={isFetching}
                       filterValues={filterValues}
-                      locationsOptions={locationsOptions}
                       yLLabel="Total Daily Pumped by Well (KGal)"
                       yRLLabel="Year to Date Pumped All Wells (MGal)"
                       ref={saveRef}
                       tooltipFormat="MM-DD-YYYY"
                       stacked={true}
+                      footerLabel={"Total Pumped"}
                       // reverseLegend={false}
                       // interactionMode="nearest"
                     />

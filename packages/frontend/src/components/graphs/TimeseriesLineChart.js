@@ -105,12 +105,25 @@ const TimeseriesLineChart = forwardRef(
           reverse: reverseLegend,
           callbacks: {
             footer: (tooltipItems) => {
-              const footerValue = tooltipItems.filter(
-                (item) => item.dataset?.popupInfo
-              ).length
-                ? tooltipItems.filter((item) => item.dataset?.popupInfo)[0]
-                    .dataset?.popupInfo[tooltipItems[0]?.dataIndex]
-                : null;
+              const footerValue =
+                tooltipItems[0]?.dataset?.popupInfo === "total"
+                  ? tooltipItems
+                      .reduce(
+                        (accum, next) =>
+                          accum +
+                          (!tooltipItems[0]?.dataset?.excludedTooltipTotal.includes(
+                            next.dataset.label
+                          )
+                            ? next.raw
+                            : 0),
+                        0
+                      )
+                      .toFixed(1)
+                  : tooltipItems.filter((item) => item.dataset?.popupInfo)
+                      .length
+                  ? tooltipItems.filter((item) => item.dataset?.popupInfo)[0]
+                      .dataset?.popupInfo[tooltipItems[0]?.dataIndex]
+                  : null;
               return footerValue !== null && `${footerLabel}: ` + footerValue;
             },
             label: function (tooltipItems) {

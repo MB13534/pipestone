@@ -38,7 +38,7 @@ function JoinUs() {
         <Grid container alignItems="center" justify="center">
           <Grid item xs={12} md={6} lg={6} xl={6}>
             <Typography variant="h2" gutterBottom>
-              Access the Platform
+              Access the Water Level Monitoring Platform
             </Typography>
             <Subtitle variant="h5" gutterBottom>
               Log in with user profile:

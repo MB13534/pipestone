@@ -109,23 +109,23 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
 
   const locationsOptions = [
     {
-      name: "Well No. 1",
+      name: "Well No. 1 (222588)",
       ndx: 5,
     },
     {
-      name: "Well No. 2",
+      name: "Well No. 2 (222589)",
       ndx: 6,
     },
     {
-      name: "Well No. 4",
+      name: "Well No. 4 (222584)",
       ndx: 7,
     },
     {
-      name: "Well No. 5",
+      name: "Well No. 5 (222547)",
       ndx: 8,
     },
     {
-      name: "Well No. 6",
+      name: "Well No. 6 (825015)",
       ndx: 9,
     },
   ];

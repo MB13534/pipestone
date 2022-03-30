@@ -51,6 +51,7 @@ import GroundwaterLevelVsPumping from "../pages/dataAccess/timeseriesGraphs/Grou
 import DailyTotalPumpingVsAvgDailyPumpingRates from "../pages/dataAccess/timeseriesGraphs/DailyTotalPumpingVsAvgDailyPumpingRates";
 import DailyTotalPumpingVsYearToDatePumping from "../pages/dataAccess/timeseriesGraphs/DailyTotalPumpingVsYearToDatePumping";
 import TimeseriesHourlyElevations from "../pages/dataAccess/timeseriesGraphs/TimeseriesHourlyElevations";
+import GroundwaterElevation from "../pages/dataAccess/timeseriesGraphs/GroundwaterElevation";
 const Account = async(() => import("../pages/pages/Account"));
 const Profile = async(() => import("../pages/pages/Profile"));
 
@@ -310,9 +311,14 @@ const protectedPageRoutes = {
 
 const timeseriesRoutes = {
   id: "Time Series",
-  header: "Data Access",
+  header: "Data Plots",
   icon: <Activity />,
   children: [
+    {
+      path: "/data-access/graphs/groundwater-elevation",
+      name: "Groundwater Elevation",
+      component: GroundwaterElevation,
+    },
     {
       path: "/data-access/graphs/groundwater-elevation-vs-pumping",
       name: "Groundwater Elevation vs Pumping",

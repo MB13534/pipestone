@@ -10,7 +10,7 @@ import JoinUs from "./JoinUs";
 import Footer from "../../../components/Footer";
 
 const FillContainer = styled.div`
-  height: calc(100vh - 470px - 246px - 60px);
+  height: calc(100vh - 470px - 280px - 60px);
   // min-height: 200px;
 `;
 

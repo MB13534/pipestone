@@ -5,6 +5,7 @@ import React from "react";
 import styled from "styled-components/macro";
 import { Chip as MuiChip } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
+import jsPDF from "jspdf";
 
 export const scrollWindowToTop = (smooth = true) => {
   window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
@@ -32,7 +33,6 @@ export const copyToClipboard = (data, columns, callback) => {
 };
 
 export const downloadChartImage = (title, extension, ref) => {
-  // console.log(ref.current);
   const base64 = ref.current.toBase64Image();
   const downloadLink = document.createElement("a");
   downloadLink.href = base64;
@@ -41,6 +41,13 @@ export const downloadChartImage = (title, extension, ref) => {
     "MM/DD/YYYY, h:mm A"
   )}.${extension}`;
   downloadLink.click();
+};
+
+export const printChartImage = (title, ref) => {
+  const base64 = ref.current.toBase64Image();
+  const pdf = new jsPDF("p", "pt", "a4", false);
+  pdf.addImage(base64, "PNG", 10, 30, 580, 0, undefined, false);
+  pdf.save(`${title} ${dateFormatter(new Date(), "MM/DD/YYYY, h:mm A")}.pdf`);
 };
 
 export const groupByValue = (array, key) => {

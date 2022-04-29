@@ -29,6 +29,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import { NavLink } from "react-router-dom";
+import PrintGraphButton from "../../../components/graphs/PrintGraphButton";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
@@ -305,7 +306,7 @@ const TimeseriesHourlyElevations = () => {
                     <Grid
                       item
                       style={{
-                        width: "53px",
+                        width: "106px",
                         display: "flex",
                         alignItems: "center",
                       }}
@@ -313,6 +314,10 @@ const TimeseriesHourlyElevations = () => {
                       <SaveGraphButton
                         ref={saveRef}
                         title="Hourly Elevations vs Lake Elevation Timeseries Graph"
+                      />
+                      <PrintGraphButton
+                        ref={saveRef}
+                        title="Daily Groundwater Elevation Timeseries Graph"
                       />
                     </Grid>
                   </Grid>

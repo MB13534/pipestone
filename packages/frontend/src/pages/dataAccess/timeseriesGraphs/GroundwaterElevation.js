@@ -29,6 +29,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import { NavLink } from "react-router-dom";
+import PrintGraphButton from "../../../components/graphs/PrintGraphButton";
 
 const TableWrapper = styled.div`
   overflow-y: auto;
@@ -284,7 +285,7 @@ const GroundwaterElevation = () => {
                       item
                       style={{
                         flexGrow: 1,
-                        maxWidth: "calc(100% - 54px)",
+                        maxWidth: "calc(100% - 108px)",
                       }}
                     />
                     <Grid
@@ -299,12 +300,16 @@ const GroundwaterElevation = () => {
                     <Grid
                       item
                       style={{
-                        width: "53px",
+                        width: "106px",
                         display: "flex",
                         alignItems: "center",
                       }}
                     >
                       <SaveGraphButton
+                        ref={saveRef}
+                        title="Daily Groundwater Elevation Timeseries Graph"
+                      />
+                      <PrintGraphButton
                         ref={saveRef}
                         title="Daily Groundwater Elevation Timeseries Graph"
                       />

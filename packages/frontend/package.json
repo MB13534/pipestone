@@ -52,6 +52,7 @@
     "deepmerge": "4.2.2",
     "formik": "2.2.6",
     "inflected": "^2.1.0",
+    "jspdf": "^2.5.1",
     "jss": "10.6.0",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",

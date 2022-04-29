@@ -129,9 +129,13 @@ const TimeseriesHourlyElevations = () => {
     if (data?.length) {
       const uniqueItemNames = [
         ...new Set(
-          data.map((item) => {
-            return item.location_name;
-          })
+          data
+            .filter(
+              (item) => item.location_name !== "Indian Lake Surface Elevation"
+            )
+            .map((item) => {
+              return item.location_name;
+            })
         ),
       ];
       return uniqueItemNames;
@@ -173,7 +177,6 @@ const TimeseriesHourlyElevations = () => {
         pointRadius: 0,
         pointHoverRadius: 0,
         spanGaps: false,
-        yAxisID: "yL",
         borderWidth: 2,
         tension: 0.75,
       };
@@ -184,6 +187,7 @@ const TimeseriesHourlyElevations = () => {
         datasets: [
           ...uniqueLocations.map((location, i) => {
             return {
+              yAxisID: "yL",
               units: graphData[0][0]?.units,
               label: location,
               borderColor: Object.entries(lineColors)[i],
@@ -196,6 +200,22 @@ const TimeseriesHourlyElevations = () => {
               ...defaultStyle,
             };
           }),
+          {
+            units: graphData[0].find(
+              (item) => item.location_name === "Indian Lake Surface Elevation"
+            )?.units,
+            label: "Indian Lake Surface Elevation",
+            yAxisID: "yR",
+            borderColor: "black",
+            backgroundColor: "black",
+            data: graphData.map(
+              (item) =>
+                item.filter(
+                  (arr) => arr.location_name === "Indian Lake Surface Elevation"
+                )[0]?.measured_value ?? null
+            ),
+            ...defaultStyle,
+          },
         ],
       };
       setFilteredMutatedGraphData(mutatedGraphData);
@@ -328,11 +348,11 @@ const TimeseriesHourlyElevations = () => {
                       isLoading={isFetching}
                       filterValues={filterValues}
                       yLLabel={`${filteredMutatedGraphData.parameter} (${filteredMutatedGraphData.units})`}
-                      yRLLabel="Lake Elevation"
+                      yRLLabel={`Lake Elevation (${filteredMutatedGraphData.units})`}
                       ref={saveRef}
                       // tooltipFormat="MM-DD-YYYY"
                       xLabelFormat="MM-DD-YYYY"
-                      // reverseLegend={false}
+                      reverseLegend={false}
                       // interactionMode="nearest"
                     />
                   </TableWrapper>

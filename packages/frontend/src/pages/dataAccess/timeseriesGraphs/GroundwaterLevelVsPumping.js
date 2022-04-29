@@ -71,6 +71,8 @@ const GroundwaterLevelVsPumping = () => {
   const { getAccessTokenSilently } = useAuth0();
   const saveRef = useRef(null);
 
+  const [graphAccordionExpanded, setGraphAccordionExpanded] = useState(true);
+
   //date filter defaults
   const defaultFilterValues = {
     previousDays: "",
@@ -324,14 +326,17 @@ const GroundwaterLevelVsPumping = () => {
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <Accordion defaultExpanded>
+          <Accordion
+            defaultExpanded
+            onChange={(e, expanded) => setGraphAccordionExpanded(expanded)}
+          >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="time-series"
               id="time-series"
             >
               <Typography variant="h4" ml={2}>
-                Graph
+                {!graphAccordionExpanded && "Graph"}
               </Typography>
             </AccordionSummary>
             <Panel>

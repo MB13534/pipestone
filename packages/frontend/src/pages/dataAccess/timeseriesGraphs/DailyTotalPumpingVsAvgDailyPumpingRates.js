@@ -76,7 +76,7 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
 
   //date filter defaults
   const defaultFilterValues = {
-    previousDays: "",
+    previousDays: 30,
     startDate: null,
     endDate: new Date(),
     checked: true,
@@ -165,7 +165,7 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
         console.error(err);
       }
     },
-    { keepPreviousData: true, refetchOnWindowFocus: false }
+    { keepPreviousData: false, refetchOnWindowFocus: false }
   );
 
   //filtered data for graph, it filters selected locations
@@ -407,6 +407,11 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
                       ref={saveRef}
                       tooltipFormat="MM-DD-YYYY"
                       footerLabel="Hours Pumped"
+                      title={`Groundwater Level vs Pumping for ${
+                        locationsOptions.find(
+                          (location) => location.ndx === selectedLocation
+                        ).name
+                      }`}
                     />
                   </TableWrapper>
                 </TimeseriesContainer>

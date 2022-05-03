@@ -27,6 +27,7 @@ const TimeseriesLineChart = forwardRef(
       yRLLabel = null,
       type = "line",
       theme,
+      title = null,
       suggestedMin = null,
       minL = null,
       maxL = null,
@@ -98,6 +99,14 @@ const TimeseriesLineChart = forwardRef(
         mode: interactionMode,
       },
       plugins: {
+        title: {
+          display: !!title,
+          text: title,
+          // padding: {
+          //   top: 10,
+          //   bottom: 30,
+          // },
+        },
         filler: {
           propagate: false,
         },

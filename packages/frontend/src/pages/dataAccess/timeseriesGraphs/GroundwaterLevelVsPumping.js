@@ -76,7 +76,7 @@ const GroundwaterLevelVsPumping = () => {
 
   //date filter defaults
   const defaultFilterValues = {
-    previousDays: "",
+    previousDays: 30,
     startDate: null,
     endDate: new Date(),
     checked: true,
@@ -168,7 +168,7 @@ const GroundwaterLevelVsPumping = () => {
         console.error(err);
       }
     },
-    { keepPreviousData: true, refetchOnWindowFocus: false }
+    { keepPreviousData: false, refetchOnWindowFocus: false }
   );
 
   //filtered data for graph, it filters selected locations
@@ -402,6 +402,11 @@ const GroundwaterLevelVsPumping = () => {
                           graphData[filterValues["yR"]][0]?.units
                         })`
                       }
+                      title={`Groundwater Level vs Pumping for ${
+                        locationsOptions.find(
+                          (location) => location.ndx === selectedLocation
+                        ).name
+                      }`}
                       ref={saveRef}
                       minL={1400}
                       maxL={1700}

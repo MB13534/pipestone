@@ -45,8 +45,8 @@ export const downloadChartImage = (title, extension, ref) => {
 
 export const printChartImage = (title, ref) => {
   const base64 = ref.current.toBase64Image();
-  const pdf = new jsPDF("p", "pt", "a4", false);
-  pdf.addImage(base64, "PNG", 10, 30, 580, 0, undefined, false);
+  const pdf = new jsPDF("l", "pt", "a4", false);
+  pdf.addImage(base64, "PNG", 10, 10, 822, 0, undefined, false);
   pdf.save(`${title} ${dateFormatter(new Date(), "MM/DD/YYYY, h:mm A")}.pdf`);
 };
 

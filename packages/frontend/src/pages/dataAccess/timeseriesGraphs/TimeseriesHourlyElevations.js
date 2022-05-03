@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { add } from "date-fns";
 
@@ -65,7 +65,7 @@ const TimeseriesHourlyElevations = () => {
 
   //date filter defaults
   const defaultFilterValues = {
-    previousDays: "",
+    previousDays: 30,
     startDate: null,
     endDate: new Date(),
     checked: true,
@@ -102,6 +102,7 @@ const TimeseriesHourlyElevations = () => {
     { title: "Location Index", field: "location_ndx" },
   ];
 
+  const [uniqueLocations, setUniqueLocations] = useState(null);
   const [graphData, setGraphData] = useState([]);
   const { isFetching, error, data } = useQuery(
     ["timeseries-final-elevation-hourly"],
@@ -117,26 +118,36 @@ const TimeseriesHourlyElevations = () => {
 
         setGraphData(groupedDataArray);
 
+        setUniqueLocations(
+          [
+            ...new Set(
+              data.map((item) => {
+                return item.location_name;
+              })
+            ),
+          ].sort()
+        );
+
         return data;
       } catch (err) {
         console.error(err);
       }
     },
-    { keepPreviousData: true, refetchOnWindowFocus: false }
+    { keepPreviousData: false, refetchOnWindowFocus: false }
   );
-
-  const uniqueLocations = useMemo(() => {
-    if (data?.length) {
-      const uniqueItemNames = [
-        ...new Set(
-          data.map((item) => {
-            return item.location_name;
-          })
-        ),
-      ];
-      return uniqueItemNames;
-    }
-  }, [data]);
+  //
+  // const uniqueLocations = useMemo(() => {
+  //   if (data?.length) {
+  //     const uniqueItemNames = [
+  //       ...new Set(
+  //         data.map((item) => {
+  //           return item.location_name;
+  //         })
+  //       ),
+  //     ];
+  //     return uniqueItemNames;
+  //   }
+  // }, [data]);
 
   const [filteredMutatedGraphData, setFilteredMutatedGraphData] = useState([]);
   //filtered data for graph, it filters selected locations
@@ -146,7 +157,7 @@ const TimeseriesHourlyElevations = () => {
   //it also filters by date
   const [filteredTableData, setFilteredTableData] = useState([]);
   useEffect(() => {
-    if (data && graphData?.length) {
+    if (data && graphData?.length && uniqueLocations) {
       const tableFilterData =
         //if there is no value in the input, yield every record
         filterValues.checked && filterValues.previousDays === ""
@@ -200,7 +211,7 @@ const TimeseriesHourlyElevations = () => {
       };
       setFilteredMutatedGraphData(mutatedGraphData);
     }
-  }, [data, graphData, filterValues]); //eslint-disable-line
+  }, [data, graphData, filterValues, uniqueLocations]); //eslint-disable-line
 
   return (
     <>
@@ -330,6 +341,7 @@ const TimeseriesHourlyElevations = () => {
                       yLLabel={`${filteredMutatedGraphData.parameter} (${filteredMutatedGraphData.units})`}
                       // yRLLabel="Lake Elevation"
                       ref={saveRef}
+                      title="Hourly Elevations vs Lake Elevation"
                       // tooltipFormat="MM-DD-YYYY"
                       xLabelFormat="MM-DD-YYYY"
                       // reverseLegend={false}

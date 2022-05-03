@@ -103,7 +103,7 @@ const Map = ({ locationsToInclude = null }) => {
         console.error(err);
       }
     },
-    { keepPreviousData: true, refetchOnWindowFocus: false }
+    { keepPreviousData: false, refetchOnWindowFocus: false }
   );
 
   const distinctMeasurementNdx = useMemo(() => {

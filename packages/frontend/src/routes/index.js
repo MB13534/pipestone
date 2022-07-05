@@ -316,12 +316,12 @@ const timeseriesRoutes = {
   children: [
     {
       path: "/data-access/graphs/groundwater-elevation",
-      name: "Groundwater Elevation",
+      name: "Daily Groundwater Elevation",
       component: GroundwaterElevation,
     },
     {
       path: "/data-access/graphs/groundwater-elevation-vs-pumping",
-      name: "Groundwater Elevation vs Pumping",
+      name: "Daily Groundwater Elevation vs Pumping",
       component: GroundwaterLevelVsPumping,
     },
     {

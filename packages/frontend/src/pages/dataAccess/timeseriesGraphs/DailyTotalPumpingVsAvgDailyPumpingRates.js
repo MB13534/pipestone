@@ -76,7 +76,7 @@ const DailyTotalPumpingVsAvgDailyPumpingRates = () => {
 
   //date filter defaults
   const defaultFilterValues = {
-    previousDays: 30,
+    previousDays: 365,
     startDate: null,
     endDate: new Date(),
     checked: true,
